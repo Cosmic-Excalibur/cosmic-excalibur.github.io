@@ -1,0 +1,198 @@
+@font-face{font-family:'Cascadia Code';src:url('/essence-of-the-elders/realm-of-runes/CascadiaCode-Regular.woff2') format('woff2'),url('/essence-of-the-elders/realm-of-runes/CascadiaCode-Regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+
+body {
+	background: black;
+	/* font-family: "Noto Sans SC"; */
+	font-family: 'Cascadia Code', consolas;
+	font-weight: 400;
+	font-size: 1em;
+	color: white;
+	user-select: none;
+	-webkit-user-select: none;
+	letter-spacing: 2px;
+}
+
+.center {
+	text-align: center;
+	width: 100%;
+}
+
+h1 {
+	font-size: 50px;
+	font-weight: 500;
+	letter-spacing: 3px;
+}
+
+h2 {
+	font-size: 40px;
+	font-weight: 500;
+	letter-spacing: 3px;
+}
+
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+a:hover {
+	color: red;
+}
+
+a:active {
+	color: rgb(128,0,0);
+}
+
+a.home {
+	display: block;
+	background-image: url(/essence-of-the-elders/realm-of-avatars/home_white.svg);
+	background-size: 20px;
+	width: 20px;
+	height: 20px;
+}
+
+a.home:hover {
+	background-image: url(/essence-of-the-elders/realm-of-avatars/home_red.svg);
+}
+
+a.back {
+	display: block;
+	background-image: url(/essence-of-the-elders/realm-of-avatars/back_white.svg);
+	background-size: 20px;
+	width: 20px;
+	height: 20px;
+}
+
+a.back:hover {
+	background-image: url(/essence-of-the-elders/realm-of-avatars/back_red.svg);
+}
+
+a.forward {
+	display: block;
+	background-image: url(/essence-of-the-elders/realm-of-avatars/forward_white.svg);
+	background-size: 20px;
+	width: 20px;
+	height: 20px;
+}
+
+a.forward:hover {
+	background-image: url(/essence-of-the-elders/realm-of-avatars/forward_red.svg);
+}
+
+div.time {
+	display: inline-block;
+	background-image: url(/essence-of-the-elders/realm-of-avatars/time_white.svg);
+	background-size: 20px;
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+	position: relative;
+	top: 5px;
+}
+
+ul.menu {
+	display: inline-block;
+	list-style-type: disc;
+	font-size: 30px;
+	text-indent: 1.25em;
+}
+
+ul li::marker {
+	color: #999999;
+	/* content: "😘"; */
+}
+
+ul.navi {
+	padding: 0;
+}
+
+ul.navi li {
+	display: inline-block;
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+li[no-marker] {
+	list-style-type: none;
+}
+
+.main {
+	user-select: text;
+	-webkit-user-select: text;
+}
+
+::selection {
+	background: pink;
+}
+
+p {
+	text-indent: 2em;
+}
+
+.astrageldon {
+	color: rgba(128,128,128,1);
+	text-shadow: 3px 3px 7px rgba(128,128,128,0.5);
+}
+
+ul.section {
+	display: inline-block;
+	list-style-type: disc;
+	font-size: 2em;
+}
+
+[underlined] {
+	text-decoration: underline;
+}
+
+::-webkit-scrollbar {
+	width: 0.5vw;
+	transition: .5s;
+}
+::-webkit-scrollbar:hover {
+	width: 0.75vw;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px gray; 
+  border-radius: 1vw;
+}
+::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 64, 64, 0.5);
+	border-radius: 0.75vw;
+	transition: .5s;
+}
+::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(200, 32, 32, 0.5);
+	border-radius: 0.75vw;
+}
+
+comment {
+	color: gray;
+	font-size: 75%;
+}
+
+details > summary {
+	list-style-position: outside;
+	margin-left: 1em;
+	padding: 1em;
+	cursor: pointer;
+}
+
+details[open] > summary {
+	margin-bottom: 0.25em;
+}
+
+details > summary::marker {
+	color: gray;
+}
+
+details > summary::after {
+	content: "Click to show...";
+}
+
+details[open] > summary::after {
+	content: "Click to hide...";
+}
+
+hr {
+	border: 0;
+	border-top: 3px dotted gray;
+}
