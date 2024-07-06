@@ -68,6 +68,8 @@ for i, j, k in os.walk(".."):
                         value0.update({__TITLE__: info_.title})
                     if __HTML_TITLE__ not in value0:
                         value0.update({__HTML_TITLE__: info_.title})
+                    value0[__CONTENT__] += r"""<br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>%s</b></span></p>
+                    <p style="color:gray"><div class="time"></div>Time: <b>%s</b></p><br><br><br><br><br><br>""" % ('</b></span><span color="gray">, </span><span style="color:blue"><b>'.join('#%s' % tag for tag in info_.tags), info_.time)
                 new_path = os.path.join(stem, key0.replace('*', name))
                 info("Processing:", stress(new_path))
                 html = template

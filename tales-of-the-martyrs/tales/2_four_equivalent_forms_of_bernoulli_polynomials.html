@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>Four equivalent forms of Bernoulli polynomials</title>
+</head>
+<body>
+	<div class="center">
+		<h1>Four equivalent forms of Bernoulli polynomials</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="back" title="Back"></a></li>
+			<li><a href="/" class="home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	
+        
+<div class="main">
+	<p>在《数学分析》（第一卷）的附录中，卓里奇（Владимир Антонович Зорич）指出伯努利多项式（Bernoulli polynomial）可以表达为如下四种等价形式：</p>
+	\[
+		\newcommand{\d}{\mathrm{d}}
+		\newcommand{\C}[2]{{#1 \choose #2}}
+		\newcommand{\S}[2]{{#1 \brace #2}}
+		\begin{aligned}
+			1) & \quad B_0(x)\equiv 1,\ B_n'(x)=nB_{n-1}(x),\ \int_0^1B_n(x)\d x=0\ (n\ge 1)\\
+			2) & \quad \frac{ze^{xz}}{e^z-1}=\sum\limits_{n=0}^\infty \frac{B_n(x)}{n!}z^n\\
+			3) & \quad B_n(x)=\sum\limits_{k=0}^n \C{n}{k} B_{n-k}x^k,\ B_0(x)\equiv 1\\
+			   & \quad \text{or }\quad B_n(x)=\sum\limits_{m=0}^n\frac{1}{m+1}\sum\limits_{k=0}^m (-1)^k\C{m}{k}(x+k)^n,\ B_0(x)\equiv 1\\
+			4) & \quad B_n(x)=\sum\limits_{m=0}^n\frac{1}{m+1}\sum\limits_{k=0}^m(-1)^k\C{m}{k}(x+k)^n,\ B_0(x)\equiv 1
+		\end{aligned}
+	\]<br>
+	<p>\(1)\Rightarrow 2)\Rightarrow 3)\)是显然的，本文余下的部分证明\(4)\Rightarrow 1)\)。</p>
+	<p>在开始证明之前，先引入组合数学中第二类斯特林数（Stirling numbers of the second kind）的概念：<br>
+	<div class="center">\(S(n,m)\)，或者\({n\brace m}\)，表示将\(n\)个不同的小球放入\(m\)个相同的盒子中且无空盒的放法数。它同时等于含有\(n\)个元素的集合划分为\(m\)个子块的分法个数。</div><br>
+	<p>第二类斯特林数具有如下的性质：</p>
+	\[
+		\begin{aligned}
+			a) & \quad \S{n+1}{m+1}=\S{n}{m}+(m+1)\cdot\S{n}{m+1}\\
+			b) & \quad \S{n}{m}=\frac{(-1)^m}{m!}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot k^n\\
+			c) & \quad \S{n+1}{m+1}=\sum\limits_{k=m}^n\C{n}{k}\cdot\S{k}{m}\\
+		\end{aligned}
+	\]
+	<p>证：</p>
+	<p>\(a)\qquad\)单独考虑其中的一个球A（不必计算重数），剩下的\(n\)个球要么与A不在同一个盒中（此时固定其他的球，A所在的盒也是固定的），要么占据\(m+1\)个盒（此时固定其他的球，A仍有\(m+1\)种放法）。</p>
+	<p>\(b)\qquad\)假设在第二类斯特林数的定义中，允许盒子为空，并且\(m\)个盒有区别，那么枚举空盒的数目\(k\)，放法数为</p>
+	\[
+		\sum\limits_{k=0}^nT(k)=\sum\limits_{k=0}^n\frac{m!}{(m-k)!}\S{n}{k}=m^n
+	\]
+	<p>此外我们有</p>
+	\[
+		m!\cdot\S{n}{m}=T(0)
+	\]
+	<p>空盒的个数不小于\(k\)的情况数为</p>
+	\[
+		\C{m}{k}\cdot(m-k)^n
+	\]
+	<p>其中\(\C{m}{k}\)是至少产生\(k\)个空盒的情况数。因此</p>
+	\[
+		\sum\limits_{l=0}^m\C{l}{k}\cdot T(l)=\C{m}{k}\cdot(m-k)^n
+	\]
+	<p>最后</p>
+	\[
+		\begin{aligned}
+			\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot(m-k)^n & = \sum\limits_{k=0}^m(-1)^k\sum\limits_{l=0}^m\C{l}{k}\cdot T(l)\\
+			& = \sum\limits_{l=0}^m T(l)\sum\limits_{k=0}^m(-1)^k\C{l}{k}\\
+			& = \sum\limits_{l=0}^m T(l)\cdot 0^l\\
+			& = T(0)\\
+			& = m!\cdot \S{n}{m}
+		\end{aligned}
+	\]
+	<p>其中\(0^l\)表示</p>
+	\[
+		0^l=
+		\begin{cases}
+			1,& l=0\\
+			0,& l\ne 0
+		\end{cases}
+	\]
+	<p>于是</p>
+	\[
+		\begin{aligned}
+			\S{n}{m}&=\frac{1}{m!}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot (m-k)^n\\&=\frac{(-1)^m}{m!}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot k^n
+		\end{aligned}
+	\]
+	<p>\(c)\qquad\)从\(m+1\)个盒中选出一个盒B（不必计算重数），考虑将\(k\)个球放入B以外\(m\)个盒中的情况数并使\(k=m,\cdots,n\)累加即可。</p>
+	<br>
+	<p>其中\(b)\)被成为第二类斯特林数的容斥式（可以通过容斥原理得出），如果以\(b)\)作为第二类斯特林数的定义，那么通过简单的计算也可以推导出\(a)\)与\(c)\)：</p>
+	<p>\(a)\)</p>
+	\[
+		\begin{aligned}
+			\S{n}{m}+(m+1)\cdot\S{n}{m+1} &= \frac{(-1)^m}{m!}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot k^n-\frac{(m+1)(-1)^m}{(m+1)!}\sum\limits_{k=0}^{m+1}(-1)^k\C{m+1}{k}\cdot k^n\\
+			&= \frac{(-1)^m}{m!}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot k^n-\frac{(-1)^m}{m!}\sum\limits_{k=0}^{m+1}(-1)^k\C{m+1}{k}\cdot k^n\\
+			&= \frac{(m+1)^n}{m!}+\frac{(-1)^m}{m!}\sum\limits_{k=0}^m(-1)^k\left(\C{m}{k}-\C{m+1}{k}\right)\cdot k^n\\
+			&= \frac{(m+1)^n}{m!}+\frac{(-1)^{m+1}}{(m+1)!}\sum\limits_{k=0}^m(-1)^k\C{m+1}{k}\cdot k^{n+1}\\
+			&=\frac{(-1)^{m+1}}{(m+1)!}\sum\limits_{k=0}^{m+1}(-1)^k\C{m+1}{k}\cdot k^{n+1}\\
+			&= \S{n+1}{m+1}
+		\end{aligned}
+	\]
+	<p>\(c)\)</p>
+	\[
+		\begin{aligned}
+			\sum\limits_{k=m}^n\C{n}{k}\cdot\S{k}{m} &=  \sum\limits_{k=0}^n\C{n}{k}\cdot\S{k}{m}\\
+			&= \sum\limits_{k=0}^n\C{n}{k}\cdot\frac{(-1)^m}{m!}\sum\limits_{i=0}^m(-1)^i\C{m}{i}\cdot i^k\\
+			&= \frac{(-1)^m}{m!}\sum\limits_{i=0}^m(-1)^i\C{m}{i}\left(\sum\limits_{k=0}^n\C{n}{k}\cdot i^k\right)\\
+			&=\frac{(-1)^m}{m!}\sum\limits_{i=0}^m(-1)^i\C{m}{i}\cdot (1+i)^n\\
+			&= \frac{(-1)^m}{m!}\sum\limits_{i=0}^{m+1}(-1)^{i-1}\C{m}{i-1}\cdot i^n\\
+			&= \frac{(-1)^{m+1}}{(m+1)!}\sum\limits_{i=0}^{m+1}(-1)^i\C{m+1}{i}\cdot i^{n+1}\\
+			&= \S{n+1}{m+1}
+		\end{aligned}
+	\]
+	<br>
+	<p>现在证明\(4)\Rightarrow 1)\)，即\(4)\)中定义的\(B_n(x)\)满足\(1)\)。</p>
+	<p>\(1^\circ\qquad\)显然\(B_0(x)\equiv 1\)。</p>
+	<p>\(2^\circ\qquad\)</p>
+	\[
+		\begin{aligned}
+			B_n'(x) &= \sum\limits_{m=0}^n\frac{n}{m+1}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot (x+k)^{n-1}\\
+			&= n\sum\limits_{m=0}^{n-1}\frac{1}{m+1}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot (x+k)^{n-1}+\sum\limits_{m=0}^{n}\frac{n}{m+1}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot (x+k)^{n-1}\\
+			&= nB_{n-1}(x)+\frac{n}{m+1}\sum\limits_{k=0}^n(-1)^k\C{n}{k}\cdot(x+k)^{n-1}\\
+			&= nB_{n-1}(x)
+		\end{aligned}
+	\]
+	<p>其中</p>
+	\[
+		\sum\limits_{k=0}^n(-1)^k\C{n}{k}\cdot k^m=0,\quad m&lt;n
+	\]
+	<p>\(3^\circ\qquad\)</p>
+	\[
+		\begin{aligned}
+			\int_0^1B_n(x)\d x &= \frac{1}{n+1}\sum\limits_{m=0}^n\frac{1}{m+1}\sum\limits_{k=0}^m(-1)^k\C{m}{k}\cdot\left[(1+k)^{n+1}-k^{n+1}\right]\\
+			&= \frac{1}{n+1}\sum\limits_{m=0}^n\frac{1}{m+1}(-1)^m\cdot m!\cdot \sum\limits_{k=m}^n\C{n+1}{k}\cdot\S{k}{m}\\
+			&= \frac{1}{n+1}\sum\limits_{m=0}^n\frac{1}{m+1}(-1)^m\cdot m!\cdot (m+1)\cdot \S{n+1}{m+1}\\
+			&= \frac{1}{n+1}\sum\limits_{m=0}^n (-1)^m\cdot m!\cdot \S{n+1}{m+1}\\
+			&= \frac{1}{n+1}\left(\sum\limits_{m=0}^n (-1)^m\cdot m!\cdot \S{n}{m}-\sum\limits_{m=0}^{n-1} (-1)^{m+1}\cdot (m+1)!\cdot \S{n}{m+1}\right)\\
+			&= \frac{1}{n+1}\S{n}{0}\\
+			&= 0
+		\end{aligned}
+	\]
+	
+</div>
+<br><br><br><br><br><br>
+        
+        <br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#Mathematics</b></span><span color="gray">, </span><span style="color:blue"><b>#Analytics</b></span><span color="gray">, </span><span style="color:blue"><b>#Combinatorics</b></span></p>
+                    <p style="color:gray"><div class="time"></div>Time: <b>2024-07-06 15:44</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            }
+        });
+        window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+</script>
+</body>
+</html>

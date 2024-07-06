@@ -11,7 +11,7 @@ def parse_info(filename, info):
     time = info.time
     return (tales_web + '.'.join(filename.split('.')[:-1]) + '.html', title, '</b></span><span color="gray">, </span><span style="color:blue"><b>'.join('#%s' % tag for tag in tags), time)
 
-entries = sorted(os.listdir(tales))
+entries = reversed(sorted(os.listdir(tales)))
 entries = [entry for entry in entries if entry.endswith('.py')]
 pages = len(entries) // interval + 1 if len(entries) % interval else len(entries) // interval
 
@@ -32,9 +32,8 @@ data = lambda: dict([
                 r"""<hr>
                 <div style="margin-left:2em">
                     <h2><a href="%s">%s</a></h2>
-                    <span style="color:gray">Tags: <span style="color:blue"><b>%s</b></span>
+                    <span style="color:gray">Tags: <span style="color:blue"><b>%s</b></span></span>
                     <br><br>
-                    </span>
                     <div class="time"></div><span><span style="color:gray">Time: </span><b>%s</b></span>
                 </div>
                 """ % parse_info(entries[j], import2(os.path.join(tales, entries[j]), encoding = 'utf-8').info()) for j in range(i, min(len(entries), i+interval))

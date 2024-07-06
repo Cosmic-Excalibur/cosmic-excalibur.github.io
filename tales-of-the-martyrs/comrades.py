@@ -2,12 +2,13 @@ entries = {
     'Astrageldon': 'https://cosmic-excalibur.github.io',
     'Astrageldon <comment>(Github)</comment>': 'https://github.com/Cosmic-Excalibur',
     'Tplus': 'https://www.tpluszz.top',
-    'App1e_Tree': 'https://www.cnblogs.com/App1eTree',
+    '<s>App1e_Tree</s> <comment>(Outdated)</comment>': 'https://www.cnblogs.com/App1eTree',
+    'App1e_Tree': 'https://yinwww.wang',
     'LiBr': 'https://nvme0n1p.dev',
     'CrackTC': 'https://sora.zip',
     'CrackTC <comment>(Github)</comment>': 'https://github.com/CrackTC',
     'emmm <comment>(Github)</comment>': 'https://github.com/H4ckF0rFun',
-    'Spirit': 'https://jluctf.top'
+    'Spirit Team': 'https://jluctf.top'
 }
 
 def parse_entry(entries):
