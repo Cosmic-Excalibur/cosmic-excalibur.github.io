@@ -46,8 +46,14 @@
         </div>
         
         <br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#test</b></span><span color="gray">, </span><span style="color:blue"><b>#nothing</b></span><span color="gray">, </span><span style="color:blue"><b>#hahahaha</b></span></p>
-                    <p style="color:gray"><div class="time"></div>Time: <b>2024-07-06 13:30</b></p><br><br><br><br><br><br>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-07-06 13:30</b></p><br><br><br><br><br><br>
 	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script>
+		window.onresize = function(){
+			if(!window.resize_flag) location.reload();
+			window.resize_flag = 1;
+		}
+	</script>
 	<script type="text/x-mathjax-config;executed=true">
         window.MathJax.Hub.Config({
             showProcessingMessages: false,
@@ -61,9 +67,10 @@
             "HTML-CSS": {
                 availableFonts: ["STIX", "TeX"],
                 showMathMenu: false
-            }
+            },
+			SVG: { linebreaks: {automatic: true } }
         });
         window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
-</script>
+	</script>
 </body>
 </html>
