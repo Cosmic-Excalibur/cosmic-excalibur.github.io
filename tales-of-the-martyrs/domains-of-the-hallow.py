@@ -19,15 +19,15 @@ tail = r"""
 <br><br><hr>
 <br><br>
 <div class="center">
-    <span>Page: <input class="pagination" type="number" value="{0}" max="{1}" min="1" onchange="javascript:if(this.min<this.value&&this.value<this.max){{document.location='{2}'+this.value+'.html';}}"/>
+    <span>Page: <input class="pagination" type="number" value="{0}" max="{1}" min="1" onchange="javascript:if(this.min<=this.value&&this.value<=this.max){{document.location='{2}'+this.value+'.html';}}"/>
 </div>
 <br><br>
 """
 
 data = lambda: dict([
     (f"*_{i+1}.html", {
-        __TITLE__: r"""Categories""",
-        __HTML_TITLE__: r"""~ Categories ~""",
+        __TITLE__: r"""Articles""",
+        __HTML_TITLE__: r"""~ Articles ~""",
         __CONTENT__: "<br>\n".join(
                 r"""<hr>
                 <div style="margin-left:2em">

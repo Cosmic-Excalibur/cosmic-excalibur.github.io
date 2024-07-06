@@ -204,4 +204,5 @@ input.pagination {
 	border-color: red;
 	width: 3em;
 	text-align: left;
+	border-radius: 5px;
 }
