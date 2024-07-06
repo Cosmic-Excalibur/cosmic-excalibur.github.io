@@ -56,6 +56,9 @@ data = lambda: {
 				<li>Kawaii Bass</li>
 				<li no-marker>... <comment>(so much :o)</li>
 			</details></ul></li>
+			<li>Supernaturality</li>
+			<li>Cthulhu</li>
+			<li>Physics</li>
 			<li no-marker>... <comment>(thinking...)</comment></li>
 		</details></ul>
 		<br>
