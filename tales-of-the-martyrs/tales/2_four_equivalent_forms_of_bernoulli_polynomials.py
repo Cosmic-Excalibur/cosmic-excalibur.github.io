@@ -1,6 +1,6 @@
 INFO = {
     'title': 'Four equivalent forms of Bernoulli polynomials',
-    'tags': ['Mathematics', 'Analytics', 'Combinatorics'],
+    'tags': ['Mathematics', 'Analysis', 'Combinatorics'],
     'time': '2024-07-06 15:44'
 }
 
