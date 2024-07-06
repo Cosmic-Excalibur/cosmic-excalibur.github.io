@@ -21,6 +21,6 @@ data = lambda: {
                     <span style="color:gray">Link🔗: </span><a underlined href="{1}">{1}</a>
                 </div>
                 """.format(*entry) for entry in parse_entry(entries)
-            ) + "\n<br><br><hr>"
+            ) + "\n<br><br><hr><br><br>"
     }
 }

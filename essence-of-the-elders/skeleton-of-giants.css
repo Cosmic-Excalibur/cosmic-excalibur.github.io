@@ -196,3 +196,12 @@ hr {
 	border: 0;
 	border-top: 3px dotted gray;
 }
+
+input.pagination {
+	color: white;
+	font-family: inherit;
+	background-color: black;
+	border-color: red;
+	width: 5em;
+	text-align: left;
+}
