@@ -19,7 +19,7 @@ tail = r"""
 <br><br><hr>
 <br><br>
 <div class="center">
-    <span>Page: <input class="pagination" id="number" type="number" value="{0}" max="{1}" min="1" onchange="javascript:if(this.min<this.value&&this.value<this.max){{document.location='{2}'+this.value+'.html';}}"/>
+    <span>Page: <input class="pagination" type="number" value="{0}" max="{1}" min="1" onchange="javascript:if(this.min<this.value&&this.value<this.max){{document.location='{2}'+this.value+'.html';}}"/>
 </div>
 <br><br>
 """

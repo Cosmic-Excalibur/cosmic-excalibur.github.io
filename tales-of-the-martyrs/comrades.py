@@ -1,8 +1,13 @@
 entries = {
     'Astrageldon': 'https://cosmic-excalibur.github.io',
+    'Astrageldon <comment>(Github)</comment>': 'https://github.com/Cosmic-Excalibur',
     'Tplus': 'https://www.tpluszz.top',
     'App1e_Tree': 'https://www.cnblogs.com/App1eTree',
-    'LiBr': 'https://nvme0n1p.dev'
+    'LiBr': 'https://nvme0n1p.dev',
+    'CrackTC': 'https://sora.zip',
+    'CrackTC <comment>(Github)</comment>': 'https://github.com/CrackTC',
+    'emmm <comment>(Github)</comment>': 'https://github.com/H4ckF0rFun',
+    'Spirit': 'https://jluctf.top'
 }
 
 def parse_entry(entries):
