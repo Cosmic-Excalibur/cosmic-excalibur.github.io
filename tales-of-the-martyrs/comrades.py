@@ -12,7 +12,7 @@ def parse_entry(entries):
 
 data = lambda: {
     "*.html": {
-        __TITLE__: r"""~ Friends ~""",
+        __TITLE__: r"""Friends""",
         __HTML_TITLE__: r"""~ Friends ~""",
         __CONTENT__: "<br>\n".join(
                 r"""<hr>
