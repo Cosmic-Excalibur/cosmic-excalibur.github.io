@@ -67,6 +67,7 @@ data = lambda: {
 			What is this site for 🤔?
 		</li></ul>
 		<p>This silly site is mainly intended for the collection of the owner's brilliant or stupid ideas and for the convenience of looking them up. Mostly, scientific and technological contents are covered. <span class="astrageldon">Astrageldon</span> would like to deploy this site on <a href="https://github.com/Cosmic-Excalibur" underlined>GitHub🔗</a> and as a result it is static :p</p>
+        <p>It is strongly recommended to visit this site on a PC rather than a mobile phone.</p>
 		<br>
 	</div>
         """

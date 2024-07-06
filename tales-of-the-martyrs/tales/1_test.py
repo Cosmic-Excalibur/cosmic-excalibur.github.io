@@ -1,6 +1,6 @@
 INFO = {
     'title': 'TEST!',
-    'tags': ['test', 'nothing', 'Astrageldon!'],
+    'tags': ['test', 'nothing', 'hahahaha'],
     'time': '2024-07-06 13:30'
 }
 
