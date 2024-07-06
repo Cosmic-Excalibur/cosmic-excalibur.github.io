@@ -16,7 +16,7 @@ entries = [entry for entry in entries if entry.endswith('.py')]
 data = lambda: dict([
     (f"*_{i+1}.html", {
         __TITLE__: r"""Categories""",
-        __HTML_TITLE__: r"""Categories""",
+        __HTML_TITLE__: r"""~ Categories ~""",
         __CONTENT__: "<br>\n".join(
                 r"""<hr>
                 <div style="margin-left:2em">
