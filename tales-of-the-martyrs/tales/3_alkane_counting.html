@@ -18,7 +18,7 @@
 		<br><br>
 	</div>
 	<div class="main">
-	<p>本文讨论组合数学中的几个经典问题：烷基计数问题、单烯烃计数问题与烷烃计数问题。即给定正整数\(n\)，求含有\(n\)个碳原子的烷基、单烯烃与烷烃的同分异构体数（不考虑立体异构）。</p>
+	<p>本文讨论组合数学中的几个经典问题：烷基计数问题、单烯烃计数问题与烷烃计数问题。即给定正整数\(n\)，求含有\(n\)个碳原子的烷基、单烯烃与烷烃的同分异构体数（不考虑环与立体异构）。</p>
 
 <ul class="section"><li>
 Burnside引理
@@ -26,7 +26,12 @@ Burnside引理
 
 <p>Burnside引理（Burnside's lemma），有时被称作Not Burnside's lemma，其基本表述为</p>
 \[
-	\newcommand{\abs}[1]{\vert #1\vert}
+	\newcommand{\abs}[1]{\left\vert #1\right\vert}
+	\newcommand{\lcm}[1]{\mathrm{lcm}\left(#1\right)}
+	\newcommand{\gcd}[1]{\mathrm{gcd}\left(#1\right)}
+	\newcommand{\d}{\mathrm{d}}
+	\newcommand{\C}[2]{{#1 \choose #2}}
+	\newcommand{\S}[2]{{#1 \brace #2}}
 	\abs{X/G}=\frac{1}{\abs{G}}\sum\limits_{g\in G}\abs{X^g}
 \]
 <p>其中</p>
@@ -57,15 +62,15 @@ Burnside引理
 
 <p>\(\eqref{1}\)式表明，Burnside引理通过改变枚举量来使计数过程更加方便。</p>
 <br>
-<p>例如，考虑立方体上的上色问题，即给定一个三维立方体，每个面上可以涂三种不同的颜色，求本质不同（rotationally distinct）的上色方案数。</p>
+<p>【例1】 考虑立方体上的上色问题，即给定一个三维立方体，每个面上可以涂三种不同的颜色，求本质不同（rotationally distinct）的上色方案数。</p>
 <br>
-<p>在Burnside引理中取\(X\)为\(3^6\)种上色方案的组合，\(G\)取立方体上的旋转变换群（\(\abs{G}=4!=24\)），那么对于每类旋转变换，\(X\)中在该类变换下均保持不变的元素个数有如下对应关系：</p>
+<p>在Burnside引理中取\(X\)为\(3^6\)种上色方案的组合，\(G\)取立方体上的旋转变换群（\(\abs{G}=\abs{S_4}=4!=24\)），那么对于每类旋转变换，\(X\)中在该类变换下均保持不变的元素个数有如下对应关系：</p>
 <ul>
 <li>一个单位旋转变换，可以拆成\((1)(2)(3)(4)(5)(6)\)，对应\(3^6\)个\(X\)中元素</li>
 <li>六个以面为轴的90°旋转变换，可以拆成\((1)(2)(3456)\)，对应\(3^3\)个\(X\)中元素</li>
 <li>三个以面为轴的180°旋转变换，可以拆成\((1)(2)(34)(56)\)，对应\(3^4\)个\(X\)中元素</li>
 <li>八个以相对顶点连线为轴的120°旋转变换，可以拆成\((123)(456)\)，对应\(3^2\)个\(X\)中元素</li>
-<li>六个以边为轴的180°旋转变换，可以拆成\((1)(2)(3456)\)，对应\(3^3\)个\(X\)中元素</li>
+<li>六个以对边中点连线为轴的180°旋转变换，可以拆成\((12)(34)(56)\)，对应\(3^3\)个\(X\)中元素</li>
 </ul>
 <p>上述拆分中，变换的每个子轮换对应的若干个面必须具有相同的颜色。因此所求方案数即为</p>
 \[
@@ -77,7 +82,135 @@ Burnside引理
 Pólya计数定理
 </li></ul>
 
-<p>Pólya计数定理（Pólya enumeration theorem），是Burnside引理的扩展，其一般表述为</p>
+<p>Pólya计数定理（Pólya enumeration theorem），是Burnside引理的扩展。在例1的上色过程中，设\(X\)为立方体的六个面，\(G\)是上例中的旋转变换群（\(S_4\)），\(Y\)是所有颜色的集合。现在我们引入权重的概念，将每一种颜色——也即\(Y\)中的元素\(y\)——与一个非负整数\(w(y)\)（称作权重）对应，而最终整个立方体的上色方案对应的权重为所有面上颜色的权重之和，这样做的好处将在后续的几个例子中体现出来。</p>
+<p>现在设权重\(w\)对应的颜色有\(f_w=\#\{y\in Y:w(y)=w\}\)种，那么\(f_w\)的生成函数为</p>
+\[
+	f(t)=f_0+f_1t+f_2t^2+\cdots
+\]
+<p>定义cycle index：</p>
+\[
+	Z_G(t_1,t_2,\cdots,t_n)=\frac{1}{G}\sum\limits_{g\in G}t_1^{c_1(g)}t_2^{c_2(g)}\cdots t_n^{c_n(g)}
+\]
+<p>其中\(n=\abs{X}\)（在例1中\(n=6\)，但是\(t_5\)与\(t_6\)并没有被用到），而\(c_k(g)\)是\(g\)的分解中长度为\(k\)的轮换个数。</p>
+<p>考虑从\(X\)到\(Y\)的映射</p>
+\[
+	Y^X\ni\varphi:X\rightarrow Y
+\]
+<p>例1中每个本质不同的上色方案\(\varphi\)均为\(Y^X/G\)中的元素，而其权重则是</p>
+\[
+	w(\varphi)=\sum\limits_{x\in X}w(\varphi(x))
+\]
+
+<p>在例1上述权重恒为0。利用Pólya计数定理可以很方便地统计对于特定的\(w\)满足\(w(\varphi)\)的\(\varphi\)的个数\(F_w=\#\{\varphi\in Y^X:w(\varphi)=w\}\)。Pólya计数定理的一般表述为</p>
+\[
+	F(t)=Z_G\left(f(t),f(t^2),\cdots,f(t^n)\right)
+\]
+
+<p>其中\(F(t)\)是上述\(F_w\)的生成函数。</p>
+<br>
+
+<p>【例2】 设例1中的颜色种数为\(m\)，那么</p>
+\[
+	Z_G(t_1,t_2,t_3,t_4)=\frac{1}{24}(t_1^6+6t_2^2t_4+3t_1^2t_2^2+8t_3^2+6t_2^3)
+\]
+\[
+	f(t)=m
+\]
+\[
+	\abs{Y^X/G}=F(0)=Z_C(m,m,m,m)=\frac{1}{24}(m^6+3m^4+12m^3+8m^2)
+\]
+<br>
+
+<p>【例3】 求含有\(n\)个点与\(m\)条边的不同构的简单无向图的个数。</p>
+<br>
+<p>考虑对完全图\(K_n\)涂上两种颜色黑与白，黑色代表有边，权重为\(1\)，而白色代表没边，权重为\(0\)，我们有</p>
+\[
+	f(t)=1+t
+\]
+
+<p>对于\(G=S_n\)中的每一个元素，我们总是可以将其分拆成若干个轮换的积，设对于每种分拆\(\pi\)，长度为\(k\)的轮换个数为\(\lambda_k(\pi)\)，那么\(G\)中分拆符合\(\pi\)这种形式的元素个数为
+\[
+	\begin{aligned}
+		N_{\pi}&=\frac{n!\cdot \prod\limits_{k=1}^n (P_k!)^{\lambda_k(\pi)}}{\prod\limits_{k=1}^n\lambda_k(\pi)!\cdot (k!)^{\lambda_k(\pi)}}\\
+		&=\prod\limits_{k=1}^n\frac{n!}{\lambda_k(\pi)!\cdot k^{\lambda_k(\pi)}}
+	\end{aligned}
+\]
+
+<p>其中，\(P_k=(k-1)!\)表示\(k\)个不同元素构成的圆排列数。从而我们考虑点集\(X_0\)在\(G\)下的cycle index</p>
+\[
+	\begin{aligned}
+		Z_{G}(t_1,\cdots,t_n)&=\frac{1}{n!}\sum\limits_{\pi}N_{\pi}\prod\limits_{k=1}^nt_k^{\lambda_k(\pi)}\\
+		&=\sum\limits_{\pi}\prod\limits_{k=1}^n \frac{1}{\lambda_k(\pi)!}\left(\frac{t_k}{k}\right)^{\lambda_k(\pi)}
+	\end{aligned}
+\]
+
+<p>我们知道，边集\(X\)在\(g\)的作用下的变化可以表示为\(g'\)，并且\(g'\)的分拆方式可以很容易地由\(g\)的分拆方式确定，例如：</p>
+\[
+	\begin{aligned}
+		g &= (123456)(789A)(BCD)\\
+		g' &=\color{red}{(\overline{12}\ \overline{23}\ \overline{34}\ \overline{45}\ \overline{56}\ \overline{61})(\overline{13}\ \overline{24}\ \overline{35}\ \overline{46}\ \overline{51}\ \overline{62})(\overline{14}\ \overline{25}\ \overline{36})}\\
+		&\qquad\color{green}{(\overline{78}\ \overline{89}\ \overline{9A}\ \overline{A7})(\overline{79}\ \overline{8A})}\\
+		&\qquad\color{blue}{(\overline{BC}\ \overline{CD}\ \overline{DB})}\\
+		&\qquad\color{yellow}{(\overline{17}\ \overline{28}\ \overline{39}\ \overline{4A}\ \overline{57}\ \overline{68}\ \overline{19}\ \overline{2A}\ \overline{37}\ \overline{48}\ \overline{59}\ \overline{6A})}\\
+		&\qquad\color{yellow}{(\overline{18}\ \overline{29}\ \overline{3A}\ \overline{47}\ \overline{58}\ \overline{69}\ \overline{1A}\ \overline{27}\ \overline{38}\ \overline{49}\ \overline{5A}\ \overline{67})}\\
+		&\qquad\color{magenta}{(\overline{1B}\ \overline{2C}\ \overline{3D}\ \overline{4B}\ \overline{5C}\ \overline{6D})}\\
+		&\qquad\color{magenta}{(\overline{1C}\ \overline{2D}\ \overline{3B}\ \overline{4C}\ \overline{5D}\ \overline{6B})}\\
+		&\qquad\color{magenta}{(\overline{1D}\ \overline{2B}\ \overline{3C}\ \overline{4D}\ \overline{5B}\ \overline{6C})}\\
+		&\qquad\color{cyan}{(\overline{7B}\ \overline{8C}\ \overline{9D}\ \overline{AB}\ \overline{7C}\ \overline{8D}\ \overline{9B}\ \overline{AC}\ \overline{7D}\ \overline{8B}\ \overline{9C}\ \overline{AD})}\\
+	\end{aligned}
+\]
+
+<p>\(g\)对应的项是\(t_6t_4t_3\)，而\(g'\)对应于\(t_{12}'^3 t_6'^5 t_4' t_3'^2 t_2'\)，据此我们可以计算出\(X\)在\(G\)下的cycle index</p>
+\[
+	\begin{aligned}
+		\widetilde{Z_{G}}(t_1,\cdots,t_n)
+		&=\sum\limits_{\pi}\left(\prod\limits_{k=1}^n \frac{1}{\lambda_k(\pi)!\cdot k^{\lambda_k(\pi)}}\right)\cdot\underbrace{\Phi_n\left(t_1,\cdots,t_n\right)}_{\color{gray}{\text{Mysterious yet!}}}
+	\end{aligned}
+\]
+
+<p>最终</p>
+\[
+	\begin{aligned}
+		F(t)&=\widetilde{Z_G}\left(f(t),\cdots,f(t^n)\right)\\
+		&=\sum\limits_{\pi}\left(\prod\limits_{k=1}^n \frac{1}{\lambda_k(\pi)!\cdot k^{\lambda_k(\pi)}}\right)\cdot\Phi_n\left(1+t,\cdots,(1+t)^n\right)
+	\end{aligned}
+\]
+
+<p>例如，当\(n=4\)时，我们有</p>
+\[
+	\begin{aligned}
+		4&=4\\
+		&=3+1\\
+		&=2+2\\
+		&=2+1+1\\
+		&=1+1+1+1
+	\end{aligned}
+\]
+\[
+	\begin{aligned}
+		Z_G(t_1,\cdots,t_4)&=\sum\limits_{\pi}\prod\limits_{k=1}^4 \frac{1}{\lambda_k(\pi)!\cdot k^{\lambda_k(\pi)}}t_k^{\lambda_k(\pi)}\\
+		&=\frac{1}{1!\cdot 4^1}t_4^1+\frac{1}{1!\cdot 3^1\cdot 1!\cdot 1^1}t_3^1t_1^1+\frac{1}{2!\cdot 2^2}t_2^2\\
+		&\quad+\frac{1}{1!\cdot 2^1\cdot 2!\cdot 1^2}t_2^1t_1^2+\frac{1}{4!\cdot 1^4}t_1^4\\
+		&=\frac{1}{24}(t_1^4+6t_1^2t_2+3t_2^2+8t_1t_3+6t_4)
+	\end{aligned}
+\]
+\[
+	\widetilde{Z_G}(t_1',\cdots,t_6')=\frac{1}{24}(t_1'^6+9t_1'^2t_2'^2+8t_3'^2+6t_2't_4')
+\]
+\[
+	\begin{aligned}
+		F(t)&=\frac{1}{24}\left((1+t)^6+9(1+t)^2(1+t^2)^2+8(1+t^3)^2+6(1+t^2)(1+t^4)\right)\\
+		&=t^6+t^5+2t^4+3t^3+2t^2+t+1
+	\end{aligned}
+\]
+
+<p>它对应下图</p>
+<div class="center">
+	<img src="/tales-of-the-martyrs/tales/oracle-of-namagari/3/1.png"></img>
+</div>
+<br>
+
+<p>上述所有过程——包括\(\Phi_n(t_1,\cdots,t_n)\)的计算——均可以交由计算机高效地完成。</p>
 
 
 

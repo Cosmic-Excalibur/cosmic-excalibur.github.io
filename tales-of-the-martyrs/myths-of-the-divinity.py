@@ -29,6 +29,8 @@ data = lambda: {
 				<li>Euphoric Hardstyle</li>
 				<li>Rawstyle</li>
 				<li>Rawphoric Hardstyle</li>
+                <li>Xtra Raw</li>
+                <li>Frenchcore</li>
 				<li>Psystyle</li>
 				<li>Terrorcore</li>
 				<li>Uptempo Hardcore</li>
