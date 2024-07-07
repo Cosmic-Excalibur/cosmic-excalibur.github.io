@@ -1,0 +1,66 @@
+<div class="main">
+	<p>本文讨论组合数学中的几个经典问题：烷基计数问题、单烯烃计数问题与烷烃计数问题。即给定正整数\(n\)，求含有\(n\)个碳原子的烷基、单烯烃与烷烃的同分异构体数（不考虑立体异构）。</p>
+
+<ul class="section"><li>
+Burnside引理
+</li></ul>
+
+<p>Burnside引理（Burnside's lemma），有时被称作Not Burnside's lemma，其基本表述为</p>
+\[
+	\newcommand{\abs}[1]{\vert #1\vert}
+	\abs{X/G}=\frac{1}{\abs{G}}\sum\limits_{g\in G}\abs{X^g}
+\]
+<p>其中</p>
+\[
+	X^g=\{x\in X:g\cdot x=x\}
+\]
+
+<p>将\(\abs{G}\)乘到等式左边，则上式在直觉上显然成立。此外，由于</p>
+\[
+	\sum\limits_{g\in G}\abs{X^g}=\#\{(g,x)\in G\times X:g\cdot x=x\}=\sum\limits_{x\in X}\abs{G_x}
+	\tag{1}\label{1}
+\]
+
+<p>其中\(G_x=\{g\in G: g\cdot x=x\}\)是\(G\)的稳定子（stabilizer）。轨道-稳定子定理（orbit-stabilizer theorem）表明，</p>
+\[
+	\abs{G\cdot x}=[G:G_x]=\abs{G}/\abs{G_x}
+\]
+
+<p>于是</p>
+\[
+	\sum\limits_{x\in X}\abs{G_x}=\sum\limits_{x\in X}\abs{G}/\abs{G\cdot x}=\abs{G}\sum\limits_{x\in X}\frac{1}{\abs{G\cdot x}}=\abs{G}\sum\limits_{A\in X/G}\sum\limits_{x\in A}\frac{1}{\abs{A}}=\abs{G}\cdot \abs{X/G}
+\]
+
+<p>即</p>
+\[
+	\sum\limits_{g\in G}\abs{X^g} = \abs{G}\cdot \abs{X/G}
+\]
+
+<p>\(\eqref{1}\)式表明，Burnside引理通过改变枚举量来使计数过程更加方便。</p>
+<br>
+<p>例如，考虑立方体上的上色问题，即给定一个三维立方体，每个面上可以涂三种不同的颜色，求本质不同（rotationally distinct）的上色方案数。</p>
+<br>
+<p>在Burnside引理中取\(X\)为\(3^6\)种上色方案的组合，\(G\)取立方体上的旋转变换群（\(\abs{G}=4!=24\)），那么对于每类旋转变换，\(X\)中在该类变换下均保持不变的元素个数有如下对应关系：</p>
+<ul>
+<li>一个单位旋转变换，可以拆成\((1)(2)(3)(4)(5)(6)\)，对应\(3^6\)个\(X\)中元素</li>
+<li>六个以面为轴的90°旋转变换，可以拆成\((1)(2)(3456)\)，对应\(3^3\)个\(X\)中元素</li>
+<li>三个以面为轴的180°旋转变换，可以拆成\((1)(2)(34)(56)\)，对应\(3^4\)个\(X\)中元素</li>
+<li>八个以相对顶点连线为轴的120°旋转变换，可以拆成\((123)(456)\)，对应\(3^2\)个\(X\)中元素</li>
+<li>六个以边为轴的180°旋转变换，可以拆成\((1)(2)(3456)\)，对应\(3^3\)个\(X\)中元素</li>
+</ul>
+<p>上述拆分中，变换的每个子轮换对应的若干个面必须具有相同的颜色。因此所求方案数即为</p>
+\[
+	\abs{X/G}=\frac{1}{4!}(3^6+6\cdot 3^3+3\cdot 3^4+8\cdot 3^2+6\cdot 3^3)=57
+\]
+<br>
+
+<ul class="section"><li>
+Pólya计数定理
+</li></ul>
+
+<p>Pólya计数定理（Pólya enumeration theorem），是Burnside引理的扩展，其一般表述为</p>
+
+
+
+</div>
+<br><br><br><br><br><br>

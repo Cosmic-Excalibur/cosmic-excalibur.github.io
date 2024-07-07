@@ -22,7 +22,7 @@ data = lambda: {
 			<li>Algorithms</li>
 			<li>Artificial Intelligence🤖</li>
 			<li>Memes</li>
-			<li>Pixel games <comment>(like Minecraft, Terraria)</comment></li>
+			<li>Pixel games <comment>(like Minecraft, Terraria, Undertale...)</comment></li>
 			<li>Electronic Dance Music🎶 <comment>(separate out some subgenres (or not) :p)</comment><ul><details>
 				<summary></summary>
 				<li>Mainstream Hardcore</li>

@@ -23,7 +23,8 @@ def import2(path, *args, **kwargs):
         'Attrs': Attrs,
         '__TITLE__': __TITLE__,
         '__HTML_TITLE__': __HTML_TITLE__,
-        '__CONTENT__': __CONTENT__
+        '__CONTENT__': __CONTENT__,
+        'path': path
     }
     exec(open(path, *args, **kwargs).read(), attrs)
     return Attrs(attrs)
