@@ -139,7 +139,7 @@ Pólya计数定理
 <p>其中，\(P_k=(k-1)!\)表示\(k\)个不同元素构成的圆排列数。从而我们考虑点集\(X_0\)在\(G\)下的cycle index</p>
 \[
 	\begin{aligned}
-		Z_{G}(t_1,\cdots,t_n)&=\frac{1}{n!}\underbrace{\sum\limits_{\pi}}_{\color{gray}{\text{Mysterious yet!}}}N_{\pi}\prod\limits_{k=1}^nt_k^{\lambda_k(\pi)}\\
+		Z_{G}(t_1,\cdots,t_n)&=\frac{1}{n!}\sum\limits_{\pi}N_{\pi}\prod\limits_{k=1}^nt_k^{\lambda_k(\pi)}\\
 		&=\sum\limits_{\pi}\prod\limits_{k=1}^n \frac{1}{\lambda_k(\pi)!}\left(\frac{t_k}{k}\right)^{\lambda_k(\pi)}
 	\end{aligned}
 	\tag{2}\label{2}
@@ -263,7 +263,7 @@ Pólya计数定理
 <p>根据Pólya计数定理得到</p>
 \[
 	\begin{aligned}
-		F(x) &= \cdot Z_G\left(A(x)-1,A(x)-1\right)\\
+		F(x) &= Z_G\left(A(x)-1,A(x^2)-1\right)\\
 		&= \frac{(A(x)-1)^2+A(x^2)-1}{2}
 	\end{aligned}
 	\tag{4}\label{4}
