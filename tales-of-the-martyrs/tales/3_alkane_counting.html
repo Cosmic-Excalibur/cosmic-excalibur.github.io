@@ -72,7 +72,7 @@ Burnside引理
 <li>八个以相对顶点连线为轴的120°旋转变换，可以拆成\((123)(456)\)，对应\(3^2\)个\(X\)中元素</li>
 <li>六个以对边中点连线为轴的180°旋转变换，可以拆成\((12)(34)(56)\)，对应\(3^3\)个\(X\)中元素</li>
 </ul>
-<p>上述拆分中，变换的每个子轮换对应的若干个面必须具有相同的颜色。因此所求方案数即为</p>
+<p>上述拆分中，变换的每个子轮换对应的若干个面必须具有相同的颜色才能使该子轮换保持这些面的颜色不变。所求方案数即为</p>
 \[
 	\abs{X/G}=\frac{1}{4!}(3^6+6\cdot 3^3+3\cdot 3^4+8\cdot 3^2+6\cdot 3^3)=57
 \]
@@ -139,9 +139,10 @@ Pólya计数定理
 <p>其中，\(P_k=(k-1)!\)表示\(k\)个不同元素构成的圆排列数。从而我们考虑点集\(X_0\)在\(G\)下的cycle index</p>
 \[
 	\begin{aligned}
-		Z_{G}(t_1,\cdots,t_n)&=\frac{1}{n!}\sum\limits_{\pi}N_{\pi}\prod\limits_{k=1}^nt_k^{\lambda_k(\pi)}\\
+		Z_{G}(t_1,\cdots,t_n)&=\frac{1}{n!}\underbrace{\sum\limits_{\pi}}_{\color{gray}{\text{Mysterious yet!}}}N_{\pi}\prod\limits_{k=1}^nt_k^{\lambda_k(\pi)}\\
 		&=\sum\limits_{\pi}\prod\limits_{k=1}^n \frac{1}{\lambda_k(\pi)!}\left(\frac{t_k}{k}\right)^{\lambda_k(\pi)}
 	\end{aligned}
+	\tag{2}\label{2}
 \]
 
 <p>我们知道，边集\(X\)在\(g\)的作用下的变化可以表示为\(g'\)，并且\(g'\)的分拆方式可以很容易地由\(g\)的分拆方式确定，例如：</p>
@@ -211,11 +212,153 @@ Pólya计数定理
 <br>
 
 <p>上述所有过程——包括\(\Phi_n(t_1,\cdots,t_n)\)的计算——均可以交由计算机高效地完成。</p>
+<br>
 
+<ul class="section"><li>
+烷基计数
+</li></ul>
+
+<p>设烷基数的生成函数为\(A(x)\)。（不含环的）烷基可以看作一棵无向树，并且有且仅有一个碳原子是最为特殊的，将其选作树根，它至多有三个度，当度不足\(3\)时，缺少的边视作连接了零个碳原子（\(A(0)=1\)）。令\(X\)为树根的三条边，\(Y\)为所有烷基，\(G\)取\(S_3\)，即三条边的所有置换，根据\(\eqref{2}\)计算\(X\)在\(G\)下的cyclic index：</p>
+\[
+	Z_G(t_1,t_2,t_3)=\frac{1}{6}(t_1^3+3t_1t_2+2t_3)
+\]
+
+<p>根据Pólya计数定理得到</p>
+\[
+	\begin{aligned}
+		A(x) &= 1+x\cdot Z_G\left(A(x),A(x^2),A(x^3)\right)\\
+		&= 1+x\frac{A(x)^3+3F(x)A(x^2)+2A(x^3)}{6}
+	\end{aligned}
+	\tag{3}\label{3}
+\]
+
+<p>此外，设烷基数为\(a_n\)，利用Burnside引理计算</p>
+\[
+	\begin{aligned}
+		a_{n+1} &= \frac{1}{6}(\underbrace{A_{n3}}_{\color{gray}{(1)(2)(3)}}+3\underbrace{A_{n2}}_{\substack{\color{gray}{ (12)(3)\\(13)(2)\\(23)(1)}}}+2\underbrace{A_{n1}}_{\substack{\color{gray}{(123)\\(132)}}})
+	\end{aligned}
+\]
+
+<p>其中</p>
+\[
+	\begin{aligned}
+		A_{n1} &= \sum_{\scriptstyle 3i=n \atop \scriptstyle i\in\mathbb{N}} a_i\\
+		A_{n2} &= \sum_{\scriptstyle 2i+j=n \atop \scriptstyle i,j\in\mathbb{N}} a_ia_j\\
+		A_{n3} &= \sum_{\scriptstyle i+j+k=n \atop \scriptstyle i,j,k\in\mathbb{N}} a_ia_ja_k\\
+	\end{aligned}
+\]
+
+<p>同理也可以得到\(\eqref{3}\)式。</p>
+<br>
+
+<ul class="section"><li>
+烯烃计数
+</li></ul>
+
+<p>设烯烃数的生成函数为\(F(x)\)。只有一个不饱和度的烯烃可以看作是一根特殊边（碳碳双键）的两端连上了两棵碳原子数至少为\(1\)的无向树（\(F(0)=0\)）。令\(X\)为双键两端的两棵子树，\(Y\)为所有烷基，\(G\)取\(S_2\)，即双键两端两棵树的所有置换，根据\(\eqref{2}\)计算\(X\)在\(G\)下的cyclic index：</p>
+\[
+	Z_G(t_1,t_2)=\frac{1}{2}(t_1^2+t_2)
+\]
+
+<p>根据Pólya计数定理得到</p>
+\[
+	\begin{aligned}
+		F(x) &= \cdot Z_G\left(A(x)-1,A(x)-1\right)\\
+		&= \frac{(A(x)-1)^2+A(x^2)-1}{2}
+	\end{aligned}
+	\tag{4}\label{4}
+\]
+
+<p>此外，设烯烃数为\(f_n\)，利用Burnside引理计算</p>
+\[
+	\begin{aligned}
+		f_{n} &= \frac{1}{2}(\underbrace{F_{n2}}_{\color{gray}{(1)(2)}}+\underbrace{F_{n1}}_{\substack{\color{gray}{(12)}}})
+	\end{aligned}
+\]
+
+<p>其中</p>
+\[
+	\begin{aligned}
+		F_{n1} &= \sum_{\scriptstyle 2i=n \atop \scriptstyle i\in\mathbb{N_+}} a_i\\
+		F_{n2} &= \sum_{\scriptstyle i+j=n \atop \scriptstyle i,j\in\mathbb{N_+}} a_ia_j\\
+	\end{aligned}
+\]
+
+<p>同理也可以得到\(\eqref{4}\)式。</p>
+<br>
+
+<ul class="section"><li>
+烷烃计数
+</li></ul>
+
+<p>在烷基计数与烯烃计数中，树中都存在一个特殊的节点或者边，然而，对于一般的烷烃而言并不存在这样的节点或边。</p>
+
+<p>众所周知，碳原子数相同时，在不考虑立体异构的情况下，不含环的烷烃不同当且仅当分子中的所有碳原子之间的邻接关系不变（up to isomorphism）。设树中点的等价类数为\(p\)，边的等价类数为\(q\)，现在尝试考虑\(p\)和\(q\)之间存在的关系。</p>
+
+<ul>
+<li>假设树中存在一条对称边，即该边两端的子树完全相同（同构），那么显然\(p=q\)</li>
+
+<li>假设树中不存在该对称边，那么从树中任选一个碳原子将其作为树的根，从树的叶子节点开始向根回溯，同一层的两个碳原子若等价，则其连接到上一层碳原子的边也等价；若这两个碳原子不等价，那么它们分属两个等价类，并且连接到上一层碳原子的边也分属两个等价类。不管是哪种情况，它们对\(p-q\)这个式子都没有贡献，因此最终只有树的根节点向\(p-q\)式中贡献\(1\)，于是\(p=q+1\)</li>
+</ul>
+
+<p>如果用\(s\in\{0,1\}\)来表示树中是否存在对称边，并且当且仅当存在对称边时\(s=1\)，那么</p>
+\[
+	p-q+s=1
+	\tag{5}\label{5}
+\]
+
+<p>显然，对于\(n\)个碳原子的烷烃\(s=1\)的情况数有\(a_{n/2}\)种，也即两端的两个烷基均含有\(\frac{n}{2}\)个碳原子，并且\(n\ge 2\)于是我们得到了\(s_n\)的生成函数</p>
+\[
+	S(x)=A(x^2)-1
+\]
+
+<p>依照图中点的等价关系的定义，从某两个等价类中分别任选一个碳原子（代表元）进行特殊标记，那么其周围的四个基团本质相同（up to \(S_4\)）当且仅当这两个等价类是同一个等价类，因此含有\(n\)个碳原子的本质不同的烷烃中碳原子等价类数的总和\(p_n\)恰好满足如下的生成函数：</p>
+\[
+	P(x)=x\frac{1}{24}\left(A^4(x)+6A^2(x)A(x^2)+3A^2(x^2)+8A(x)A(x^3)+6A(x^4)\right)
+\]
+
+<p>也即一个特殊标记的碳原子，四周连接烷基，总碳原子数为\(n\)的本质不同的情况数\(p_n\)满足的生成函数（证易）。</p>
+
+<p>对于含有\(n\)个碳原子的本质不同的烷烃中碳碳单键等价类数的总和\(q_n\)也有类似的结论。被特殊标记的碳碳单键的地位等同于单烯烃中的碳碳双键，因此</p>
+\[
+	Q(x)=F(x)=\frac{(A(x)-1)^2+A(x^2)-1}{2}
+\]
+
+<p>最后，我们将\(\eqref{5}\)式对于每个含有\(n\)个碳原子的本质不同的烷烃求和，就得到</p>
+\[
+	p_n-q_n+s_n=c_n
+\]
+
+<p>而等式右端的\(c_n\)即为所求，它的生成函数是</p>
+\[
+	\begin{aligned}
+		C(x)&=P(x)-Q(x)+A(x^2)-1\\
+		&=x\frac{1}{24}\left(A^4(x)+6A^2(x)A(x^2)+3A^2(x^2)+8A(x)A(x^3)+6A(x^4)\right)-\frac{(A(x)-1)^2-A(x^2)+1}{2}
+	\end{aligned}
+\]
+<br>
+
+<ul class="section"><li>
+烷烃计数 - Burnside引理
+</li></ul>
+
+<div class="center">
+	<img src="/tales-of-the-martyrs/tales/oracle-of-namagari/3/2.jpg"></img>
+</div>
+<br>
+
+<ul class="section"><li>
+烷烃计数 - 立体异构
+</li></ul>
+
+<div class="center">
+	<img src="/tales-of-the-martyrs/tales/oracle-of-namagari/3/2.jpg"></img>
+</div>
+<br>
 
 
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#Mathematics</b></span><span color="gray">, </span><span style="color:blue"><b>#GroupTheory</b></span><span color="gray">, </span><span style="color:blue"><b>#Combinatorics</b></span><span color="gray">, </span><span style="color:blue"><b>#OI</b></span></p>
+<br><br><br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#Mathematics</b></span><span color="gray">, </span><span style="color:blue"><b>#GroupTheory</b></span><span color="gray">, </span><span style="color:blue"><b>#Combinatorics</b></span><span color="gray">, </span><span style="color:blue"><b>#OI</b></span><span color="gray">, </span><span style="color:blue"><b>#GraphTheory</b></span></p>
                     <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-07-06 23:10</b></p><br><br><br><br><br><br>
 	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
 	<script type="text/x-mathjax-config;executed=true">

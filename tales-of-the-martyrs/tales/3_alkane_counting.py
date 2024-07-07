@@ -1,6 +1,6 @@
 INFO = {
     'title': 'Alkane counting problems',
-    'tags': ['Mathematics', 'GroupTheory', 'Combinatorics', 'OI'],
+    'tags': ['Mathematics', 'GroupTheory', 'Combinatorics', 'OI', 'GraphTheory'],
     'time': '2024-07-06 23:10'
 }
 
