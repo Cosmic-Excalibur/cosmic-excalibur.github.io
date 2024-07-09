@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>Continuity at \(\mathbb{Q}\) and \(\mathbb{R}\backslash\mathbb{Q}\)</title>
+</head>
+<body>
+	<div class="center">
+		<h1>Continuity at \(\mathbb{Q}\) and \(\mathbb{R}\backslash\mathbb{Q}\)</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="back" title="Back"></a></li>
+			<li><a href="/" class="home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	<div class="main">
+
+<p>本文讨论实分析中的一个经典问题，并探讨其与点集拓扑学中的一个基本结论的联系。</p>
+<br>
+
+<p>证明：不存在在所有有理点均连续、所有无理点均不连续的函数\(\newcommand{\RR}{\mathbb{R}}\newcommand{\QQ}{\mathbb{Q}}\newcommand{\NN}{\mathbb{N}}f:\RR\rightarrow\RR\)。</p>
+
+<ul class="section"><li>
+基本证法
+</li></ul>
+
+<p>假设\(f\)在\(\QQ\)上连续，我们只需要证明\(f\)在\([0,1]\)中的某个无理点处不连续即可。</p>
+
+<p>我们将\((0,1)\)上的所有有理点\(\QQ\cap(0,1)\)排成一列：</p>
+\[
+	\QQ\cap(0,1)=\{\xi_k\}_{k=1}^{\infty}
+\]
+
+<p>任取\(\QQ\cap(0,1)\)中的一点\(\xi_{n_1}\)，对于\(\varepsilon_1=\frac{A}{2}>0\)，存在\(\delta_1\in(0,\frac{1}{2})\)使得</p>
+\[
+	\newcommand{\diam}{\mathrm{diam}}
+	\newcommand{\min}{\mathrm{min}}
+	\newcommand{\abs}[1]{\left\vert #1\right\vert}
+	\diam\left(f(I_1)\right)&lt;\varepsilon_1,\quad I_1=[\xi_{n_1}-\delta_1,\xi_{n_1}+\delta_1]\subset (0,1)
+\]
+
+<p>对于\(\forall k\in\NN_+\)，任取\(\xi_{n_{k+1}}\in I_k,\ n_{k+1}>n_k\)，对于\(\varepsilon_{k+1}=\frac{A}{2^{k+1}}>0\)，存在\(\delta_{k+1}\in(0,\frac{1}{2^{k+1}})\)使得</p>
+\[
+	\diam\left(f(I_{k+1})\right)&lt;\varepsilon_{k+1},\quad I_{k+1}=[\xi_{n_{k+1}}-\delta_{k+1},\xi_{n_{k+1}}+\delta_{k+1}]\subset I_k
+\]
+
+<p>现在，令\(\Delta_k=\min\{\delta_k,\frac{\xi_{n_k}-\xi_1}{2},\cdots,\frac{\xi_{n_k}-\xi_{n_k-1}}{2}\}\)，那么</p>
+\[
+	\bigcap\limits_{k=1}^\infty\  [\xi_{n_k}-\Delta_k,\xi_{n_k}+\Delta_k]=\{r\}
+\]
+
+<p>由于\([\xi_{n_{k+1}}-\Delta_{k+1},\xi_{n_{k+1}}+\Delta_{k+1}]\)中不包含\(\xi_1,\cdots,\xi_{n_k-1}\)，因此若\(r\in\QQ\)，设\(\xi_n=r\)，那么一定有</p>
+\[
+	n>k,\quad\forall k\in\NN_+
+\]
+
+<p>这显然是不可能的，因此\(r\)是无理数，此时，对于\(\forall\varepsilon>0\)，均存在\(k\in\NN_+\)使得</p>
+\[
+	\abs{f(x)-f(r)} &lt; \abs{f(\xi_{k+1})-f(\xi_k)} &lt; \varepsilon_k\le\varepsilon,\quad\forall x \in I_k\ni r
+\]
+
+<p>故\(f\)在无理点\(r\)处连续。</p>
+
+
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#Mathematics</b></span><span color="gray">, </span><span style="color:blue"><b>#GeneralTopology</b></span><span color="gray">, </span><span style="color:blue"><b>#RealAnalysis</b></span></p>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-07-09 16:35</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            },
+			SVG: { linebreaks: {automatic: true } }
+        });
+        //window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+	</script>
+</body>
+</html>
