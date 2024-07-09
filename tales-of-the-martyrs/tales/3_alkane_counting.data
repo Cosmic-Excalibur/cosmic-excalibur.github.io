@@ -70,7 +70,7 @@ Pólya计数定理
 \]
 <p>定义cycle index：</p>
 \[
-	Z_G(t_1,t_2,\cdots,t_n)=\frac{1}{G}\sum\limits_{g\in G}t_1^{c_1(g)}t_2^{c_2(g)}\cdots t_n^{c_n(g)}
+	Z_G(t_1,t_2,\cdots,t_n)=\frac{1}{\abs{G}}\sum\limits_{g\in G}t_1^{c_1(g)}t_2^{c_2(g)}\cdots t_n^{c_n(g)}
 \]
 <p>其中\(n=\abs{X}\)（在例1中\(n=6\)，但是\(t_5\)与\(t_6\)并没有被用到），而\(c_k(g)\)是\(g\)的分解中长度为\(k\)的轮换个数。</p>
 <p>考虑从\(X\)到\(Y\)的映射</p>
