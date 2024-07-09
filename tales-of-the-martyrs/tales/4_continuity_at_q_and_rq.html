@@ -19,10 +19,11 @@
 	</div>
 	<div class="main">
 
-<p>本文讨论实分析中的一个经典问题，并探讨其与点集拓扑学中的一个基本结论的联系。</p>
+<p>本文讨论实分析中的一个经典问题，并探讨其与点集拓扑学/泛函分析中的一个基本结论的联系。</p>
 <br>
 
-<p>证明：不存在在所有有理点均连续、所有无理点均不连续的函数\(\newcommand{\RR}{\mathbb{R}}\newcommand{\QQ}{\mathbb{Q}}\newcommand{\NN}{\mathbb{N}}f:\RR\rightarrow\RR\)。</p>
+<p>证明：不存在在所有有理点处均连续、所有无理点处均不连续的函数\(\newcommand{\RR}{\mathbb{R}}\newcommand{\QQ}{\mathbb{Q}}\newcommand{\NN}{\mathbb{N}}f:\RR\rightarrow\RR\)。</p>
+<br>
 
 <ul class="section"><li>
 基本证法
@@ -68,10 +69,54 @@
 <br>
 
 <p>需要注意的是，如果在上面的问题中将有理数与无理数的位置对调，那么我们不一定能得出\(r\)是有理数的结论，因为\([0,1]\)上无理数并不可数——事实上，如果我们引入超限序数（transfinite ordinal number）的概念，我们可以找到满足\(\eqref{1}\)的\(n\)（比如\(\omega\)）。因此，即便\(f\)在所有无理点均连续，也不一定能得出\(f\)在所有有理点均连续的结论，如Thomae函数（也被称作爆米花函数、Riemann函数）</p>
+<br>
+
+<ul class="section"><li>
+Baire纲定理
+</li></ul>
+
+<p>在引入Baire纲定理（Baire category theorem）的概念之前，先给出几个定义。</p>
+<br>
+<p>【定义1】 拓扑空间\((X,\tau)\)，\(E\in\tau\)，若\(E\)闭包的内部\((\bar{E})^\circ=\varnothing\)，则称\(E\)无处稠密（nowhere dense）。</p>
+<p>【定义2】 拓扑空间\((X,\tau)\)，\(E\in\tau\)，若\(E\)是可数个无处稠密集的并集，那么\(E\)被称为第一纲集（set of first category，meagre set）；否则称\(E\)为第二纲集（set of second category，nonmeagre set）。</p>
+<p>【定义3】 拓扑空间\((X,\tau)\)，\(E\in\tau\)，若\(E\)能表示为一列（可数个）开集的交，则\(E\)被称为\(G_\delta\)集。</p>
+<br>
+
+<p>Baire纲定理的基本表述及其加强的表述如下（证略）：</p>
+<br>
+
+<p>【定理1】 完备的度量空间是第二纲集。</p>
+<p>【定理2】 完备的度量空间中，</p>
+<ul>
+	<li>第一纲集的补集是稠密的第二纲集。</li>
+	<li>可数个稠密开集的交是稠密的第二纲集。</li>
+</ul>
+<br>
+
+<p>通过Baire纲定理可以得到如下结论：</p>
+<br>
+
+<p>【命题1】 若完备度量空间\((X,\rho)\)无孤立点，\(E\subset X\)是可数的稠密集，则\(E\)不是\(G_\delta\)集。</p>
+<br>
+
+<p>证：由【定理1】知\(E\)是第一纲集。现在设</p>
+\[
+	E=\bigcap\limits_{n=1}^\infty\ U_n
+\]
+
+<p>其中\(U_n\)是稠密的开集，于是由【定理2】知\(E\)是第二纲集，矛盾。</p>
+<br>
+
+<p>回到本文最开始的问题上来，我们知道，\(f:\RR\rightarrow\RR\)的连续点的集合\(E\)可以表示为</p>
+\[
+	E=\bigcap\limits_{n\in\NN_+}\ \bigcup\limits_{\delta>0}\ \{x:\diam\left(f((x-\delta,x+\delta))\right)&lt;\frac{1}{n}\}
+\]
+
+<p>它是可数个开集的交，也即\(E\)是\(G_\delta\)集，根据【命题1】我们知道\(E\)不可数，也即\(f\)在所有无理点处均不连续是不可能的。</p>
 
 
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#Mathematics</b></span><span color="gray">, </span><span style="color:blue"><b>#GeneralTopology</b></span><span color="gray">, </span><span style="color:blue"><b>#RealAnalysis</b></span></p>
+<br><br><br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#Mathematics</b></span><span color="gray">, </span><span style="color:blue"><b>#GeneralTopology</b></span><span color="gray">, </span><span style="color:blue"><b>#FunctionalAnalysis</b></span><span color="gray">, </span><span style="color:blue"><b>#RealAnalysis</b></span></p>
                     <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-07-09 16:35</b></p><br><br><br><br><br><br>
 	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
 	<script type="text/x-mathjax-config;executed=true">

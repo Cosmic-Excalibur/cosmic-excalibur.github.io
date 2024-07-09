@@ -1,6 +1,6 @@
 INFO = {
     'title': r'Continuity at \(\mathbb{Q}\) and \(\mathbb{R}\backslash\mathbb{Q}\)',
-    'tags': ['Mathematics', 'GeneralTopology', 'RealAnalysis'],
+    'tags': ['Mathematics', 'GeneralTopology', 'FunctionalAnalysis', 'RealAnalysis'],
     'time': '2024-07-09 16:35'
 }
 
