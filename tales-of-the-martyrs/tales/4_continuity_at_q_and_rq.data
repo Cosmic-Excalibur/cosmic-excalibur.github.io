@@ -30,7 +30,7 @@
 	\diam\left(f(I_{k+1})\right)&lt;\varepsilon_{k+1},\quad I_{k+1}=[\xi_{n_{k+1}}-\delta_{k+1},\xi_{n_{k+1}}+\delta_{k+1}]\subset I_k
 \]
 
-<p>现在，令\(\Delta_k=\min\{\delta_k,\frac{\xi_{n_k}-\xi_1}{2},\cdots,\frac{\xi_{n_k}-\xi_{n_k-1}}{2}\}\)，那么如下构造的闭区间套有唯一的公共点</p>
+<p>现在，令\(\Delta_k=\min\{\delta_k,\abs{\frac{\xi_{n_k}-\xi_1}{2}},\cdots,\abs{\frac{\xi_{n_k}-\xi_{n_k-1}}{2}}\}\)，那么如下构造的闭区间套有唯一的公共点</p>
 \[
 	\bigcap\limits_{k=1}^\infty\  [\xi_{n_k}-\Delta_k,\xi_{n_k}+\Delta_k]=\{r\}
 \]
@@ -49,7 +49,7 @@
 <p>故\(f\)在无理点\(r\)处连续。</p>
 <br>
 
-<p>需要注意的是，如果在上面的问题中将有理数与无理数的位置对调，那么我们不一定能得出\(r\)是有理数的结论，因为\([0,1]\)上无理数并不可数——事实上，如果我们引入超限序数（transfinite ordinal number）的概念，我们可以找到满足\(\eqref{1}\)的\(n\)（比如\(\omega\)）。因此，即便\(f\)在所有无理点均连续，也不一定能得出\(f\)在所有有理点均连续的结论，如Thomae函数（也被称作爆米花函数、Riemann函数）</p>
+<p>需要注意的是，如果在上面的问题中将有理数与无理数的位置对调，那么我们不一定能得出\(r\)是有理数的结论，因为\([0,1]\)上无理数并不可数——事实上，如果我们引入超限序数（transfinite ordinal number）的概念，我们可以找到满足\(\eqref{1}\)的\(n\)（比如\(\omega\)）。因此，即便\(f\)在所有无理点均连续，也不一定能得出\(f\)在所有有理点均连续的结论，如Thomae函数（也被称作爆米花函数、Riemann函数）。</p>
 <br>
 
 <ul class="section"><li>
