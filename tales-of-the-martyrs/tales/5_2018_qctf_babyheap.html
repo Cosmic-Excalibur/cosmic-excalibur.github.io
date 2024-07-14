@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>2018 QCTF babyheap</title>
+</head>
+<body>
+	<div class="center">
+		<h1>2018 QCTF babyheap</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="back" title="Back"></a></li>
+			<li><a href="/" class="home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	<div class="main">
+
+<div class="center"><p><comment>Note: The author's limited expertise in current topic may result in unclear or potentially erroneous articulations.</comment></p></div><br><br>
+
+<p>本文记录一个简单的堆利用问题。</p>
+<p>附件：</p>
+<ul>
+	<li><a href="/tales-of-the-martyrs/tales/oracle-of-namagari/5/libc-2.23.so">🔗libc-2.23.so</a></li>
+	<li><a href="/tales-of-the-martyrs/tales/oracle-of-namagari/5/timu">🔗timu</a></li>
+</ul>
+
+<br>
+
+<ul class="section"><li>
+Off by null
+</li></ul>
+
+<p>本题中通过选项1创建新的笔记，通过选项2删除笔记，选项3查看所有的笔记。</p>
+
+<p>然而，创建笔记的时候，我们可以将一个null字符溢出至下一个chunk中。</p>
+
+<p>查看glibc 2.23源码可知，一个被分配的chunk具有如下结构：<comment>（malloc.c，1111~1122，1142~1153）</comment></p>
+<br>
+
+<pre><code class='language-c'>struct malloc_chunk {
+
+  INTERNAL_SIZE_T      prev_size;  /* Size of previous chunk (if free).  */
+  INTERNAL_SIZE_T      size;       /* Size in bytes, including overhead. */
+
+  struct malloc_chunk* fd;         /* double links -- used only if free. */
+  struct malloc_chunk* bk;
+
+  /* Only used for large blocks: pointer to next larger size.  */
+  struct malloc_chunk* fd_nextsize; /* double links -- used only if free. */
+  struct malloc_chunk* bk_nextsize;
+};</code></pre>
+<br>
+
+<pre><code class='language-text'>    chunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             Size of previous chunk, if allocated            | |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             Size of chunk, in bytes                       |M|P|
+      mem-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             User data starts here...                          .
+            .                                                               .
+            .             (malloc_usable_size() bytes)                      .
+            .                                                               |
+nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             Size of chunk                                     |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</code></pre>
+
+<p></p>
+
+<br>
+<p>因此我们可以将下一个chunk中的prev_inuse位覆盖为0。</p>
+
+<ul class="section"><li>
+The fastbin attack while freeing chunks
+</li></ul>
+
+<p>glibc 2.23中，被分配的chunk在被释放时若大小在<code>MINSIZE</code>至<code>get_max_fast()</code>之间，那么该chunk会进入序号为<code>fastbin_index(size)</code>的fastbin中，此外，如果在编译时<code>TRIM_FASTBINS</code>被定义，那么该chunk在下一个chunk是top chunk时将不会被放到fastbin中。<comment>（malloc.c，3886~3955）</comment></p>
+<tag id="tag1"><comment>(*)</comment></tag>
+
+<p>上述中相关的数值量定义如下（有删改）：<comment>（malloc.c）</comment></p><br>
+
+<pre><code class='language-c'>#define SIZE_SZ                (sizeof(size_t))
+#define MALLOC_ALIGNMENT       (2 * SIZE_SZ)
+#define MALLOC_ALIGN_MASK      (MALLOC_ALIGNMENT - 1)
+#define DEFAULT_MXFAST         (64 * SIZE_SZ / 4)
+#define get_max_fast() \
+  ((DEFAULT_MXFAST + SIZE_SZ) & ~MALLOC_ALIGN_MASK)
+#define fastbin_index(sz) \
+  ((((unsigned int) (sz)) >> (SIZE_SZ == 8 ? 4 : 3)) - 2)
+</code></pre>
+<br>
+
+<p><a href='#tag1'>Goto tag1</a></p>
+<p><comment>Not finished yet.........</comment></p>
+
+
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#Pwn</b></span><span color="gray">, </span><span style="color:blue"><b>#BinaryExploitation</b></span><span color="gray">, </span><span style="color:blue"><b>#HeapExploitation</b></span><span color="gray">, </span><span style="color:blue"><b>#OffByNull</b></span></p>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-07-13 14:58</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            },
+			SVG: { linebreaks: {automatic: true } }
+        });
+        //window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+	</script>
+	<script src="/essence-of-the-elders/spirit-of-codes/prism.js"></script>
+</body>
+</html>

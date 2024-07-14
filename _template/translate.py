@@ -4,6 +4,20 @@ workdir = ".."
 __TITLE__ = '!@#$%__TITLE__%$#@!'
 __HTML_TITLE__ = '!@#$%__HTML_TITLE__%$#@!'
 __CONTENT__ = '!@#$%__CONTENT__%$#@!'
+__LIMITED_EXPERTISE__ = '!@#$%__LIMITED_EXPERTISE__%$#@!'
+
+TEXT__LIMITED_EXPERTISE__ = r"""<div class="center"><p><comment>Note: The author's limited expertise in current topic may result in unclear or potentially erroneous articulations.</comment></p></div><br><br>"""
+
+const_names = {
+    '__TITLE__': __TITLE__,
+    '__HTML_TITLE__': __HTML_TITLE__,
+    '__CONTENT__': __CONTENT__,
+    '__LIMITED_EXPERTISE__': __LIMITED_EXPERTISE__
+}
+
+const_values = {
+    __LIMITED_EXPERTISE__: TEXT__LIMITED_EXPERTISE__
+}
 
 class Attrs:
     def __init__(self):
@@ -21,11 +35,9 @@ def import2(path, *args, **kwargs):
         'import2': import2,
         'workdir': workdir,
         'Attrs': Attrs,
-        '__TITLE__': __TITLE__,
-        '__HTML_TITLE__': __HTML_TITLE__,
-        '__CONTENT__': __CONTENT__,
         'path': path
     }
+    attrs.update(const_names)
     exec(open(path, *args, **kwargs).read(), attrs)
     return Attrs(attrs)
 
@@ -42,7 +54,8 @@ write = lambda path, data, *args, **kwargs: open(path, 'w', *args, **kwargs).wri
 template = read('template.html', encoding = 'utf-8')
 disallow = [
     '_template',
-    'spirit-of-mathematics'
+    'spirit-of-mathematics',
+    'spirit-of-codes'
 ]
 
 for i, j, k in os.walk(".."):
@@ -71,6 +84,7 @@ for i, j, k in os.walk(".."):
                         value0.update({__HTML_TITLE__: info_.title})
                     value0[__CONTENT__] += r"""<br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>%s</b></span></p>
                     <p><div class="time"></div><span style="color:gray">Time: </span><b>%s</b></p><br><br><br><br><br><br>""" % ('</b></span><span color="gray">, </span><span style="color:blue"><b>'.join('#%s' % tag for tag in info_.tags), info_.time)
+                value0.update(const_values)
                 new_path = os.path.join(stem, key0.replace('*', name))
                 info("Processing:", stress(new_path))
                 html = template
