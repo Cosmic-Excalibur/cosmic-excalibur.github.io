@@ -39,7 +39,7 @@ Off by null
 
 <p>然而，创建笔记的时候，我们可以将一个null字符溢出至下一个chunk中。</p>
 
-<p>查看glibc 2.23源码可知，一个被分配的chunk具有如下结构：<comment>（malloc.c，1111~1122，1142~1153）</comment></p>
+<p>在glibc 2.23中，一个被分配的chunk具有如下结构：<comment>（malloc.c，1111~1122，1142~1153）</comment></p>
 <br>
 
 <pre><code class='language-c'>struct malloc_chunk {
@@ -69,17 +69,17 @@ nextchunk-> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
             |             Size of chunk                                     |
             +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</code></pre>
 
-<p></p>
-
 <br>
 <p>因此我们可以将下一个chunk中的prev_inuse位覆盖为0。</p>
 
 <ul class="section"><li>
-The fastbin attack while freeing chunks
+The fastbin attack
 </li></ul>
 
+<tag id="tag1"><comment>↓(*)</comment></tag>
 <p>glibc 2.23中，被分配的chunk在被释放时若大小在<code>MINSIZE</code>至<code>get_max_fast()</code>之间，那么该chunk会进入序号为<code>fastbin_index(size)</code>的fastbin中，此外，如果在编译时<code>TRIM_FASTBINS</code>被定义，那么该chunk在下一个chunk是top chunk时将不会被放到fastbin中。<comment>（malloc.c，3886~3955）</comment></p>
-<tag id="tag1"><comment>(*)</comment></tag>
+<tag><comment>↑(*)</comment></tag>
+
 
 <p>上述中相关的数值量定义如下（有删改）：<comment>（malloc.c）</comment></p><br>
 
@@ -94,8 +94,104 @@ The fastbin attack while freeing chunks
 </code></pre>
 <br>
 
-<p><a href='#tag1'>Goto tag1</a></p>
-<p><comment>Not finished yet.........</comment></p>
+<p>释放时被放入fastbin中的chunk会在清除主体数据后直接插入至对应fastbin的单链表中并成为新的单链表头（链表尾为NULL），若插入时发现fastbin原来的链表头就是当前被释放的chunk，则抛出错误。<comment>（malloc.c，3929~3948）</comment></p>
+<p>此外，对于在<a href="#tag1">(*)</a>中没有被放入fastbin的chunk，若该chunk由mmap分配，则通过munmap释放，否则，将会检查如下四个条件是否满足，如均满足则进行合并、清除inuse位等步骤，并在处理完毕后进入unsorted bin中，反之抛出错误。<comment>（malloc.c，3961~4105）</comment></p>
+<ul>
+	<li>该chunk不是top chunk。<comment>（malloc.c，3971~3975）</comment></li>
+	<li>当chunk的地址之间无间隙时，该chunk未超出top chunk的边界。<comment>（malloc.c，3977~3983）</comment></li>
+	<li>下一个chunk的PREV_INUSE位为1。<comment>（malloc.c，3985~3989）</comment></li>
+	<li>下一个chunk过小或过大。<comment>（malloc.c，3991~3997）</comment></li>
+</ul>
+<p>对于上述中不应被munmap释放的chunk，在判断完上述四个条件后，清空该chunk中的主体数据，判断该chunk的PREV_INUSE位是否为0，若是，则开始向后合并（consolidate backward），即将上一个chunk unlink（也即从其所在的双向链表中移除）后将其与当前chunk合并。当下一个chunk是top chunk时，将当前chunk与top chunk合并，将当前chunk的PREV_INUSE位置1并检查合并后的chunk是否是一个合法的chunk（见附录1），反之，如果下下个chunk的PREV_INUSE位为0时，则开始向前合并（consolidate forward），即将下一个chunk unlink后与当前chunk合并，而当下下个chunk的PREV_INUSE位为1时将下一个chunk的PREV_INUSE位置0。<comment>（malloc.c，3999~4018）</comment></p>
+<p>如果发生合并，则合并后的chunk变成一个新的整体，除非与top chunk发生合并，这个chunk最后都应进入unsorted bin中。unsorted bin是一个双向循环链表，它与fastbin不同的一点在于进入后者中的chunk在被释放时不必清除下一个chunk的PREV_INUSE位，也不必与除了top chunk以外其他的chunk合并，此外，unsorted bin中的chunk会在malloc挑选chunk时而非自身被释放时被重新分类，也即根据大小决定进入到small bin或large bin中，在这里暂不赘述。在该chunk进入unsorted bin中之前，程序会检查unsorted bin中“表头”与“表头”后的第一个节点间的连接是否正常，若这两者（有可能是同一个节点）不能相互指向，则抛出错误，否则将chunk插入到这两者之间，最后将该chunk的PREV_INUSE位置1并检查该chunk是否是一个合法的free chunk（见附录1）。<comment>（malloc.c，4026~4047）</comment></p>
+
+
+<br><br>
+
+<ul class="section"><li>
+附录1.  合法的chunk与free chunk
+</li></ul>
+<details>
+<summary></summary>
+<br>
+<pre><code class='language-c'>static void
+do_check_chunk (mstate av, mchunkptr p)
+{
+  unsigned long sz = chunksize (p);
+  /* min and max possible addresses assuming contiguous allocation */
+  char *max_address = (char *) (av->top) + chunksize (av->top);
+  char *min_address = max_address - av->system_mem;
+
+  if (!chunk_is_mmapped (p))
+    {
+      /* Has legal address ... */
+      if (p != av->top)
+        {
+          if (contiguous (av))
+            {
+              assert (((char *) p) >= min_address);
+              assert (((char *) p + sz) <= ((char *) (av->top)));
+            }
+        }
+      else
+        {
+          /* top size is always at least MINSIZE */
+          assert ((unsigned long) (sz) >= MINSIZE);
+          /* top predecessor always marked inuse */
+          assert (prev_inuse (p));
+        }
+    }
+  else
+    {
+      /* address is outside main heap  */
+      if (contiguous (av) && av->top != initial_top (av))
+        {
+          assert (((char *) p) < min_address || ((char *) p) >= max_address);
+        }
+      /* chunk is page-aligned */
+      assert (((p->prev_size + sz) & (GLRO (dl_pagesize) - 1)) == 0);
+      /* mem is aligned */
+      assert (aligned_OK (chunk2mem (p)));
+    }
+}
+
+/*
+   Properties of free chunks
+ */
+
+static void
+do_check_free_chunk (mstate av, mchunkptr p)
+{
+  INTERNAL_SIZE_T sz = p->size & ~(PREV_INUSE | NON_MAIN_ARENA);
+  mchunkptr next = chunk_at_offset (p, sz);
+
+  do_check_chunk (av, p);
+
+  /* Chunk must claim to be free ... */
+  assert (!inuse (p));
+  assert (!chunk_is_mmapped (p));
+
+  /* Unless a special marker, must have OK fields */
+  if ((unsigned long) (sz) >= MINSIZE)
+    {
+      assert ((sz & MALLOC_ALIGN_MASK) == 0);
+      assert (aligned_OK (chunk2mem (p)));
+      /* ... matching footer field */
+      assert (next->prev_size == sz);
+      /* ... and is fully consolidated */
+      assert (prev_inuse (p));
+      assert (next == av->top || inuse (next));
+
+      /* ... and has minimally sane links */
+      assert (p->fd->bk == p);
+      assert (p->bk->fd == p);
+    }
+  else /* markers are always of size SIZE_SZ */
+    assert (sz == SIZE_SZ);
+}</code></pre>
+<br>
+</details>
+
 
 
 </div>
