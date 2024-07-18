@@ -237,7 +237,7 @@ do_check_remalloced_chunk (mstate av, mchunkptr p, INTERNAL_SIZE_T s)
 
 <p>本题中通过选项1创建新的笔记，通过选项2删除笔记，选项3查看所有的笔记。</p>
 
-<p>然而，创建笔记的时候，我们可以将一个null字符溢出至下一个chunk中，因此我们可以将下一个chunk中的prev_inuse位覆盖为0。接下来，考虑对fastbin进行attack，其基本思想是构造如下的两个chunk：</p>
+<p>然而，创建笔记的时候，我们可以将一个null字符溢出至下一个chunk中，因此我们可以将下一个chunk中的<code>PREV_INUSE</code>位覆盖为0。接下来，考虑对fastbin进行attack，其基本思想是构造如下的两个chunk：</p>
 
 <pre><code class="language-c">chunk_1 = malloc(0x68);
 chunk_2 = malloc(0x68);</code></pre>
@@ -293,7 +293,7 @@ chunk = malloc(0x68);</code></pre>
 <p>修改<code>chunk</code>即可实现任意地址写（arbitrary writing）。</p>
 <br>
 
-<p>然而，对于本题而言，修改chunk是做不到的，我们只能通过反复地<code>malloc</code>与<code>free</code>来利用漏洞。</p>
+<p>然而，对于本题而言，修改chunk是做不到的，我们只能通过反复地<code>malloc</code>与<code>free</code>来利用漏洞。可以尝试通过覆盖<code>PREV_INUSE</code>位来触发<code>free</code>中的向前合并<comment>（malloc.c，4013~4018）</comment>与向后合并<comment>（malloc.c，4001~4007）</comment>的过程。</p>
 
 
 
