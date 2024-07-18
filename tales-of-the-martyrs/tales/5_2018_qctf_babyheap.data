@@ -11,7 +11,7 @@
 
 <br>
 
-<ul class="section"><li>
+<!--<ul class="section"><li>
 Off by null
 </li></ul>
 
@@ -57,7 +57,7 @@ The fastbin attack
 </li></ul>
 
 <tag id="tag1"><comment>↓(*)</comment></tag>
-<p>glibc 2.23中，被分配的chunk在被释放时若大小在<code>MINSIZE</code>至<code>get_max_fast()</code>之间，那么该chunk会进入序号为<code>fastbin_index(size)</code>的fastbin中，此外，如果在编译时<code>TRIM_FASTBINS</code>被定义，那么该chunk在下一个chunk是top chunk时将不会被放到fastbin中。<comment>（malloc.c，3886~3955）</comment></p>
+<p>glibc 2.23中，被分配的chunk在被释放时若大小在<code>MINSIZE</code>至<code>get_max_fast()</code>之间（含端点），那么该chunk会进入序号为<code>fastbin_index(size)</code>的fastbin中，此外，如果在编译时<code>TRIM_FASTBINS</code>被定义，那么该chunk在下一个chunk是top chunk时将不会被放到fastbin中。<comment>（malloc.c，3886~3955）</comment></p>
 <tag><comment>↑(*)</comment></tag>
 
 
@@ -67,6 +67,9 @@ The fastbin attack
 #define MALLOC_ALIGNMENT       (2 * SIZE_SZ)
 #define MALLOC_ALIGN_MASK      (MALLOC_ALIGNMENT - 1)
 #define DEFAULT_MXFAST         (64 * SIZE_SZ / 4)
+#define MIN_CHUNK_SIZE         (offsetof(struct malloc_chunk, fd_nextsize))
+#define MINSIZE  \
+  (unsigned long)(((MIN_CHUNK_SIZE+MALLOC_ALIGN_MASK) & ~MALLOC_ALIGN_MASK))
 #define get_max_fast() \
   ((DEFAULT_MXFAST + SIZE_SZ) & ~MALLOC_ALIGN_MASK)
 #define fastbin_index(sz) \
@@ -75,21 +78,29 @@ The fastbin attack
 <br>
 
 <p>释放时被放入fastbin中的chunk会在清除主体数据后直接插入至对应fastbin的单链表中并成为新的单链表头（链表尾为NULL），若插入时发现fastbin原来的链表头就是当前被释放的chunk，则抛出错误。<comment>（malloc.c，3929~3948）</comment></p>
-<p>此外，对于在<a href="#tag1">(*)</a>中没有被放入fastbin的chunk，若该chunk由mmap分配，则通过munmap释放，否则，将会检查如下四个条件是否满足，如均满足则进行合并、清除inuse位等步骤，并在处理完毕后进入unsorted bin中，反之抛出错误。<comment>（malloc.c，3961~4105）</comment></p>
+<p>此外，对于在<a href="#tag1">(*)</a>中没有被放入fastbin的chunk，若该chunk由<code>mmap</code>分配，则通过<code>munmap</code>释放，否则，将会检查如下四个条件是否满足，如均满足则进行合并、清除inuse位等步骤，并在处理完毕后进入unsorted bin中，反之抛出错误。<comment>（malloc.c，3961~4105）</comment></p>
 <ul>
 	<li>该chunk不是top chunk。<comment>（malloc.c，3971~3975）</comment></li>
 	<li>当chunk的地址之间无间隙时，该chunk未超出top chunk的边界。<comment>（malloc.c，3977~3983）</comment></li>
 	<li>下一个chunk的PREV_INUSE位为1。<comment>（malloc.c，3985~3989）</comment></li>
 	<li>下一个chunk过小或过大。<comment>（malloc.c，3991~3997）</comment></li>
 </ul>
-<p>对于上述中不应被munmap释放的chunk，在判断完上述四个条件后，清空该chunk中的主体数据，判断该chunk的PREV_INUSE位是否为0，若是，则开始向后合并（consolidate backward），即将上一个chunk unlink（也即从其所在的双向链表中移除）后将其与当前chunk合并。当下一个chunk是top chunk时，将当前chunk与top chunk合并，将当前chunk的PREV_INUSE位置1并检查合并后的chunk是否是一个合法的chunk（见附录1），反之，如果下下个chunk的PREV_INUSE位为0时，则开始向前合并（consolidate forward），即将下一个chunk unlink后与当前chunk合并，而当下下个chunk的PREV_INUSE位为1时将下一个chunk的PREV_INUSE位置0。<comment>（malloc.c，3999~4018）</comment></p>
-<p>如果发生合并，则合并后的chunk变成一个新的整体，除非与top chunk发生合并，这个chunk最后都应进入unsorted bin中。unsorted bin是一个双向循环链表，它与fastbin不同的一点在于进入后者中的chunk在被释放时不必清除下一个chunk的PREV_INUSE位，也不必与除了top chunk以外其他的chunk合并，此外，unsorted bin中的chunk会在malloc挑选chunk时而非自身被释放时被重新分类，也即根据大小决定进入到small bin或large bin中，在这里暂不赘述。在该chunk进入unsorted bin中之前，程序会检查unsorted bin中“表头”与“表头”后的第一个节点间的连接是否正常，若这两者（有可能是同一个节点）不能相互指向，则抛出错误，否则将chunk插入到这两者之间，最后将该chunk的PREV_INUSE位置1并检查该chunk是否是一个合法的free chunk（见附录1）。<comment>（malloc.c，4026~4047）</comment></p>
+<p>对于上述中不应被<code>munmap</code>释放的chunk，在判断完上述四个条件后，清空该chunk中的主体数据，判断该chunk的PREV_INUSE位是否为0，若是，则开始向后合并（consolidate backward），即将上一个chunk <code>unlink</code>（也即从其所在的双向链表中移除）后将其与当前chunk合并。当下一个chunk是top chunk时，将当前chunk与top chunk合并，将当前chunk的PREV_INUSE位置1并检查合并后的chunk是否是一个合法的chunk（见附录1），反之，如果下下个chunk的PREV_INUSE位为0时，则开始向前合并（consolidate forward），即将下一个chunk unlink后与当前chunk合并，而当下下个chunk的PREV_INUSE位为1时将下一个chunk的PREV_INUSE位置0。<comment>（malloc.c，3999~4018）</comment></p>
+<p>如果发生合并，则合并后的chunk变成一个新的整体，除非与top chunk发生合并，这个chunk最后都应进入unsorted bin中。unsorted bin是一个双向循环链表，它与fastbin不同的一点在于进入后者中的chunk在被释放时不必清除下一个chunk的PREV_INUSE位，也不必与除了top chunk以外其他的chunk合并，此外，unsorted bin中的chunk会在malloc挑选chunk时而非自身被释放时被重新分类，也即根据大小决定进入到small bin或large bin中，在这里暂不赘述。在该chunk进入unsorted bin中之前，程序会检查unsorted bin中“表头”与“表头”后的第一个节点间的连接是否正常，若这两者（有可能是同一个节点）不能相互指向，则抛出错误，否则将chunk插入到这两者之间，再将该chunk的PREV_INUSE位置1并检查该chunk是否是一个合法的free chunk（见附录1）。最后，若该chunk的大小大于<code>FASTBIN_CONSOLIDATION_THRESHOLD</code>，则在fastbin不为空时进行<code>malloc_consolidate</code>，也即将fastbin清空并将其中的所有chunk向前、向后合并后转移到unsorted bin中。<comment>（malloc.c，4026~4047，4074~4098）</comment></p>
+<p>上述即为一个<code>free</code>的过程。
+<p>调用<code>malloc</code>来分配新chunk的过程则更为复杂。首先，将请求的size转换为合法的chunk size，也即将请求的size与<code>MALLOC_ALIGNMENT</code>对齐，然后，程序检查<code>malloc_state</code>是否存在，若不存在则使用<code>sysmalloc</code>调用<code>mmap</code>来获取chunk，否则，当size比<code>get_max_fast()</code>小时，从所有的非空fastbin（<code>fastbinsY</code>）中挑选出与其大小匹配的fastbin，检查该fastbin表头的chunk是否满足一些条件（见附录1），以及其大小是否与其所在的fastbin index相匹配，若不满足或不匹配则抛出错误，反之向该对应的chunk中填充入初始的主体数据并返回，若<code>fastbinsY</code>中没有满足要求的fastbin，那么当目标size小于<code>MIN_LARGE_SIZE</code>时尝试从small bin中寻找大小与目标size一致的chunk，如果能找到符合要求的chunk，则将下一个chunk的PREV_INUSE位置1并初始化主体数据后返回该chunk，对于其他的情况，尝试从unsorted bin的“表尾”开始往“表头”的方向遍历，当unsorted bin中只含有“表头”时停止遍历，若目标size小于<code>MIN_LARGE_SIZE</code>，则当遍历过程中发现只剩下一个chunk（不含“表头”）且该chunk的大小小于目标size加上<code>MINSIZE</code>时，截取该chunk的一部分，PREV_INUSE位置1，初始化主体数据并返回，剩下的部分回到unsorted bin中原来位置，的对于遍历过程中的每一个chunk，检查……</p>
+
+
+
+<p>现在，假设我们有<code>chunk_A</code>与<code>chunk_B</code>两个allocated chunk，大小相同且在<code>MINSIZE</code>至<code>get_max_fast()</code>之间（64位系统下即为32~128字节之间），</p>
+
+
 
 
 <br><br>
 
 <ul class="section"><li>
-附录1.  合法的chunk与free chunk
+附录1.  合法的chunk
 </li></ul>
 <details>
 <summary></summary>
@@ -168,9 +179,102 @@ do_check_free_chunk (mstate av, mchunkptr p)
     }
   else /* markers are always of size SIZE_SZ */
     assert (sz == SIZE_SZ);
-}</code></pre>
+}
+
+/*
+   Properties of chunks recycled from fastbins
+ */
+
+static void
+do_check_remalloced_chunk (mstate av, mchunkptr p, INTERNAL_SIZE_T s)
+{
+  INTERNAL_SIZE_T sz = p->size & ~(PREV_INUSE | NON_MAIN_ARENA);
+
+  if (!chunk_is_mmapped (p))
+    {
+      assert (av == arena_for_chunk (p));
+      if (chunk_non_main_arena (p))
+        assert (av != &main_arena);
+      else
+        assert (av == &main_arena);
+    }
+
+  do_check_inuse_chunk (av, p);
+
+  /* Legal size ... */
+  assert ((sz & MALLOC_ALIGN_MASK) == 0);
+  assert ((unsigned long) (sz) >= MINSIZE);
+  /* ... and alignment */
+  assert (aligned_OK (chunk2mem (p)));
+  /* chunk is less than MINSIZE more than request */
+  assert ((long) (sz) - (long) (s) >= 0);
+  assert ((long) (sz) - (long) (s + MINSIZE) < 0);
+}
+</code></pre>
 <br>
 </details>
+-->
+
+<p>本题中通过选项1创建新的笔记，通过选项2删除笔记，选项3查看所有的笔记。</p>
+
+<p>然而，创建笔记的时候，我们可以将一个null字符溢出至下一个chunk中，因此我们可以将下一个chunk中的prev_inuse位覆盖为0。接下来，考虑对fastbin进行attack，其基本思想是构造如下的两个chunk：</p>
+
+<pre><code class="language-c">chunk_1 = malloc(0x68);
+chunk_2 = malloc(0x68);</code></pre>
+<br>
+
+<p>并将其按如下方式释放：</p>
+
+<pre><code class="language-c">free(chunk_1);    // Step 1
+free(chunk_2);    // Step 2
+free(chunk_1);    // Step 3</code></pre>
+<br>
+
+<p>根据glibc 2.23中free的逻辑<comment>（malloc.c，3928~3948）</comment>，fastbin中的情况如下：</p>
+
+<pre><code class="language-text">// Step 1
+      
++-----------+
+|           |
+|  chunk_1  +------> NULL
+|           |
++-----------+
+
+// Step 2
+      
++-----------+        +-----------+
+|           |        |           |
+|  chunk_2  +------> +  chunk_1  +------> NULL
+|           |        |           |
++-----------+        +-----------+
+
+// Step 3
++--------------------------------------------+
+|                                            |
+|    +-----------+        +-----------+      |
+|    |           |        |           |      |
++--> +  chunk_1  +------> +  chunk_2  +------+
+     |           |        |           |
+     +-----------+        +-----------+</code></pre>
+<br>
+
+<p>对于被放入fastbin中的chunk，程序并不会将下一个chunk的PREV_INUSE位置0，因此将同一个符合fastbin大小的chunk释放两次并不会出现<code>double free or corruption (!prev)</code>的错误<comment>（malloc.c，3984~3989）</comment>。</p>
+
+<p>调用<code>malloc</code>来重新取用<code>chunk_1</code>：<comment>（malloc.c，3362~3395）</comment></p>
+
+<pre><code class="language-c">chunk_3 = malloc(0x68);    // chunk_1</code></pre>
+<br>
+
+<p>修改<code>chunk_3</code>的内容即可让fastbin的尾节点指向任意地址，再执行</p>
+<pre><code class="language-c">chunk_4 = malloc(0x68);
+chunk = malloc(0x68);</code></pre>
+<br>
+
+<p>修改<code>chunk</code>即可实现任意地址写（arbitrary writing）。</p>
+<br>
+
+<p>然而，对于本题而言，修改chunk是做不到的，我们只能通过反复地<code>malloc</code>与<code>free</code>来利用漏洞。</p>
+
 
 
 

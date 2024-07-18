@@ -10,6 +10,8 @@ body {
 	user-select: none;
 	-webkit-user-select: none;
 	letter-spacing: 2px;
+	padding-left: 1em;
+	padding-right: 1em;
 }
 
 .center {
@@ -127,6 +129,7 @@ li[no-marker] {
 
 p {
 	text-indent: 2em;
+	line-height: 1.5em;
 }
 
 .astrageldon {

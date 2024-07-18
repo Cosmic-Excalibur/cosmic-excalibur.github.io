@@ -22,7 +22,7 @@ data = lambda: {
 			<li>Algorithms</li>
 			<li>Artificial Intelligence🤖</li>
 			<li>Memes</li>
-			<li>Pixel games <comment>(like Minecraft, Terraria, Undertale...)</comment></li>
+			<li>Pixel games <comment>(like Minecraft, Terraria, Undertale, Omori...)</comment></li>
 			<li>Electronic Dance Music🎶 <comment>(separate out some subgenres (or not) :p)</comment><ul><details>
 				<summary></summary>
 				<li>Mainstream Hardcore</li>
@@ -61,6 +61,9 @@ data = lambda: {
 			<li>Supernaturality</li>
 			<li>Cthulhu</li>
 			<li>Physics</li>
+            <li>Psychology</li>
+            <li>Fundamentals of a complicated system</li>
+            <li>Politics</li>
 			<li no-marker>... <comment>(thinking...)</comment></li>
 		</details></ul>
 		<br>
