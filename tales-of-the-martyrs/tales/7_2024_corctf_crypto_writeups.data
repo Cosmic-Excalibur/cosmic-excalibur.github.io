@@ -1,0 +1,168 @@
+<div class="main">
+
+<p>27~28号打的，就看了两个题。</p>
+<div class="center">
+	<img src="__ASSETS__/1.jpg" alt="zzz" width=200></img>
+</div>
+<br>
+
+<ul class="section"><li>
+roots
+</li></ul>
+
+<p>附件：</p>
+<ul>
+	<li><a href="__ASSETS__/root.zip">roots.zip</a></li>
+</ul>
+<br>
+
+<p>关键部分是这里</p>
+<pre><code class='language-python'>sum(a * Decimal(p).sqrt() for a, p in zip(otp(data), key))</code></pre>
+<br>
+
+<p><code>Decimal</code>的精度是2024个十进制位的有效数字，我们可以将输出中的小数都乘以10的某个幂次——比如\(10^{2004}\)——来让其变成整数，从而将问题转化为整环上的方程组问题：</p>
+\[
+\begin{aligned}
+K_{11}\cdot X_1+K_{12}\cdot X_2+K_{13}\cdot X_3+\varepsilon_1&=C_1\\
+K_{21}\cdot X_1+K_{22}\cdot X_2+K_{23}\cdot X_3+\varepsilon_2&=C_2\\
+K_{31}\cdot X_1+K_{32}\cdot X_2+K_{33}\cdot X_3+\varepsilon_3&=C_3\\
+K_{41}\cdot X_1+K_{42}\cdot X_2+K_{43}\cdot X_3+\varepsilon_4&=C_4\\
+\end{aligned}
+\]
+
+<p>其中\(C_1,C_2,C_3,C_4\)是输出乘以\(10^{2004}\)以后得到的结果（整数），观察发现，\(X_1,X_2,X_3\)相当于我们加密用的key，并且相对于OTP过程中使用的key \(K_{ij}\)以及误差 \(\varepsilon_i\)来说都非常地巨大。</p>
+<p>回忆ACD问题（Approximate Common Divisor Problem）的解法<comment>（见<a underlined href="https://eprint.iacr.org/2016/215.pdf">Algorithms for the Approximate Common Divisor Problem</a>）</comment>，类似地，我们可以尝试构造一个格将上述方程组中巨大的\(X_i\)给消除掉：</p>
+\[
+L_1=\begin{pmatrix}
+C_1 & 1 &&&\\
+C_2 && 1 &&\\
+C_3 &&& 1 &\\
+C_4 &&&& 1\\
+\end{pmatrix}
+\]
+
+<p>\(L_1\)中的格点有短向量</p>
+\[
+\vec{v}_1 = \begin{pmatrix}\vec{a}\cdot\vec{\varepsilon} & \vert & \vec{a}\end{pmatrix}
+\]
+
+<p>其中</p>
+\[
+\vec{a}\in\text{ker}(K)=K^{\perp}\subset\mathbb{Z}^4,\qquad \vec{\varepsilon}=\begin{pmatrix}\varepsilon_1 & \varepsilon_2 & \varepsilon_3 & \varepsilon_4\end{pmatrix}
+\]
+
+<p>对\(L_1\)进行格基规约以后可以得到三个不同的\(\vec{a}\in\text{ker}(K)\)向量。</p>
+
+<p>显然，三组OTP key \((K_{1i},K_{2i},K_{3i},K_{4i}),\ i=1,2,3\) 均在\((K^{\perp})^{\perp}\)中，我们需要另造一个格\(L_2\)，用来从中筛选出我们需要的向量，而\(L_2\)刚好可以由我们从\(L_1\)中获得的三个\(\vec{a}\)向量组成。</p>
+\[
+	L_2=\begin{pmatrix}
+		\vec{a}_1\\
+		\vec{a}_2\\
+		\vec{a}_3\\
+	\end{pmatrix}
+\]
+
+<p>实际计算的过程中可以发现，\(L_2\)的最短向量中各项的比特位数在62左右，而我们的目标向量中各项的比特位数不超过64，这也就是说，\(L_2\)中数量级在在64比特位以内的格点不会太密集，这是一个好消息，因为我们可以通过解决\(L_2\)的最近向量问题来找到许多个符合比特位数要求的格点，然后三三计算各分量的异或，这个异或值可以作为判断这三个格点是否是OTP key的依据。</p>
+
+<p>可以使用Kannan CVP算法来求解非方阵格基的CVP问题<comment>（见<a underlined href="https://arxiv.org/pdf/0705.0965">Improved Analysis of Kannan's Shortest Lattice Vector Algorithm</a>或者<a underlined href="https://www.math.auckland.ac.nz/~sgal018/crypto-book/ch18.pdf">Algorithms for the Closest and Shortest Vector Problems</a>）</comment>。</p>
+
+<pre><code class="language-python">#https://github.com/maple3142/lll_cvp
+def kannan_cvp(mat, target, reduction=(lambda x: x.LLL()), weight=None):
+    if weight is None:
+        weight = max(target)
+    L = block_matrix([[mat, 0], [-matrix(target), weight]])
+    for row in reduction(L):
+        if row[-1] < 0:
+            row = -row
+        if row[-1] == weight:
+            return row[:-1] + target</code></pre>
+
+<p>我们可以让目标向量遍历\(2^{n_1-1},2^{n_2-1},2^{n_3-1},2^{n_4-1}\)与\(2^{n_1},2^{n_2},2^{n_3},2^{n_4}\)的中心位置（\(n_i\in\{64,63,\cdots,59\}\)），将得到的不同向量存储下来作为候选值，最后三三检测是否满足要求即可。</p>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text">corctf{I'm_r00t1ng_f0R_U!!!!!!!}</code></pre>
+<br>
+<p>Proof of Concept：</p>
+<ul>
+	<li><a href="__ASSETS__/sol_roots.sage">sol_roots.sage</a></li>
+</ul>
+<br><br>
+
+<ul class="section"><li>
+two-wrongs
+</li></ul>
+
+<p>附件：</p>
+<ul>
+	<li><a href="__ASSETS__/two-wrongs.zip">two-wrongs.zip</a></li>
+</ul>
+<br>
+
+<p>オーマイゴッド、Quantum Circuitだ！（momoi音）</p>
+<div class="center">
+	<img src="__ASSETS__/2.gif" alt="omg" width=200></img>
+</div>
+
+<p>得研究量子线路，这里我只关注了一个量子逻辑门——CNOT（Controlled NOT）。CNOT本质上是对两个量子位的一个酉变换：</p>
+\[
+	\text{CNOT}=\begin{pmatrix}
+	1 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0\\
+	0 & 0 & 0 & 1\\
+	0 & 0 & 1 & 0\\
+	\end{pmatrix}
+\]
+\[
+	\text{CNOT}\left(a\left\vert 00\right\rangle+b\left\vert 01\right\rangle+c\left\vert 10\right\rangle+d\left\vert 11\right\rangle\right)=\begin{pmatrix}
+	1 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0\\
+	0 & 0 & 0 & 1\\
+	0 & 0 & 1 & 0\\
+	\end{pmatrix}
+	\begin{pmatrix}
+	a\\
+	b\\
+	c\\
+	d\\
+	\end{pmatrix}=\begin{pmatrix}
+	a\\
+	b\\
+	d\\
+	c\\
+	\end{pmatrix}=a\left\vert 00\right\rangle+b\left\vert 01\right\rangle+d\left\vert 10\right\rangle+c\left\vert 11\right\rangle
+	
+	
+\]
+
+<p>对于目标的两个量子位而言，它相当于一个受控的异或：</p>
+
+<div class="center">
+	<img src="__ASSETS__/3.png" alt="CNOT" width=200></img>
+</div>
+
+<p>CNOT相当于一个受控的Pauli-X矩阵诱导的变换，其在Qiskit中的符号为<code>cx</code>，以上图为例，上述接线方法被记为<code>cx(x,y)</code>。此外，它还有两个兄弟——<code>cy</code>与<code>cz</code>。Pauli-X、Pauli-Y、Pauli-Z矩阵作为\(\text{SL}_2(\mathbb{C})/\{\pm 1\}\)上的元素阶均为2，可以猜到<code>cy</code>与<code>cz</code>也具有类似的功能。</p>
+<p>让我们回到本题中来，只分析代码中含有<code>cx</code>的部分，可以看出，<code>main</code>寄存器中第6个Qubit携带了待解密比特的信息，它应当被接入到<code>res</code>寄存器中，此外，还应将Qubit 1、Qubit 2分别与<code>res</code>相接从而与Qubit 6再次异或，这样，在没有其他干扰的情况下我们的<code>res</code>携带了正确的比特信息。</p>
+
+<p>接下来考虑线路中其他的干扰对Qubit 6的影响，我们可以将该系统剩余的部分视作一个黑盒子，始终按照上述方式接线并观察输出与<code>sensor_val</code>之间的关系，可以发现，当<code>sensor_val</code>的比特位组合为如下三种情况时，目标字节中对应位置处原本正确的比特位会被翻转，否则不翻转。</p>
+<pre><code class="language-text">110 000 -> flip
+010 000 -> flip
+100 000 -> flip
+others  -> hold</code></pre>
+
+<p>此外，前三比特与后三比特不同时不全为0，因此即便我们将每个<code>sensor_val</code>的后三比特位给mask掉，我们也能判断目标比特是否会被翻转，据此便可尝试与靶机交互。</p>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text">corctf{c0rr3ct_CORr3Ct!nG_9aenq}</code></pre>
+<br>
+<p>Proof of Concept：</p>
+<ul>
+	<li><a href="__ASSETS__/exp_twowrongs.py">exp_twowrongs.py</a></li>
+</ul>
+<br><br>
+
+
+
+</div>
+<br><br><br><br><br><br>
