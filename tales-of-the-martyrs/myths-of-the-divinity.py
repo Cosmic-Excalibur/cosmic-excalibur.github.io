@@ -5,7 +5,7 @@ data = lambda: {
         __CONTENT__: r"""
 	<div class="main">
 		<p>Welcome to <span class="astrageldon">Astrageldon</span>'s blog site😜</p>
-        <p>It is strongly recommended to visit this site on a PC rather than a mobile phone.</p>
+        <p>It is strongly recommended to visit this site on a PC rather than on a mobile phone.</p>
 		<br>
 		
 		<ul class="section"><li>
