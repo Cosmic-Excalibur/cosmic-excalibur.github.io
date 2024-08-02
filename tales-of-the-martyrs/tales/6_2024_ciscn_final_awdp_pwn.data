@@ -1,0 +1,29 @@
+<div class="main">
+
+<p>众所周知，写Pwn题的解题思路是一个很麻烦的事情，所以在这里只记录exp 😜</p>
+<br>
+
+<p>ezheap</p>
+<ul>
+	<li><a href="__ASSETS__/ezheap_9397684ef66bf7adc261387f3f1d7654.zip">ezheap_9397684ef66bf7adc261387f3f1d7654.zip</a></li>
+	<li><a href="__ASSETS__/exp_ezheap.py">exp_ezheap.py</a></li>
+</ul>
+<br>
+
+<p>anime</p>
+<ul>
+	<li><a href="__ASSETS__/anime_66a263c1bf97ffad987da7340a879abd.zip">anime_66a263c1bf97ffad987da7340a879abd.zip</a></li>
+	<li><a href="__ASSETS__/exp_anime.py">exp_anime.py</a></li>
+</ul>
+<br>
+
+<p>CHR</p>
+<ul>
+	<li><a href="__ASSETS__/CHR_ca9758a92b53c63860ba52270f657d0e.zipp">CHR_ca9758a92b53c63860ba52270f657d0e.zip</a></li>
+	<li><a href="__ASSETS__/exp_CHR.py">exp_CHR.py</a></li>
+</ul>
+<br>
+
+
+</div>
+<br><br><br><br><br><br>

@@ -1,4 +1,4 @@
-import os
+import os, re
 
 workdir = ".."
 __TITLE__ = '!@#$%__TITLE__%$#@!'
@@ -7,7 +7,7 @@ __CONTENT__ = '!@#$%__CONTENT__%$#@!'
 __LIMITED_EXPERTISE__ = '__LIMITED_EXPERTISE__'
 __ASSETS__ = '__ASSETS__'
 
-TEXT__LIMITED_EXPERTISE__ = r"""<div class="center"><p><comment>Note: The author's limited expertise in current topic may result in unclear or potentially erroneous articulations.</comment></p></div><br><br>"""
+VAL__LIMITED_EXPERTISE__ = r"""<div class="center"><p><comment>Note: The author's limited expertise in current topic may result in unclear or potentially erroneous articulations.</comment></p></div><br><br>"""
 
 const_names = {
     '__TITLE__': __TITLE__,
@@ -19,7 +19,7 @@ const_names = {
 
 def const_values(index):
     return {
-        __LIMITED_EXPERTISE__: TEXT__LIMITED_EXPERTISE__,
+        __LIMITED_EXPERTISE__: VAL__LIMITED_EXPERTISE__,
         __ASSETS__: '/tales-of-the-martyrs/tales/oracle-of-namagiri/%s' % index if index else ''
     }
 
@@ -59,7 +59,8 @@ template = read('template.html', encoding = 'utf-8')
 disallow = [
     '_template',
     'spirit-of-mathematics',
-    'spirit-of-codes'
+    'spirit-of-codes',
+    'oracle-of-namagiri'
 ]
 
 for i, j, k in os.walk(".."):

@@ -31,7 +31,7 @@ data = lambda: dict([
         __CONTENT__: "<br>\n".join(
                 r"""<hr>
                 <div style="margin-left:2em">
-                    <h2><a href="%s">%s</a></h2>
+                    <h2><a class="noafter" href="%s">%s</a></h2>
                     <span style="color:gray">Tags: <span style="color:blue"><b>%s</b></span></span>
                     <br><br>
                     <div class="time"></div><span><span style="color:gray">Time: </span><b>%s</b></span>

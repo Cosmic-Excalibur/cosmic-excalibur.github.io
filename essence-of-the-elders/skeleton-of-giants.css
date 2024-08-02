@@ -37,6 +37,10 @@ a {
 	cursor: pointer;
 }
 
+a:not(.noafter)::after {
+	content: "🔗";
+}
+
 a:hover {
 	color: red;
 }
