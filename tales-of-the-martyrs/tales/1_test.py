@@ -31,9 +31,9 @@ data = lambda: {
             <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <p>Doro!!!</p><br>
             <div class="center">
-            <img src="/tales-of-the-martyrs/tales/oracle-of-namagari/1/1.gif"></img>
+            <img src="__ASSETS__/1.gif" alt="doro!"></img>
             <br><br>
-            <img width=600 src="/tales-of-the-martyrs/tales/oracle-of-namagari/1/2.gif"></img>
+            <img width=600 src="__ASSETS__/2.gif" alt="doro!"></img>
             </div>
         </div>
         

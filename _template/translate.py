@@ -4,7 +4,8 @@ workdir = ".."
 __TITLE__ = '!@#$%__TITLE__%$#@!'
 __HTML_TITLE__ = '!@#$%__HTML_TITLE__%$#@!'
 __CONTENT__ = '!@#$%__CONTENT__%$#@!'
-__LIMITED_EXPERTISE__ = '!@#$%__LIMITED_EXPERTISE__%$#@!'
+__LIMITED_EXPERTISE__ = '__LIMITED_EXPERTISE__'
+__ASSETS__ = '__ASSETS__'
 
 TEXT__LIMITED_EXPERTISE__ = r"""<div class="center"><p><comment>Note: The author's limited expertise in current topic may result in unclear or potentially erroneous articulations.</comment></p></div><br><br>"""
 
@@ -12,12 +13,15 @@ const_names = {
     '__TITLE__': __TITLE__,
     '__HTML_TITLE__': __HTML_TITLE__,
     '__CONTENT__': __CONTENT__,
-    '__LIMITED_EXPERTISE__': __LIMITED_EXPERTISE__
+    '__LIMITED_EXPERTISE__': __LIMITED_EXPERTISE__,
+    '__ASSETS__': __ASSETS__
 }
 
-const_values = {
-    __LIMITED_EXPERTISE__: TEXT__LIMITED_EXPERTISE__
-}
+def const_values(index):
+    return {
+        __LIMITED_EXPERTISE__: TEXT__LIMITED_EXPERTISE__,
+        __ASSETS__: '/tales-of-the-martyrs/tales/oracle-of-namagiri/%s' % index if index else ''
+    }
 
 class Attrs:
     def __init__(self):
@@ -71,6 +75,7 @@ for i, j, k in os.walk(".."):
         stem = '\\'.join(path.split('\\')[:-1])
         name = '.'.join(path.split('\\')[-1].split('.')[:-1])
         if path.endswith(".py"):
+            index = int(name.split('_')[0]) if 'tales' in check else None
             obj = import2(path, encoding = 'utf-8')
             data = obj.data()
             info_ = 0
@@ -84,7 +89,7 @@ for i, j, k in os.walk(".."):
                         value0.update({__HTML_TITLE__: info_.title})
                     value0[__CONTENT__] += r"""<br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>%s</b></span></p>
                     <p><div class="time"></div><span style="color:gray">Time: </span><b>%s</b></p><br><br><br><br><br><br>""" % ('</b></span><span color="gray">, </span><span style="color:blue"><b>'.join('#%s' % tag for tag in info_.tags), info_.time)
-                value0.update(const_values)
+                value0.update(const_values(index))
                 new_path = os.path.join(stem, key0.replace('*', name))
                 info("Processing:", stress(new_path))
                 html = template
