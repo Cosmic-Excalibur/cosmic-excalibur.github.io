@@ -13,7 +13,7 @@ data = lambda: {
         
         <div class="main">
             <p>This is a test by <span class="astrageldon">Astrageldon</span>!</p>
-            <p>And below is the Maxwell equations in their differential form:</p><br>
+            <p>And below are the Maxwell's equations in their differential form:</p><br>
             <p>
             \[
             \newcommand{\bs}{\boldsymbol}

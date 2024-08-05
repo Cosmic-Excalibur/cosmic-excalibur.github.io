@@ -12,7 +12,7 @@ roots
 
 <p>附件：</p>
 <ul>
-	<li><a href="__ASSETS__/root.zip">roots.zip</a></li>
+	<li><a underlined href="__ASSETS__/root.zip">roots.zip</a></li>
 </ul>
 <br>
 
@@ -85,7 +85,7 @@ def kannan_cvp(mat, target, reduction=(lambda x: x.LLL()), weight=None):
 <br>
 <p>Proof of Concept：</p>
 <ul>
-	<li><a href="__ASSETS__/sol_roots.sage">sol_roots.sage</a></li>
+	<li><a underlined href="__ASSETS__/sol_roots.sage">sol_roots.sage</a></li>
 </ul>
 <br><br>
 
@@ -95,11 +95,11 @@ two-wrongs
 
 <p>附件：</p>
 <ul>
-	<li><a href="__ASSETS__/two-wrongs.zip">two-wrongs.zip</a></li>
+	<li><a underlined href="__ASSETS__/two-wrongs.zip">two-wrongs.zip</a></li>
 </ul>
 <br>
 
-<p>オーマイゴッド、Quantum Circuitだ！（momoi音）</p>
+<p>オーマイガー、Quantum Circuit！（momoi音）</p>
 <div class="center">
 	<img src="__ASSETS__/2.gif" alt="omg" width=200></img>
 </div>
@@ -158,7 +158,7 @@ others  -> hold</code></pre>
 <br>
 <p>Proof of Concept：</p>
 <ul>
-	<li><a href="__ASSETS__/exp_twowrongs.py">exp_twowrongs.py</a></li>
+	<li><a underlined href="__ASSETS__/exp_twowrongs.py">exp_twowrongs.py</a></li>
 </ul>
 <br><br>
 
