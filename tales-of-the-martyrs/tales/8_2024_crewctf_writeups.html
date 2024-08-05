@@ -431,7 +431,201 @@ Reverse - HTML - 1
 </ul>
 <br>
 
+<p>本题显然不是正经的HTML（HyperText Markup Language），事实上，根据<a href="https://html-lang.org/" underlined>html-lang.org</a>的介绍：</p>
+<div class="center">
+<img width="600" src="/tales-of-the-martyrs/tales/oracle-of-namagiri/8/4.png" alt="HTML, The Programming Language (html-lang.org)"></img>
+<br><br>
+<comment>HTML, The Programming Language (html-lang.org)</comment>
+</div>
+<br>
 
+<p>这里的HTML指的是一种面向堆栈的编程语言，代码中的每一种标签都代表了一种栈操作（详见<a href="https://html-lang.org/" underlined>html-lang.org</a>），我们的任务则是分析出这个程序的逻辑以找到判断密码是否正确的逻辑。首先程序在<code>&lt;main&gt;</code>中定义了几个函数：</p>
+<ul>
+<li><code>l(c)</code>：相当于
+<pre><code class="language-javascript">function l(c) {
+    let e = document.createElement("p");
+    let r = e;
+    if (c) {
+        r = c;
+        e.appendChild(c);
+        return r;
+    }
+    r = document.body.appendChild(e);
+    return r;
+}
+</code></pre>
+<p>所以应该没啥用。</p></li>
+<li><code>w(a, b)</code>：相当于乘方 - <code>pow(base, exp)</code></li>
+<li><code>x(a, b)</code>：相当于异或 - <code>xor(a, b)</code></li>
+<li><code>m(a, b)</code>：相当于取模 - <code>mod(n, m)</code></li>
+<li><code>r(z, o)</code>：相当于特殊的RC4加密（解密？） - <code>rc4(key, pt)</code></li>
+<li><code>y()</code>：与<code>button#j</code>的<code>onclick</code>绑定了，验证密码是否正确的逻辑就在这个函数中。</li>
+</ul>
+
+<p>Level 1中只需要知道这么多就够了，接下来遇到的一个问题是<code>y()</code>中验证部分的代码量略大，我们可以<s>将翻译这部分代码的工作交给人工组来完成</s>按照HTML编程语言的逻辑，编写一个以压栈与弹栈为基础的解释器来翻译这些代码，并将途中用到的操作以表达式的形式储存下来。完成了翻译的工作以后，由于表达式是涉及到加法、乘法与异或的等式方程组，因此交由<a href="https://github.com/Z3Prover/z3" underlined>Z3</a>来完成即可。此外，可以使用<a href="https://beautifulsoup.readthedocs.io/zh-cn/v4.4.0/" underlined>BeautifulSoup</a>提取出HTML代码中的标签，遍历这些标签并挨个解析为对应的栈操作即可。</p>
+<br>
+
+<pre><code class="language-python">html_doc =    # ...
+
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(html_doc, 'html.parser')
+
+queue = []
+ops = []
+stack = []
+
+for child in soup.select("code > *"):
+    if child.name == 'a':
+        queue.extend(list(child.children))
+    queue.append(child)
+
+for child in queue:
+    if child.name == 'data':
+        ops.append('data %s' % child['value'])
+    elif child.name == 'cite':
+        assert child.text == 'p'
+        ops.append('p')
+    elif child.name == 'a':
+        if child['href'] == 'javascript:x()':
+            ops.append('xor')
+        else:
+            raise TypeError("Invalid function name: \"%s\"" % child['href'])
+    elif child.name == 'address':
+        ops.append('address')
+    elif child.name == 'ul':
+        ops.append('multiply')
+    elif child.name == 'dd':
+        ops.append('add')
+    elif child.name == 'sub':
+        ops.append('subtract')
+    elif child.name == 'em':
+        ops.append('equal')
+    elif child.name == 'b':
+        ops.append('and')
+    else:
+        raise TypeError("Invalid operation name: \"%s\"" % child.name)
+
+ops = ops[::-1]
+while ops:
+    op = ops.pop()
+    if op.startswith('data'):
+        stack.append(int(op.split('data ')[1]))
+    elif op == 'p':
+        stack.append('p')
+    elif op == 'xor':
+        a = stack.pop()
+        b = stack.pop()
+        if 'p' in str(a) or 'p' in str(b):
+            stack.append('(%s ^ %s)' % (b, a))
+        else:
+            stack.append(b ^ a)
+    elif op == 'address':
+        a = stack.pop()
+        b = stack.pop()
+        assert b == 'p'
+        assert not 'p' in str(a)
+        stack.append('p%s' % a)
+    elif op == 'multiply':
+        a = stack.pop()
+        b = stack.pop()
+        if 'p' in str(a) or 'p' in str(b):
+            stack.append('(%s * %s)' % (b, a))
+        else:
+            stack.append(b * a)
+    elif op == 'add':
+        a = stack.pop()
+        b = stack.pop()
+        if 'p' in str(a) or 'p' in str(b):
+            stack.append('(%s + %s)' % (b, a))
+        else:
+            stack.append(b + a)
+    elif op == 'subtract':
+        a = stack.pop()
+        b = stack.pop()
+        if 'p' in str(a) or 'p' in str(b):
+            stack.append('(%s - %s)' % (b, a))
+        else:
+            stack.append(b - a)
+    elif op == 'equal':
+        a = stack.pop()
+        b = stack.pop()
+        if 'p' in str(a) or 'p' in str(b):
+            stack.append('(%s == %s)' % (b, a))
+        else:
+            stack.append(int(b == a))
+    elif op == 'and':
+        a = stack.pop()
+        b = stack.pop()
+        if 'p' in str(a) or 'p' in str(b):
+            #stack.append('(%s and %s)' % (b, a))
+            stack.append('%s, %s' % (b, a))
+        else:
+            stack.append(int(bool(int(b) & int(a))))
+    else:
+        raise TypeError("Invalid operation name: \"%s\"" % child.name)
+
+assert len(stack) == 1
+expr = stack[0]
+expr = f'[{expr}]'
+
+from z3 import *
+
+p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15 = [BitVec(pp, 8) for pp in 'p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15'.split(',')]
+eqs = eval(expr)
+s = Solver()
+for eq in eqs:
+    s.add(eq)
+assert s.check() == sat
+model = s.model()
+print(bytes([int(str(model[pp])) for pp in [p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15]]))</code></pre>
+<br>
+
+<p>Password🔒：</p>
+<pre><code class="language-text" style="color: red">pWnBHiIp6vfoK6Y8</code></pre>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color: red">crew{w3lc0m3_t0_h7m1_3nj0y_th3_n3xt_l3v3l_9c6c1af9}</code></pre>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+	<li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/8/sol_html1.py">sol_html1.py</a></li>
+</ul>
+<br><br>
+
+<ul class="section"><li>
+<comment>(Not Solved)</comment> Reverse - HTML - 2
+</li></ul>
+
+<p>附件与HTML - 1是一样的，本题也是附件中所说的level 2，相比起level 1来新增了更多的函数以及变量，感觉做法应该是差不多的，懒得看了😴💤。</p>
+<br><br>
+
+<ul class="section"><li>
+<comment>(Not Solved)</comment> Crypto - Bigger and better
+</li></ul>
+
+<p>附件：</p>
+<ul>
+	<li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/8/bigger-and-better.zip">bigger-and-better.zip</a></li>
+</ul>
+<br>
+
+<p>多项式的系数非常地庞大，再者，各种生成随机数的函数都有个前缀<code>secrets</code>，让人很难不联想到这可能是一个与PRNG有关的问题，没详细研究了😴💤。</p>
+<br><br>
+
+<ul class="section"><li>
+<comment>(Not Solved)</comment> Crypto - Noisy Encryption
+</li></ul>
+
+<p>附件：</p>
+<ul>
+	<li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/8/noisy-encryption.zip">noisy-encryption.zip</a></li>
+</ul>
+<br>
+
+<p>这个肯定是PRNG的问题，但是没有详细研究😴💤。</p>
+<br><br>
 
 
 
