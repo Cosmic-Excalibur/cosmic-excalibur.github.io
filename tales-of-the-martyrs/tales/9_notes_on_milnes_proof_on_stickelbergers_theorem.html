@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>Notes on Milne's Proof on Stickelberger's Theorem</title>
+</head>
+<body>
+	<div class="center">
+		<h1>Notes on Milne's Proof on Stickelberger's Theorem</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="noafter back" title="Back"></a></li>
+			<li><a href="/" class="noafter home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="noafter forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	<div class="main">
+
+<p>本文讨论代数数论中的一个基本的定理——Stickelberger定理，并在<i><a href="https://www.jmilne.org/math/CourseNotes/ANT.pdf" underlined>J.S. Milne, Algebraic Number Theory</i></a>中Proposition 2.40 (b)的基础上补充一些细节。</p>
+<br>
+
+<p>基本表述：（Stickelberger定理）若\(K\)是代数数域（有理数域的代数扩张），那么</p>
+\[
+	\text{disc}(\mathcal{O}_K/\mathbb{Z})\equiv 0,1\pmod{4}
+\]
+<br>
+
+<p>证明：（J.S. Milne） 我们选取\(\mathcal{O}_K\)在\(\mathbb{Z}\)上的一组基底\(\alpha_1,\alpha,\cdots,\alpha_m\)，那么根据命题2.26：</p>
+\[
+	\begin{aligned}
+		\text{disc}(\mathcal{O}_K/\mathbb{Z}) &= D(1,\alpha,\cdots,\alpha_m)\\
+		&= \text{det}^2(\sigma_i\alpha_j)
+	\end{aligned}
+\]
+
+<p>将\(\text{det}(\sigma_i\alpha_j)\)中偶置换对应的和记作\(P\)，奇置换对应的和记作\(-N\)，那么</p>
+\[
+	\text{det}^2(\sigma_i\alpha_j)=(P-N)^2=(P+N)^2-4PN
+\]
+
+<p>设\(L\)是\(K\)在\(Q\)上的Galois闭包，任取\(\tau\in\text{Gal}(L/\mathbb{Q})\)，我们都有</p>
+\[
+	\tau P=P,\ \tau N=N\quad\text{ or }\quad \tau P=N,\ \tau N=P
+	\tag{1}\label{1}
+\]
+
+<p>于是\(P+N,PN\in\mathbb{Q}\)，又由于它们在\(\mathbb{Z}\)上是代数整数<comment id="tag2">(2)</comment>，于是它们都是整数，从而</p>
+\[
+	\text{disc}(\mathcal{O}_K/\mathbb{Z})\equiv (P+N)^2\equiv 0,1\pmod{4}
+\]
+<br>
+
+<p>本文剩余的部分给出该证明的两个附注。</p>
+
+<p>\eqref{1}：Milne在此处并未详细解释这两种情况是如何得出的。事实上，对于\(\text{Gal}(L/\mathbb{Q})\)中的元素\(\tau\)，</p>
+\[
+	\tau\circ\sigma_i=\sigma_{\tilde\tau(i)}
+\]
+
+<p>也即\(\sigma_i\)与\(\tau\)的复合相当于\(\{\sigma_1,\cdots,\sigma_m\}\)上的一个置换，这是因为，若\(\mathcal{O}_K=\mathbb{Z}[\alpha]\)，设\(\alpha\)的极小多项式为\(f\)，则</p>
+\[
+	\tau(\sigma_i(\alpha))=\tau(\alpha_i)
+\]
+
+<p>然而，</p>
+\[
+	f(\tau(\alpha_i))=\tau(f(\alpha_i))=0
+\]
+
+<p>于是，</p>
+\[
+	\tau(\alpha_i)=\alpha_{\tilde\tau(i)}
+\]
+
+<p>由于\(\tau\)是一种同构\(L\rightarrow L\)，故它是单射，从而\(\tilde\tau\)也是单射。</p>
+
+<p>我们以\(\tau P\)为例，将\(P\)展开：</p>
+\[
+	\begin{aligned}
+		P &= \sum\limits_{\pi\in A_m}(-1)^{\text{inv}(\pi)}\prod\limits_{i=1}^m\sigma_{\pi(i)}\alpha_i\\
+		&= \sum\limits_{\pi\in A_m}\prod\limits_{i=1}^m\sigma_{\pi(i)}\alpha_i
+	\end{aligned}
+\]
+
+<p>类似地，</p>
+\[
+	\begin{aligned}
+		-N &= -\sum\limits_{\pi\notin A_m}\prod\limits_{i=1}^m\sigma_{\pi(i)}\alpha_i
+	\end{aligned}
+\]
+
+<p>其中\(A_m\)是交错群，它由对称群\(S_m\)中的偶置换构成。于是我们有</p>
+\[
+	\begin{aligned}
+		\tau P &= \sum\limits_{\pi\in A_m}\prod\limits_{i=1}^m\tau\circ\sigma_{\pi(i)}\alpha_i\\
+		&=\sum\limits_{\pi\in A_m}\prod\limits_{i=1}^m\sigma_{\tilde\tau(\pi(i))}\alpha_i\\
+		&=\sum\limits_{\pi\in \tilde\tau A_m}\prod\limits_{i=1}^m\sigma_{\pi(i)}\alpha_i\\
+	\end{aligned}
+\]
+
+<p>上式在\(\tau\)是\(\{\sigma_1,\cdots,\sigma_m\}\)上偶置换时化为</p>
+\[
+	\begin{aligned}
+		\tau P &= \sum\limits_{\pi\in A_m}\prod\limits_{i=1}^m\sigma_{\pi(i)}\alpha_i\\
+		&= P
+	\end{aligned}
+\]
+
+<p>当它是奇置换时，</p>
+\[
+	\begin{aligned}
+		\tau P &= \sum\limits_{\pi\notin A_m}\prod\limits_{i=1}^m\sigma_{\pi(i)}\alpha_i\\
+		&= N
+	\end{aligned}
+\]
+
+<p>通过类似的计算也可以得到</p>
+\[
+	\tau N=N \text{ or } \tau N=P
+\]
+
+<p>分别在\(\tau\)为偶置换和奇置换时成立。</p>
+<br>
+
+<p><a href="#tag2">(2)</a>：这是因为，首先，\(\sigma_i\alpha_j\)都是\(K\)上的代数整数，于是根据\(P,N\)的构造，\(P+N,PN\)也是\(K\)上的代数整数，又因为\(P+N,PN\in\mathbb{Q}\)，因此它们是\(\mathbb{Q}\)上的代数整数，即\(P+N,PN\in\mathbb{Z}\)。</p>
+
+
+
+
+</div>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#AlgebraicNumberTheory</b></span></p>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-08-06 00:16</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            },
+			SVG: { linebreaks: {automatic: true } }
+        });
+        //window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+	</script>
+	<script src="/essence-of-the-elders/spirit-of-codes/prism.js"></script>
+</body>
+</html>

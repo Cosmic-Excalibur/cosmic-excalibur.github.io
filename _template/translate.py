@@ -64,14 +64,14 @@ disallow = [
 ]
 
 for i, j, k in os.walk(".."):
+    check = i.split('\\')
+    flag = 0
+    for entry in disallow:
+        if entry in check:
+            flag = 1
+            break
+    if flag: continue
     for l in k:
-        check = i.split('\\')
-        flag = 0
-        for entry in disallow:
-            if entry in check:
-                flag = 1
-                break
-        if flag: continue
         path = os.path.join(i, l)
         stem = '\\'.join(path.split('\\')[:-1])
         name = '.'.join(path.split('\\')[-1].split('.')[:-1])
