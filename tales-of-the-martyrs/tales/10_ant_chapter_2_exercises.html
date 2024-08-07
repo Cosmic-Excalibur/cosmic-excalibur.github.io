@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>ANT Chapter 2 Exercises</title>
+</head>
+<body>
+	<div class="center">
+		<h1>ANT Chapter 2 Exercises</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="noafter back" title="Back"></a></li>
+			<li><a href="/" class="noafter home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="noafter forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	<div class="main">
+
+<p>本文讨论代数数论中的一些基础问题，同时它们也是<i><a href="https://www.jmilne.org/math/CourseNotes/ANT.pdf" underlined>J.S. Milne, Algebraic Number Theory</a></i>第二章末的练习题。</p>
+<br><br>
+
+<ul class="section"><li>
+Q1
+</li></ul>
+
+<p>2-1. \(\mathbb{Z}[\sqrt{5}]\)中的一些元素具有两种分解方式，举出一个例子。</p>
+<br>
+
+<p>首先通过计算说明\(\mathbb{Z}[\sqrt{5}]\)在\(K=\mathbb{Q}[\sqrt{5}]\)中不是整闭的。\(\mathbb{Z}[\sqrt{5}]\)的一组基为\(1,\sqrt{5}\)，我们计算\(\mathbb{Z}[\sqrt{5}]\)的判别式：</p>
+\[
+	\begin{aligned}
+		\text{disc}(\mathbb{Z}[\sqrt{5}]/\mathbb{Z}) &= \text{det}^2(\sigma_i\sqrt{5}^j)\\
+		&=\text{det}^2 \begin{pmatrix}
+			1 & \sqrt{5}\\
+			1 & -\sqrt{5}\\
+		\end{pmatrix}\\
+		&= 20\\
+		&= 2^2\cdot 5
+	\end{aligned}
+\]
+
+<p>我们考虑\(2^{-1}\mathbb{Z}[\sqrt{5}]/\mathbb{Z}[\sqrt{5}]\)中的元素</p>
+\[
+	\beta+\mathbb{Z}[\sqrt{5}] \in 2^{-1}\mathbb{Z}[\sqrt{5}]/\mathbb{Z}[\sqrt{5}]
+\]
+
+<p>对于每个陪集选取一个代表元。我们需要检验</p>
+\[
+	0,\frac{1}{2},\frac{\sqrt{5}}{2},\frac{1+\sqrt{5}}{2}
+\]
+
+<p>这\(\left(2^{-1}\mathbb{Z}[\sqrt{5}]:\mathbb{Z}[\sqrt{5}]\right)=2^2\)个元素是不是\(\mathbb{Q}[\sqrt{5}]\)上的代数整数。然而事实证明，\(0,\frac{1+\sqrt{5}}{2}\)都是\(\mathbb{Q}[\sqrt{5}]\)上的代数整数，因此\(\mathbb{Z}[\sqrt{5}]\subsetneqq\mathcal{O}_{K}\subsetneqq 2^{-1}\mathbb{Z}[\sqrt{5}]\)。</p>
+<p><comment>（事实上我们有：\(\mathcal{O}_K=\mathbb{Z}[\frac{1+\sqrt{5}}{2}]\)）</comment></p>
+<br>
+
+<p>于是，由于唯一分解整环一定是整闭的（\(\text{integrally closed domain}\supset\text{unique factorization domain}\)），\(\mathbb{Z}[\sqrt{5}]\)一定不是唯一分解整环。比如，我们取\(6\in\mathbb{Z}[\sqrt{5}]\)，它有两种分解方式：</p>
+\[
+	\begin{aligned}
+		6 &= 2\cdot 3\\
+		&= (1+\sqrt{5})(1-\sqrt{5})
+	\end{aligned}
+\]
+
+<p>现在设\(\alpha\in\mathbb{Z}[\sqrt{5}]\)，那么</p>
+\[
+	\text{Nm}_{\mathbb{Z}[\sqrt{5}]/\mathbb{Z}}(\alpha)=1\Leftrightarrow\alpha\bar\alpha=1\Leftrightarrow\alpha\text{ is a unit}
+\]
+
+<p>如果\(1+\sqrt{5}=\alpha\beta,\ \alpha,\beta\in\mathbb{Z}[\sqrt{5}]\)，那么由于\(\text{Nm}(\alpha)\text{Nm}(\beta)=\text{Nm}(1+\sqrt{5})=6\)，\(\text{Nm}(\alpha)=1,2,3,6\)，其中第二、三种情况不可能出现，而无论是第一种还是第四种情况，\(\alpha\)与\(\beta\)有且仅有一个是可逆元素（unit），于是\(1+\sqrt{5}\)是\(\mathbb{Z}[\sqrt{5}]\)上的不可约元素（irreducible element）。类似地可以证明\(2,3,1-\sqrt{5}\)都是不可约元素。</p>
+<br><br>
+
+<ul class="section"><li>
+Q2
+</li></ul>
+
+<p>2-2. 设\(A\)是整闭环，\(K\)是\(A\)的分式域，若首一多项式\(f(X)\in A[X]\)在\(K[X]\)上可约，证明\(f(X)\)在\(A[X]\)上也可约。</p>
+<br>
+
+<p>我们设\(f(X)\)可以分成若干个不可约多项式之积：</p>
+\[
+	f(X)=\prod\limits_i g_i(X),\quad g_i(X)\in K[X]
+\]
+
+<p>设\(\alpha\)是某个\(g_i(X)\)在\(K\)的某个代数扩张中的根，那么由于\(\alpha\)是\(f(X)\)的根，\(g_i(X)\)是\(\alpha\)在\(K\)上的极小多项式。而由于\(\alpha\)是\(f(X)\)的根，\(\alpha\)是\(A\)上的代数整数，于是\(g_i(X)\)的系数一定都在\(A\)中。</p>
+<br><br>
+
+<ul class="section"><li>
+Q3
+</li></ul>
+
+<p>2-3. 证明若代数扩张\(L/K\)不是可分扩张，那么\(\text{disc}(L/K)=0\)</p>
+<br>
+<p>我们知道，若\(K\subset L\subset M\)是一串域扩张，则<comment><s>（证明留做习题）</s></comment></p>
+\[
+	\text{disc}(M/K)=\text{disc}^{[M:L]}(L/K)\cdot\text{Nm}_{L/K}(\text{disc}(M/L))
+	\tag{1}\label{1}
+\]
+
+<p>我们还知道，\(L\)中的可分元素构成一个中间域\(L^s\)，于是根据\eqref{1}中的判别式链式法则，我们只需证明</p>
+\[
+	\text{disc}(L/L^s)=0
+	\tag{2}\label{2}
+\]
+
+<p>成立即可。我们设纯不可分扩张（purely inseparable extension）\(L/L^s\)的特征为\(p>0\)，我们从\(L\)中取\(\alpha_0\in L\backslash L^s\)，并选取最小的正整数\(r\)使得\(\alpha_0^{p^r}\in L^s\)，令\(\alpha=\alpha_0^{p^{r-1}}\)，则\(\alpha\notin L^s,\ \alpha^p\in L^s\)，于是我们可以进行一次\(p\)次代数扩域：</p>
+\[
+	L^s(\alpha)\supset L^s
+\]
+
+<p>我们可以按照上面的方法不断对\(L^s(\alpha)\)进行\(p\)次代数扩域直到其与\(L\)相同为止。因此，我们可以构造一串中间域</p>
+\[
+	L=L^s(\alpha_1,\cdots,\alpha_n)\supset L^s(\alpha_1,\cdots,\alpha_{n-1})\supset L^s(\alpha_1)\supset L^s(\alpha_1)\supset L^s
+\]
+
+<p>其中\(\alpha_i^p\in L^s(\alpha_1,\cdots,\alpha_{i-1})\)且\(\alpha_i\notin L^s(\alpha_1,\cdots,\alpha_{i-1})\)，\(i=1,\cdots,n\)。不妨考虑其中的一个域扩张</p>
+\[
+	L = L^s{'}(\alpha)
+\]
+
+<p>\(\alpha\)在\(L^s{'}\)上的极小多项式为\(f(X)=X^p-a\)，其中\(a\in L^s{'}\)，计算其判别式</p>
+\[
+	\begin{aligned}
+		\text{disc}(L/L^s{'})&=\text{disc}(f(X))\\
+		&=(-1)^{\frac{p(p-1)}{2}}\cdot\text{Nm}(f'(\alpha))\\
+		&=(-1)^{\frac{p(p-1)}{2}}\cdot\text{Nm}(p\cdot \alpha^{p-1})\\
+		&=0
+	\end{aligned}
+\]
+
+<p>仍然根据\eqref{1}处的链式法则，\eqref{2}成立。</p>
+<br><br>
+
+<ul class="section"><li>
+Q4
+</li></ul>
+
+
+
+
+</div>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#AlgebraicNumberTheory</b></span></p>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-08-07 18:49</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            },
+			SVG: { linebreaks: {automatic: true } }
+        });
+        //window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+	</script>
+	<script src="/essence-of-the-elders/spirit-of-codes/prism.js"></script>
+</body>
+</html>

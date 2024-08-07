@@ -71,6 +71,9 @@ for i, j, k in os.walk(".."):
             flag = 1
             break
     if flag: continue
+    if 'tales' in check:
+        k = [f for f in k if f.endswith('.py')]
+        k.sort(key = lambda x: int(x.split('_')[0]))
     for l in k:
         path = os.path.join(i, l)
         stem = '\\'.join(path.split('\\')[:-1])

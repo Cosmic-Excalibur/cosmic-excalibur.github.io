@@ -11,7 +11,7 @@ def parse_info(filename, info):
     time = info.time
     return (tales_web + '.'.join(filename.split('.')[:-1]) + '.html', title, '</b></span><span color="gray">, </span><span style="color:blue"><b>'.join('#%s' % tag for tag in tags), time)
 
-entries = reversed(sorted(os.listdir(tales)))
+entries = sorted([f for f in os.listdir(tales) if f.endswith('.py')], key = lambda x: -int(x.split('_')[0]))
 entries = [entry for entry in entries if entry.endswith('.py')]
 pages = len(entries) // interval + 1 if len(entries) % interval else len(entries) // interval
 
