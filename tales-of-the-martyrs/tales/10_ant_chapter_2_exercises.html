@@ -57,7 +57,7 @@ Q1
 <p><comment>（事实上我们有：\(\mathcal{O}_K=\mathbb{Z}[\frac{1+\sqrt{5}}{2}]\)）</comment></p>
 <br>
 
-<p>于是，由于唯一分解整环一定是整闭的（\(\text{integrally closed domain}\supset\text{unique factorization domain}\)），\(\mathbb{Z}[\sqrt{5}]\)一定不是唯一分解整环。比如，我们取\(6\in\mathbb{Z}[\sqrt{5}]\)，它有两种分解方式：</p>
+<p>于是，由于唯一分解整环一定是整闭的（\(\text{integrally closed domain}\supset\text{unique factorization domain，UFD}\)），\(\mathbb{Z}[\sqrt{5}]\)一定不是唯一分解整环。比如，我们取\(6\in\mathbb{Z}[\sqrt{5}]\)，它有两种分解方式：</p>
 \[
 	\begin{aligned}
 		6 &= 2\cdot 3\\
@@ -138,6 +138,90 @@ Q3
 Q4
 </li></ul>
 
+<p>2-4. 设\(\mathfrak{a}=(2,1+\sqrt{-3})\in\mathbb{Z}[\sqrt{-3}]\)，证明\(\mathfrak{a}\ne (2)\)但\(\mathfrak{a}^2=(2)\mathfrak{a}\)，也即\(\mathbb{Z}[\sqrt{-3}]\)中的理想不能唯一分解为素理想之积。</p>
+<br>
+
+<p>直接计算即可，由于</p>
+\[
+	2\nmid 1+\sqrt{-3}\Rightarrow (2)\nmid \mathfrak{a}
+\]
+
+<p>\(\mathfrak{a}\ne (2)\)，而</p>
+\[
+	\begin{aligned}
+		\mathfrak{a}^2&=(4,-2+2\sqrt{-3},2+2\sqrt{-3})\\
+		&=(4,2+2\sqrt{-3})\\
+		&=(2)(2,1+\sqrt{-3})\\
+		&=(2)\mathfrak{a}
+	\end{aligned}
+\]
+
+<p>得证。事实上，由于\(\mathfrak{a}\)不满足唯一分解的性质，\(\mathfrak{a}\)中的元素也不一定满足唯一分解的性质<comment><s>（证明留做习题）</s></comment>，从而\(\mathbb{Z}[\sqrt{-3}]\)不是UFD，于是\(\mathbb{Z}[\sqrt{-3}]\)在\(\mathbb{Q}[\sqrt{-3}]\)中不是整闭的。</p>
+<br><br>
+
+<ul class="section"><li>
+Q5
+</li></ul>
+
+<p>2-5. 设\(A,B\)都是环，\(A\subset B\)，\(\beta\)是\(B\)中的可逆元，证明\(A[\beta]\cap A[\beta^{-1}]\)中任意的元素\(\alpha\)都是\(A\)上的代数整数。</p>
+<br>
+
+<p>我们设</p>
+\[
+	\begin{aligned}
+		\alpha&=a_0+a_1\beta+\cdots+a_m\beta^m\\
+		\alpha&=b_0+b_1\beta^{-1}+\cdots+b_n\beta^{-n}\\
+	\end{aligned}
+\]
+
+
+<p>现在设\(M\)是\(B\)中由\(\{\beta^{-n},\cdots,1,\cdots,\beta^m\}\)生成的\(A\)-子模，那么不难验证</p>
+\[
+	\alpha\beta^i\in M,\quad i=-n,\cdots,1,\cdots,m
+\]
+
+<p>于是\(\alpha M\subset M\)，从而根据命题2.4知\(\alpha\)是\(A\)上的代数整数。</p>
+<br><br>
+
+<ul class="section"><li>
+Q6
+</li></ul>
+
+<p>2-6. 令\(K=\mathbb{Q}[\sqrt{7},\sqrt{10}]\)，设\(\alpha\)是\(K\)中的代数整数，那么</p>
+<ul>
+<li>(a) 已知
+\[
+	\begin{aligned}
+		\alpha_1&=(1+\sqrt{7})(1+\sqrt{10})\\
+		\alpha_2&=(1+\sqrt{7})(1-\sqrt{10})\\
+		\alpha_3&=(1-\sqrt{7})(1+\sqrt{10})\\
+		\alpha_4&=(1-\sqrt{7})(1-\sqrt{10})\\
+	\end{aligned}
+\]
+<p>都是代数整数，证明\(3\mid\alpha_i\alpha_j\in\mathcal{O}_K,\quad i\ne j\)，但是\(3\nmid\alpha_i^k,\quad \forall k\in\mathbb{N}\)。</p></li>
+<li>(b) 假设\(\mathcal{O}_K=\mathbb{Z}[\alpha]\)。设\(f(X)\)是\(\alpha\)在\(\mathbb{Q}\)上的极小多项式，对于\(g(X)\in\mathbb{Z}[X]\)，设\(g(X)\equiv\bar g(X)\pmod{3}\in\mathbb{F}_3[X]\)，证明
+\[
+	3\mid g(\alpha)\text{ in }\mathbb{Z}[\alpha]\quad\Leftrightarrow\quad \bar f\mid \bar g\text{ in }\mathbb{F}_3[X]
+\]</li>
+<li>(c) 设
+\[
+	\alpha_i=f_i(\alpha),\quad f_i\in\mathbb{Z}[X],\quad i=1,2,3,4
+\]
+<p>证明\(\bar f\mid \bar f_i\bar f_j,\quad i\ne j\)，并且\(\bar f\nmid \bar f_i^n,\quad \forall n\in\mathbb{N}\)。</p></li>
+<li>(d) 证明\(\bar f\)在\(\mathbb{F}_3\)中至少有四个不同的不可约因子，也即\(\text{deg} f\le\ 4\)。</li>
+</ul>
+<br>
+<p>最后，\((b)\)中的假设不成立，即\(\mathcal{O}_K\ne \mathbb{Z}[\alpha]\)。</p>
+<br>
+
+<p>证明：</p>
+<ul>
+<li>(a) 
+
+</li>
+</ul>
+
+</ul>
 
 
 
