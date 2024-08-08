@@ -32,6 +32,7 @@ Q1
 
 <p>首先通过计算说明\(\mathbb{Z}[\sqrt{5}]\)在\(K=\mathbb{Q}[\sqrt{5}]\)中不是整闭的。\(\mathbb{Z}[\sqrt{5}]\)的一组基为\(1,\sqrt{5}\)，我们计算\(\mathbb{Z}[\sqrt{5}]\)的判别式：</p>
 \[
+	\newcommand{\notimplies}{\;\not\!\!\!\implies}
 	\begin{aligned}
 		\text{disc}(\mathbb{Z}[\sqrt{5}]/\mathbb{Z}) &= \text{det}^2(\sigma_i\sqrt{5}^j)\\
 		&=\text{det}^2 \begin{pmatrix}
@@ -57,7 +58,7 @@ Q1
 <p><comment>（事实上我们有：\(\mathcal{O}_K=\mathbb{Z}[\frac{1+\sqrt{5}}{2}]\)）</comment></p>
 <br>
 
-<p>于是，由于唯一分解整环一定是整闭的（\(\text{integrally closed domain}\supset\text{unique factorization domain，UFD}\)），\(\mathbb{Z}[\sqrt{5}]\)一定不是唯一分解整环。比如，我们取\(6\in\mathbb{Z}[\sqrt{5}]\)，它有两种分解方式：</p>
+<p>于是，由于唯一分解整环一定是整闭的（\(\text{integrally closed domain}\supset\text{unique factorization domain，UFD = unique factorization domain}\)），\(\mathbb{Z}[\sqrt{5}]\)一定不是唯一分解整环。比如，我们取\(6\in\mathbb{Z}[\sqrt{5}]\)，它有两种分解方式：</p>
 \[
 	\begin{aligned}
 		6 &= 2\cdot 3\\
@@ -85,14 +86,14 @@ Q2
 	f(X)=\prod\limits_i g_i(X),\quad g_i(X)\in K[X]
 \]
 
-<p>设\(\alpha\)是某个\(g_i(X)\)在\(K\)的某个代数扩张中的根，那么由于\(\alpha\)是\(f(X)\)的根，\(g_i(X)\)是\(\alpha\)在\(K\)上的极小多项式。而由于\(\alpha\)是\(f(X)\)的根，\(\alpha\)是\(A\)上的代数整数，于是\(g_i(X)\)的系数一定都在\(A\)中。</p>
+<p>设\(\alpha\)是某个\(g_i(X)\)在\(K\)的某个扩张中的根，那么由于\(\alpha\)是\(f(X)\)的根，\(g_i(X)\)是\(\alpha\)在\(K\)上的极小多项式。而由于\(\alpha\)是\(f(X)\)的根，\(\alpha\)是\(A\)上的代数整数，于是\(g_i(X)\)的系数一定都在\(A\)中。</p>
 <br><br>
 
 <ul class="section"><li>
 Q3
 </li></ul>
 
-<p>2-3. 证明若代数扩张\(L/K\)不是可分扩张，那么\(\text{disc}(L/K)=0\)</p>
+<p>2-3. 证明若有限扩张\(L/K\)不是可分扩张，那么\(\text{disc}(L/K)=0\)</p>
 <br>
 <p>我们知道，若\(K\subset L\subset M\)是一串域扩张，则<comment><s>（证明留做习题）</s></comment></p>
 \[
@@ -143,7 +144,7 @@ Q4
 
 <p>直接计算即可，由于</p>
 \[
-	2\nmid 1+\sqrt{-3}\Rightarrow (2)\nmid \mathfrak{a}
+	2\nmid 1+\sqrt{-3}\implies (2)\nmid \mathfrak{a}
 \]
 
 <p>\(\mathfrak{a}\ne (2)\)，而</p>
@@ -187,7 +188,7 @@ Q5
 Q6
 </li></ul>
 
-<p>2-6. 令\(K=\mathbb{Q}[\sqrt{7},\sqrt{10}]\)，设\(\alpha\)是\(K\)中的代数整数，那么</p>
+<p>2-6. 令\(K=\mathbb{Q}[\sqrt{7},\sqrt{10}]\)，设\(\alpha\)是\(K\)中的代数整数。</p>
 <ul>
 <li>(a) 已知
 \[
@@ -198,7 +199,7 @@ Q6
 		\alpha_4&=(1-\sqrt{7})(1-\sqrt{10})\\
 	\end{aligned}
 \]
-<p>都是代数整数，证明\(3\mid\alpha_i\alpha_j\in\mathcal{O}_K,\quad i\ne j\)，但是\(3\nmid\alpha_i^k,\quad \forall k\in\mathbb{N}\)。</p></li>
+<p>都是代数整数，证明\(3\mid\alpha_i\alpha_j\in\mathcal{O}_K,\quad i\ne j\)，但是\(3\nmid\alpha_i^k,\quad \forall k\in\mathbb{N}_+\)。</p></li>
 <li>(b) 假设\(\mathcal{O}_K=\mathbb{Z}[\alpha]\)。设\(f(X)\)是\(\alpha\)在\(\mathbb{Q}\)上的极小多项式，对于\(g(X)\in\mathbb{Z}[X]\)，设\(g(X)\equiv\bar g(X)\pmod{3}\in\mathbb{F}_3[X]\)，证明
 \[
 	3\mid g(\alpha)\text{ in }\mathbb{Z}[\alpha]\quad\Leftrightarrow\quad \bar f\mid \bar g\text{ in }\mathbb{F}_3[X]
@@ -207,22 +208,110 @@ Q6
 \[
 	\alpha_i=f_i(\alpha),\quad f_i\in\mathbb{Z}[X],\quad i=1,2,3,4
 \]
-<p>证明\(\bar f\mid \bar f_i\bar f_j,\quad i\ne j\)，并且\(\bar f\nmid \bar f_i^n,\quad \forall n\in\mathbb{N}\)。</p></li>
-<li>(d) 证明\(\bar f\)在\(\mathbb{F}_3\)中至少有四个不同的不可约因子，也即\(\text{deg} f\le\ 4\)。</li>
+<p>证明\(\bar f\mid \bar f_i\bar f_j,\quad i\ne j\)，并且\(\bar f\nmid \bar f_i^n,\quad \forall n\in\mathbb{N}_+\)。</p></li>
+<li>(d) 证明\(\bar f(X)\)在\(\mathbb{F}_3[X]\)中至少有四个不同的不可约因式。</li>
 </ul>
 <br>
-<p>最后，\((b)\)中的假设不成立，即\(\mathcal{O}_K\ne \mathbb{Z}[\alpha]\)。</p>
+<p>据此证明(b)中的假设不成立，即\(\mathcal{O}_K\ne \mathbb{Z}[\alpha]\)。</p>
 <br>
 
 <p>证明：</p>
 <ul>
-<li>(a) 
+<li>(a) 对于\(i\ne j\)而言显然\(3\mid\alpha_i\alpha_j\)，于是，
+\[
+	\left(\sum\limits_{i}\alpha_i\right)^k\equiv \sum\limits_{i}\alpha_i^k\pmod{3}
+\]
+
+<p>同余式的左边</p>
+\[
+	\left(\sum\limits_{i}\alpha_i\right)^k\equiv 4^k\equiv 1\pmod{3}
+\]
+<p>也即</p>
+\[
+	3\nmid \sum\limits_{i}\alpha_i^k=\text{Tr}(\alpha_i^k),\quad \text{Tr}:\mathcal{O}_K\rightarrow \mathbb{Z}
+\]
+
+<p>若\(3\mid \alpha_i^k\)，则\(3\mid \text{Tr}(\alpha_i^k)\)，矛盾。</p></li>
+<br>
+
+<li>(b)
+
+	<ul>
+	
+	<li>“\(\implies\)”：\(3\mid g(\alpha)\)蕴含了\(f(x)=0\implies g(x)=3h(x)\)，即\(f\mid g-3h\)对于某个\(h\in\mathbb{Z}[X]\)而言成立，于是\(\bar f\mid \bar g\)在\(\mathbb{F}_3[X]\)上成立。</li>
+	<br>
+	<li>“\(\impliedby\)”：\(\bar f\mid \bar g\)在\(\mathbb{F}_3[X]\)上成立蕴含了\(f\mid g-3h\)对于某个\(h\in\mathbb{Z}[X]\)而言成立，于是\((g-3h)(\alpha)=0\)，即\(3\mid g(\alpha)\)。</li>
+	
+	</ul>
 
 </li>
-</ul>
+<br>
+
+<li>(c) 由于\(f(x)=0\implies 3\mid f_i(x)f_j(x)\)，\(\bar f|\bar f_i\bar f_j\)。又因为\(3\nmid \alpha_i^n=f_i^n(\alpha)\)，所以\(f(x)=0\notimplies 3\mid f_i^n(x)\)，从而\(\bar f\nmid \bar f_i^n\)。
+
+</li>
+<br>
+
+<li>(d) 这是因为根据(c)我们知道，对于\(i=1,2,3,4\)，\(\bar f\)的某个不可约因子不整除\(\bar f_i\)，但整除所有的\(\bar f_j,\ j\ne i\)，因此\(\bar f\)至少有四个不同的不可约因子。
+
+</li>
+<br>
 
 </ul>
 
+<p>最后，由于\(\text{deg}\ f\le 4\)，(d)中所述在\(\mathbb{F}_3[X]\)中是不可能的，因为在\(\mathbb{F}_3[X]\)中度为\(1\)的不可约多项式只有\(3\)个。</p>
+<br><br>
+
+<ul class="section"><li>
+Q7
+</li></ul>
+
+<p>2-7. 若\(A\)是整环，\(B\)是\(A\)在其分式域\(K\)的某个有限扩张\(L\)中的整闭包，若\(S\)是\(A\)的乘法闭合子集（multiplicatively closed subset / multiplicative subset），证明\(S^{-1}B\)是\(S^{-1}A\)在\(L\)中的整闭包。</p>
+<br>
+
+<ul>
+
+<p>直接计算即可。</p>
+
+<li>先证明这个\(S^{-1}B\)包含在这个整闭包中。设\(b/s\in S^{-1}B,s\in S,b\in B\)，则
+\[
+	b^n+a_{n-1}b^{n-1}+\cdots+a_1 b+a_0=0,\quad a_i\in A
+\]
+
+<p>于是，</p>
+\[
+	\left(\frac{b}{s}\right)^n+\frac{a_{n-1}}{s}\left(\frac{b}{s}\right)^{n-1}+\cdots+\frac{a_1}{s^{n-1}}\left(\frac{b}{s}\right)+\frac{a_0}{s^n}=0
+\]
+</li>
+
+<li>现在证明这个整闭包包含在\(S^{-1}B\)中。设\(s\in S,b\in L\)，且\(b/s\)为\(S^{-1}A\)上的代数整数，那么
+\[
+	\left(\frac{b}{s}\right)^n+\frac{a_{n-1}}{s_{n-1}}\left(\frac{b}{s}\right)^{n-1}+\cdots+\frac{a_1}{s_1}\left(\frac{b}{s}\right)+\frac{a_0}{s_0}=0,\quad a_i/s_i\in S^{-1}A
+\]
+
+<p>等式两边乘以\(s^n s_{n-1}^{n}\cdots s_1^n s_0^n\)，我们发现\(s_{n-1}\cdots s_1 s_0 b\in B\)，因此</p>
+\[
+	\frac{b}{s}=\frac{s_{n-1}\cdots s_1 s_0 b}{s_{n-1}\cdots s_1 s_0 s}\in S^{-1}B
+\]
+
+</li>
+
+</ul>
+<br><br>
+
+<ul class="section"><li>
+Q8
+</li></ul>
+
+<p>2-8. 设\(\mathfrak{p}\)是整环\(A\)中的素理想，证明\(A_{\mathfrak{p}}/\mathfrak{p}A_{\mathfrak{p}}\)是\(A/\mathfrak{p}A\)的分式域。</p>
+<br>
+
+<p>首先，\(A/\mathfrak{p}A\subset A_{\mathfrak{p}}/\mathfrak{p}A_{\mathfrak{p}}\)，其次我们知道\(\forall\frac{a}{s}\in A_{\mathfrak{p}}/\mathfrak{p}A_{\mathfrak{p}}\)满足</p>
+\[
+	a\in A/\mathfrak{p}A,\ s\in S_{\mathfrak{p}}=A\backslash\mathfrak{p}\subset A
+\]
+
+<p>\(s\cdot \frac{a}{s}\in A/\mathfrak{p}A\)，故得证。</p>
 
 
 </div>

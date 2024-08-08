@@ -88,10 +88,18 @@ mtime_dict = None
 template = read('template.html', encoding = 'utf-8')
 disallow = [
     '_template',
-    'spirit-of-mathematics',
-    'spirit-of-codes',
+    'essence-of-the-elders',
     'oracle-of-namagiri'
 ]
+
+banner = """Translation starts.    :)
+
+"""
+
+
+
+
+print(banner)
 
 for i, j, k in os.walk(".."):
     check = i.split('\\')
