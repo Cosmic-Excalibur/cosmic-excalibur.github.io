@@ -25,7 +25,7 @@ tail = r"""
 """
 
 data = lambda: dict([
-    (f"*_{i+1}.html", {
+    (f"*_{i//interval+1}.html", {
         __TITLE__: r"""Articles""",
         __HTML_TITLE__: r"""~ Articles ~""",
         __CONTENT__: "<br>\n".join(

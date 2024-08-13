@@ -1,0 +1,92 @@
+<div class="main">
+
+<p>本文讨论代数数论中的一个基本的定理，并在<i><a href="https://www.jmilne.org/math/CourseNotes/ANT.pdf" underlined>J.S. Milne, Algebraic Number Theory</a></i>中Theorem 3.7的基础上补充一些细节。</p>
+<br>
+
+<p>基本表述：（定理 3.7）设\(A\)是戴德金整环（Dedekind domain），每个非零理想\(\mathfrak{a}\subsetneqq A\)都能被写成</p>
+\[
+	\mathfrak{a} = \mathfrak{p}_1^{r_1}\cdots\mathfrak{p}_n^{r_n}
+\]
+<p>的形式，其中\(\mathfrak{p}_i\)是不同的素理想，并且\(r_i>0\)，并且\(\mathfrak{p}_i\)与\(r_i\)都是唯一确定的。</p>
+<br>
+
+<p>证明：（J.S. Milne）引理 3.8表明，\(\mathfrak{a}\)包含了某个非零素理想之积：</p>
+\[
+	\mathfrak{b} = \mathfrak{p}_1^{r_1}\cdots\mathfrak{p}_m^{r_m}
+\]
+
+<p>不妨设\(\mathfrak{p}_i\)是不同的素理想，那么有如下同构</p>
+\[
+	A/\mathfrak{b} \simeq A/\mathfrak{p}_1^{r_1}\times \cdots\times A/\mathfrak{p}_m^{r_m} \simeq A_{\mathfrak{p}_1}/\mathfrak{q}_1^{r_1}\times \cdots \times A_{\mathfrak{p}_m}/\mathfrak{q}_m^{r_m}
+\]
+
+<p>其中\(\mathfrak{q}_i=\mathfrak{p}_i A_{\mathfrak{p}_i}\)，中国剩余定理保证了上述中第一个同构，而引理 3.10保证了第二个同构。我们知道，在每个离散赋值环（discrete valuation ring）\(A_{\mathfrak{p}_i}\)中，\(\mathfrak{q}_i\)是\(A_{\mathfrak{p}_i}\)唯一的极大理想，于是\(\mathfrak{a}/\mathfrak{b}\)在上述同构下的像可以表示为</p>
+\[
+	\mathfrak{q}_1^{s_1}/\mathfrak{q}_1^{r_1}\times \cdots \times\mathfrak{q}_m^{s_m}/\mathfrak{q}_m^{r_m}
+\]
+
+<p>其中\(s_i\le r_i\)，此外，上式还是</p>
+\[
+	\mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m}
+	\tag{1}\label{1}
+\]
+
+<p>在上述同构下的原像，从而</p>
+\[
+	\mathfrak{a} = \mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m}\subset A/\mathfrak{b}
+\]
+
+<p>这也就是说</p>
+\[
+	\mathfrak{a} = \mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m}\subset A
+	\tag{2}\label{2}
+\]
+
+<p>现在我们证明上述分解是唯一的，假设\(\mathfrak{a}\)在\(A\)中有两种分解方式，首先通过添加指数为\(0\)的素理想来补全两种分解方式中未出现在另一分解中的素理想，现在不妨设</p>
+\[
+	\mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m} = \mathfrak{a} = \mathfrak{p}_1^{t_1}\cdots \mathfrak{p}_m^{t_m}
+\]
+
+<p>于是</p>
+\[
+	\mathfrak{q}_i^{s_i} = \mathfrak{a} A_{\mathfrak{p}_i} = \mathfrak{q}_i^{t_i}
+\]
+
+<p>必然有</p>
+\[
+	s_i=t_i
+\]
+<br>
+
+<p>本文的剩余部分给出该证明的两个附注。</p>
+
+<p>\eqref{1}：首先，根据引理 3.10，显然\(\mathfrak{p}_i\)是\(\mathfrak{q}_i\)的原像。此外，根据中国剩余定理，</p>
+\[
+	\begin{aligned}
+		&\mathfrak{p}_1^{s_1}/\mathfrak{p}_1^{r_1}\times\cdots\times\mathfrak{p}_m^{s_m}/\mathfrak{p}_m^{r_m}\\
+		\mapsto\quad & (\mathfrak{p}_1^{s_1}+\mathfrak{p}_1^{r_1},\cdots,\mathfrak{p}_m^{s_m}+\mathfrak{p}_m^{r_m})\\
+		=\quad & (\mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m}+\mathfrak{p}_1^{r_1},\cdots,\mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m}+\mathfrak{p}_m^{r_m})\\
+		\mapsto\quad & \mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m}/\mathfrak{p}_1^{r_1}\cdots \mathfrak{p}_m^{r_m}
+	\end{aligned}
+\]
+
+<br>
+
+<p>\eqref{2}：设\(A\)中所有包含\(\mathfrak{b}\)的理想的集合为\(B_1\)，\(A/\mathfrak{b}\)上所有理想的集合为\(B_2\)，我们尝试构建双射</p>
+\[
+	B_1\rightarrow B_2,\quad \mathfrak{a}\mapsto \mathfrak{a}/\mathfrak{b}
+\]
+
+<p>首先，对于\(B_2\)中的每个理想\(\mathfrak{a}/\mathfrak{b}\)，都存在原像\(\mathfrak{a}\in B_1\)。其次，设它有两个原像\(\mathfrak{a}_1\)、\(\mathfrak{a}_2\)，则下述推导是显然的__EXERCISE__</p>
+\[
+	\mathfrak{a}_1/\mathfrak{b}=\mathfrak{a}_2/\mathfrak{b} \iff \mathfrak{a}_1+\mathfrak{b}=\mathfrak{a}_2+\mathfrak{b} \iff \mathfrak{a}_1=\mathfrak{a}_2
+\]
+
+<p>因此上述映射的确是双射。最后，只需注意到</p>
+\[
+	\mathfrak{a}/\mathfrak{b}=\mathfrak{p}_1^{s_1}\cdots \mathfrak{p}_m^{s_m},\qquad \mathfrak{b}\subset \mathfrak{a}
+\]
+
+
+</div>
+<br><br><br><br><br><br>
