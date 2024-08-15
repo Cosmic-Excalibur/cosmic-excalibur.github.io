@@ -575,6 +575,26 @@ print(bytes([int(str(model[pp])) for pp in [p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p1
 <br><br>
 
 <ul class="section"><li>
+<comment>(After Match)</comment> Pwn - Format muscle
+</li></ul>
+
+<p>附件：</p>
+<ul>
+	<li><a underlined href="__ASSETS__/format-muscle.zip">format-muscle.zip</a></li>
+</ul>
+<br>
+
+<p>首先musl里的<code>printf</code>中用来表示偏移的<code>$</code>最多只能偏移九个<code>QWORD</code>，此外，偏移数必须全部在<code>1 ~ n</code>内，且<code>1 ~ n</code>内不允许有未出现的偏移数，其中<code>n</code>是某个正整数。因此我们只能通过不断地添加标识符来产生偏移。（参见<comment>musl-1.2.2/src/stdio/vfprintf.c，430~655</comment>）</p>
+<p>在成功做到任意地址写之后，篡改<code>exit</code>的hook即可。</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+	<li><a underlined href="__ASSETS__/exp_format-muscle.py">exp_format-muscle.py</a></li>
+</ul>
+<br><br>
+
+<ul class="section"><li>
 <comment>(Not Solved)</comment> Reverse - HTML - 2
 </li></ul>
 
@@ -591,7 +611,7 @@ print(bytes([int(str(model[pp])) for pp in [p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p1
 </ul>
 <br>
 
-<p>多项式的系数非常地庞大，再者，各种生成随机数的函数都有个前缀<code>secrets</code>，让人很难不联想到这可能是一个与PRNG有关的问题，没详细研究了😴💤。</p>
+<p><s>多项式的系数非常地庞大，再者，各种生成随机数的函数都有个前缀<code>secrets</code>，让人很难不联想到这可能是一个与PRNG有关的问题，</s>没详细研究了😴💤。</p>
 <br><br>
 
 <ul class="section"><li>
