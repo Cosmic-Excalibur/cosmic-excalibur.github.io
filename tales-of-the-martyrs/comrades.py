@@ -6,6 +6,7 @@ entries = {
     'App1e_Tree': ['https://yinwww.wang'],
     'LiBr': ['https://nvme0n1p.dev'],
     'LiBr <comment>(Github)</comment>': ['https://github.com/lbr77'],
+    'Misaka18931': ['https://miruku.moe'],
     'CrackTC': ['https://sora.zip'],
     'CrackTC <comment>(Github)</comment>': ['https://github.com/CrackTC'],
     'emmm <comment>(Github)</comment>': ['https://github.com/H4ckF0rFun'],

@@ -103,6 +103,11 @@ ul.menu {
 	text-indent: 1.25em;
 }
 
+ul li {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
 ul li::marker {
 	color: #999999;
 	/* content: "😘"; */

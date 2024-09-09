@@ -51,6 +51,7 @@ def import2(path, *args, **kwargs):
 
 def needs_update(path):
     global mtime_dict
+    if path.endswith('domains-of-the-hallow.py'): return True
     if mtime_dict is None:
         if os.path.exists("mtime.pickle"):
             with open("mtime.pickle", "rb") as f:
