@@ -19,13 +19,29 @@ tail = r"""
 <br><br><hr>
 <br><br>
 <div class="center">
-    <span>Page: <input class="pagination" type="number" value="{0}" max="{1}" min="1" onchange="javascript:if(this.min<=this.value&&this.value<=this.max){{document.location='{2}'+this.value+'.html';}}"/>
+    <ul class="navi">
+        <li>{3}</li>
+        <li><span>Page: <input class="pagination" type="number" value="{0}" max="{1}" min="1" onchange="javascript:if(this.min<=this.value&&this.value<=this.max){{document.location='{2}'+this.value+'.html';}}"/></li>
+        <li>{4}</li>
+    </ul>
 </div>
+<script type="text/javascript">
+window.onkeydown = function(e)
+{{
+    if(e.keyCode == 37 && {0} > 1)
+    {{
+        document.location = '{2}'+({0}-1)+'.html';
+    }}else if (e.keyCode == 39 && {0} < {1})
+    {{
+        document.location = '{2}'+({0}+1)+'.html';
+    }}
+}}
+</script>
 <br><br>
 """
 
 data = lambda: dict([
-    (f"*_{i//interval+1}.html", {
+    (f"*_{(idx := i//interval+1)}.html", {
         __TITLE__: r"""Articles""",
         __HTML_TITLE__: r"""~ Articles ~""",
         __CONTENT__: "<br>\n".join(
@@ -37,6 +53,6 @@ data = lambda: dict([
                     <div class="time"></div><span><span style="color:gray">Time: </span><b>%s</b></span>
                 </div>
                 """ % parse_info(entries[j], import2(os.path.join(tales, entries[j]), encoding = 'utf-8').info()) for j in range(i, min(len(entries), i+interval))
-            ) + tail.format(i // interval + 1, pages, page)
+            ) + tail.format(idx, pages, page, '<a class="noafter" href="%s%s.html">&lt;-</a>' % (page, idx - 1) if idx > 1 else '<span style="color:gray">&lt;-</span>', '<a class="noafter" href="%s%s.html">-&gt;</a>' % (page, idx + 1) if idx < pages else '<span style="color:gray">-&gt;</span>')
         }) for i in range(0, len(entries), interval)
 ])

@@ -45,8 +45,24 @@
 <br><br><hr>
 <br><br>
 <div class="center">
-    <span>Page: <input class="pagination" type="number" value="2" max="2" min="1" onchange="javascript:if(this.min<=this.value&&this.value<=this.max){document.location='/tales-of-the-martyrs/domains-of-the-hallow_'+this.value+'.html';}"/>
+    <ul class="navi">
+        <li><a class="noafter" href="/tales-of-the-martyrs/domains-of-the-hallow_1.html">&lt;-</a></li>
+        <li><span>Page: <input class="pagination" type="number" value="2" max="2" min="1" onchange="javascript:if(this.min<=this.value&&this.value<=this.max){document.location='/tales-of-the-martyrs/domains-of-the-hallow_'+this.value+'.html';}"/></li>
+        <li><span style="color:gray">-&gt;</span></li>
+    </ul>
 </div>
+<script type="text/javascript">
+window.onkeydown = function(e)
+{
+    if(e.keyCode == 37 && 2 > 1)
+    {
+        document.location = '/tales-of-the-martyrs/domains-of-the-hallow_'+(2-1)+'.html';
+    }else if (e.keyCode == 39 && 2 < 2)
+    {
+        document.location = '/tales-of-the-martyrs/domains-of-the-hallow_'+(2+1)+'.html';
+    }
+}
+</script>
 <br><br>
 
 	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
