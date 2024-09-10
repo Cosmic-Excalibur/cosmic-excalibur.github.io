@@ -1,0 +1,252 @@
+<div class="main">
+
+<p>在2024年的这次舞萌CTF，啊呸，WMCTF中，笔者只写出来了三个Crypto<comment><s>（不过拿了RSA的一血，嘿嘿）</s></comment>，在此记录一下解法。</p>
+<br>
+
+<ul class="section"><li>
+    Crypto - K-Cessation
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/k_cessation_f10422df204d71fb738abcbf18b54ea0.zip">k_cessation_f10422df204d71fb738abcbf18b54ea0.zip</a></li>
+</ul>
+<br>
+
+<p>题目所述的K-Cessation是一种以轮子为基础的密码系统，理论上来说在不知道轮子长啥样并且无法进行选择明文攻击时是难以完成解密的，但是本题的明文比较长，在轮子转过数圈以后问题就显现出来了。</p>
+
+<p>下面以8-Cessation为例，假设我们使用的轮子为</p>
+
+<pre><code class="language-text">00101110</code></pre>
+<br>
+
+<p>使用这个轮子对如下明文进行加密，得到密文：</p>
+
+<pre><code class="language-text">pt: 0 1 1 0 0 0 1 0 0 1 1 0 0 0 0 1 0 1 1 0 1 0 1 1 0 1 1 0 0 0 0 1
+ct: 1 2 2 3 1 1 1 1 4 3 2 3 1 1 2 1 3 3 2 3 3 1 1 1 2 3 2 3 1 1 2 1</code></pre>
+<br>
+
+<p>我们尝试根据<code>ct</code>反推出加密每个明文比特时轮子所处的位置，如下：</p>
+
+<pre><code class="language-text">               Wheel
+          0 1 2 3 4 5 6 7
+Round     - - - - - - - -
+  0   |   *   *   *     *
+  1   |   * * * *       *
+  2   |       *   *     *
+  3   |   * *   * *     *
+  4   |       *   *     *
+  5   |       * * * *   *
+  6   |       *   *     *
+  7   |   * *   * *      </code></pre>
+<br>
+
+<p>我们知道，就算轮子转过了一圈，轮子中的比特都还是不变的。不难推导出，对于上表中的每一个<code>Round</code>中的每个位置而言，该位置所在列的所有<code>*</code>标记过的位置对应的明文比特都是相同的，此外，我们可以根据某一个<code>Round</code>中被标记的位置划分区间，以上表中的<code>Round 4</code>为例：</p>
+
+<pre><code class="language-text">               Wheel
+          0 1 2 3 4 5 6 7
+Round     - - - - - - - -
+  0   |   *   *   *     *
+  1   |   * * * *       *
+  2   |       *   *     *
+  3   |   * *   * *     *
+  4   |   @ @ * @ * @ @ *
+  5   |       * * * *   *
+  6   |       *   *     *
+  7   |   * *   * *      </code></pre>
+<br>
+
+<p>那么可以根据<code>Round 4</code>中每个标记了<code>@</code>与<code>*</code>的位置确定所在列比特位的情况，下表中字母大小写相同表示比特相同，相异表示相反：</p>
+
+<pre><code class="language-text">               Wheel
+          0 1 2 3 4 5 6 7
+Round     - - - - - - - -
+  0   |   a   A   B     C
+  1   |   a a A b       C
+  2   |       A   B     C
+  3   |   a a   b B     C
+  4   |       A   B     C
+  5   |       A b B c   C
+  6   |       A   B     C
+  7   |   a a   b B      </code></pre>
+<br>
+
+<p>据此我们可以确定所有明文比特之间的关系，它可以被表示为边被染成两种颜色的简单无向图，在上述例子中可以发现我们通过<code>Round 4</code>确定出的图具有三个连通分量，我们可以为每一个连通分量分配一个比特位，这样我们只需穷举\(2^3\)次，与题目提供的哈希值进行比较即可恢复出明文。</p>
+
+<p>为了验证上述猜想的正确性，将明文<code>pt</code>的每个比特在对应的位置上排布：</p>
+<pre><code class="language-text">               Wheel
+          0 1 2 3 4 5 6 7
+Round     - - - - - - - -
+  0   |   0   1   1     0
+  1   |   0 0 1 0       0
+  2   |       1   1     0
+  3   |   0 0   0 1     0
+  4   |       1   1     0
+  5   |       1 0 1 1   0
+  6   |       1   1     0
+  7   |   0 0   0 1</code></pre>
+<br>
+
+<p>发现确实符合预期。</p>
+<br>
+
+<p>最后笔者找到的本题的图结构如下，它也具有三个连通分量：</p>
+<div class="center">
+    <img src="__ASSETS__/1.png" alt="k-cessation graph" width="800"></img>
+</div>
+<br>
+
+<p>其中实线表示比特位相同，虚线表示比特位相反。</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/sol_k_cessation.py">sol_k_cessation.py</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：<comment>（原来以Double舞萌CTF，呸，DoubleUmCtF开头😈）</comment></p>
+<pre><code style="color:red" class="language-text">DoubleUmCtF[S33K1NG_tru7h-7h3_w1s3-f1nd_1n57e4d-17s_pr0f0und-4b5ence_n0w-g0_s0lv3-th3_3y3s-1n_N0ita]</code></pre>
+<br><br>
+
+<ul class="section"><li>
+    Crypto - RSA <span style="color: gold">(First Blood ~)</span>
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/RSA_a4d404f4c5ff2338e19e954e4a6c51a5.zip">RSA_a4d404f4c5ff2338e19e954e4a6c51a5.zip</a></li>
+</ul>
+<br>
+
+<p>题目给了一个<code>GF(n)</code>上的矩阵：</p>
+
+\[
+    M = \begin{pmatrix}
+        m & -m-p-q & -m-2p & 2q-m\\
+        m+p+q & m & 2q-m & m+2p\\
+        m+2p & m-2q & m & -m-p-q\\
+        m-2q & -m-2p & m+p+q & m\\
+    \end{pmatrix}
+\]
+<br>
+
+<p>笔者首先尝试将\(M\)拆开：</p>
+\[
+    M = A+mI
+\]
+
+<p>其中\(A\)是一个反称矩阵（我们并不会用到反称的性质），而\(I\)是四阶单位阵。注意到，</p>
+
+\[
+    A^2 = -(3m^2 + 6mp + 5p^2 - 2mq + 5q^2)I
+    \label{1}\tag{1}
+\]
+
+<p>并且有意思的是，</p>
+
+\[
+    A^4 = \text{det}(A)I
+\]
+
+<p>观察\(\eqref{1}\)式我们知道，\(M^k\)具有如下的形式：</p>
+\[
+    M^k = a_kA+b_kI
+\]
+
+<p>上式右端的第二项只会影响对角线上的元素，而第一项则是将\(A\)乘上了某个标量，因此在\(a_k\)非零时，我们可以通过\(M^k\)第一列的第二三四行来求出\(n\)的一个因子：</p>
+
+\[
+    q = \text{gcd}(2\cdot \text{enc}_{21}-\text{enc}_{31}-\text{enc}_{41}, n),\qquad \text{enc}=M^{e}=M^{65536}
+\]
+<br>
+
+<p>分解出\(n\)以后，问题就好办很多了，我们知道，在有限域上求解一个单变量多项式方程相对于在任意一个环上求解要容易得很多，我们将\(p,q\)代入\(\text{det}(M)\)中，并求解</p>
+\[
+    \text{det}(M)\equiv\text{det}(\text{enc})^d \pmod{p}\quad \text{or}\quad \text{det}(M)\equiv\text{det}(\text{enc})^d \pmod{q}
+\]
+
+<p>求出来的一个小根即为明文。</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/sol_rsa.sage">sol_rsa.sage</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code style="color:red" class="language-text">WMCTF{QU4t3rni0n_4nd_Matr1x_4r3_4un}</code></pre>
+<br>
+
+<p>注：从Flag🚩中可以看到出题人（ROOK1EY😈）的本意应该是利用四元数的性质来求解。事实上，我们可以将矩阵\(M\)按照四元数的方式拆开成：</p>
+\[
+    M = m + (m+p+q)\boldsymbol i + (m+2p)\boldsymbol j + (m-2q)\boldsymbol k
+\]
+
+<p>于是，</p>
+\[
+    \begin{aligned}
+        (M-m)^2 &= -(m+p+q)^2-(m+2p)^2-(m-2q)^2 + 0\\
+                &= -(m+p+q)^2-(m+2p)^2-(m-2q)^2\\
+    \end{aligned}
+\]
+
+<p>于是我们证明了\(\eqref{1}\)式，后续的步骤与上述完全相同。</p>
+
+<br><br>
+
+<ul class="section"><li></li>
+    Crypto - FACRT
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/FACRT_15f527b7896ce8a88b2ce5b4fb0323d4.zip">FACRT_15f527b7896ce8a88b2ce5b4fb0323d4.zip</a></li>
+</ul>
+<br>
+
+<p>笔者直接注意到</p>
+
+\[
+    \begin{aligned}
+        s_i = k_iq + r_i
+    \end{aligned}
+\]
+
+<p>根据这篇经典论文<a underlined href="https://eprint.iacr.org/2018/1208">Revisiting Orthogonal Lattice Attacks on Approximate Common Divisor Problems and their Applications</a>所述，当下式成立时，我们可以使用优化后的正交格攻击来完成对上述ACD问题的求解：</p>
+
+\[
+    n &gt; \frac{\gamma-\rho}{\eta-\rho}
+\]
+
+<p>对于本题而言我们有：</p>
+
+\[
+    n=20,\quad \gamma=1024,\quad \eta=512,\quad \rho=480
+\]
+
+<p>因此</p>
+
+\[
+    20 = n &gt; \frac{\gamma-\rho}{\eta-\rho} = 17
+\]
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/sol_facrt.sage">sol_facrt.sage</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code style="color:red" class="language-text">flag{Th3_Simultaneous_Diophantine_Approximation_Approach}</code></pre>
+<br>
+
+<p>大概率是个非预期😈，等官方的题解出来了去看看预期解法是什么捏。</p>
+
+
+
+
+</div>
+<br><br><br><br><br><br>

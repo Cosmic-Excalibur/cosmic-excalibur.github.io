@@ -58,7 +58,7 @@
 <br>
 
 <p>解出来是：</p>
-<pre><code class="language-text">poLsYKw8ElIHB7jTtdjOmGQ0kvqlXnYI</code></pre>
+<pre><code style="color:red" class="language-text" >poLsYKw8ElIHB7jTtdjOmGQ0kvqlXnYI</code></pre>
 <br><br>
 
 <ul class="section"><li>
@@ -93,7 +93,7 @@
 <br>
 
 <p>解出来的加密口令是：</p>
-<pre><code class="language-text">pwd:%@PRjd8)k5TV</code></pre>
+<pre><code style="color:red" class="language-text">pwd:%@PRjd8)k5TV</code></pre>
 <br><br>
 
 <ul class="section"><li>
@@ -276,7 +276,7 @@ AiEAoRDx/zVEbha5L2JTAGMI3V3rpFoiP7kBHWxuGLQLZJg=
 </ul>
 <br>
 
-<p>第二部分的第四关是一个经典的漏洞——被截断的线性同余生成器（Linear Congruential Generator，LCG）用来生成的随机数是可以预测的。Minecraft的1.8~1.12.2版本中就使用了这种随机数生成器（Java），在共用种子的情况下，玩家可以通过一个生成器产生的随机数（如物品掉落位置）来预测或者反推另一个生成器产生的随机数（参考Randar漏洞：<a href="https://github.com/spawnmason/randar-explanation">https://github.com/spawnmason/randar-explanation</a>）。预测这种LCG的手段是密码分析中的一个有力工具：格基约化（Lattice Reduction）<comment>（奇怪的是，主办方在参赛手册中并未提醒参赛选手事先准备好诸如fplll、SageMath之类支持格基约化的工具）。</comment></p>
+<p>第二部分的第四关是一个经典的漏洞——被截断的线性同余生成器（Linear Congruential Generator，LCG）用来生成的随机数是可以预测的。Minecraft的1.8~1.12.2版本中就使用了这种随机数生成器（Java），在共用种子的情况下，玩家可以通过一个生成器产生的随机数（如物品掉落位置）来预测或者反推另一个生成器产生的随机数（参考Randar漏洞：<a underlined href="https://github.com/spawnmason/randar-explanation">https://github.com/spawnmason/randar-explanation</a>）。预测这种LCG的手段是密码分析中的一个有力工具：格基约化（Lattice Reduction）<comment>（奇怪的是，主办方在参赛手册中并未提醒参赛选手事先准备好诸如fplll、SageMath之类支持格基约化的工具）。</comment></p>
 
 <p>本题在IV的生成过程中使用了三次这种LCG，之所以说是三次是因为每次种子的迭代过程都可以化简为：</p>
 \[
@@ -422,7 +422,7 @@ k2 = k3 = 1919810</code></pre>
 <p>不过这告诉我们打熵密杯之前一定要把各种SM相关的代码能准备多少就准备多少<comment><s>（多玩SM）</s></comment>，方便打板子😈😈😈。</p>
 <br>
 
-<ul class="section"><li></li>
+<ul class="section"><li>
     <comment>（赛后）</comment>第一部分 - 初始谜题3
 </li></ul>
 
