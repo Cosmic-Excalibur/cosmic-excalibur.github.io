@@ -377,16 +377,54 @@ k1 = 114514
 k2 = k3 = 1919810</code></pre>
 <br>
 
+<p>完结撒花🥳🥳🥳🍾🍾🍾🎉🎉🎉🎊🎊🎊</p>
+
 <div class="center">
     <img src="__ASSETS__/finale.png" alt="finale" width="800"></img>
 </div>
 <br><br>
 
+
+<br>
+<p>现在回过头来看看第一部分没整的两道题。</p>
+
 <ul class="section"><li>
-    第一部分 - 初始谜题2
+    <comment>（赛后）</comment>第一部分 - 初始谜题2
 </li></ul>
 
-<p></p>
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/hmac.py">hmac.py</a></li>
+</ul>
+<br>
+
+<p>看上去是SM3长度扩展攻击。嗯……看不出题目具体长啥样，只能先这么猜测了。这类攻击的脚本在GitHub上能找到许多。</p>
+<p>不过这告诉我们打熵密杯之前一定要把各种SM相关的代码能准备多少就准备多少<comment><s>（多玩SM）</s></comment>，方便打板子😈😈😈。</p>
+<br>
+
+<ul class="section"><li></li>
+    <comment>（赛后）</comment>第一部分 - 初始谜题3
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/lwe.py">lwe.py</a></li>
+</ul>
+<br>
+
+<p>看上去是一个LWE（Learning With Errors）问题，但是完全没有想象中的那么复杂，并且由于题目中使用的矩阵是一个<code>GF(q)</code>上的满秩方阵\(A\)，尝试求解最近或者最短向量理论上其实是不可行的，因为\(A\cdot s\)可以取到任何向量的值。</p>
+
+<p>再次观察代码，可以发现加密过程中使用的误差向量规模非常的小，样本空间大小为\(2^{16}\)，更重要的是，我们可以通过尝试求解加密过程中的<code>m</code>向量，并观察<code>m</code>的每个分量是否都是0或1来判断所求的<code>m</code>是否正确。因此我们至多只需要穷举\(2^{16}=65536\)次即可恢复出明文。</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/sol_lwe.sage">sol_lwe.sage</a></li>
+</ul>
+<br><br>
+
+
+
 
 
 </div>
