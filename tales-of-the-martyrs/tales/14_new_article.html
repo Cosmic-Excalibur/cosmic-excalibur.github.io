@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>2024 SpiritCTF Warmup Write-ups by Astrageldon</title>
+</head>
+<body>
+	<div class="center">
+		<h1>2024 SpiritCTF Warmup Write-ups by Astrageldon</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="noafter back" title="Back"></a></li>
+			<li><a href="/" class="noafter home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="noafter forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	<div class="main">
+
+<p>目录：<ul><details open>
+    <summary></summary>
+    <li><a href="#tag-preface" class="noafter">前言</a></li>
+    <li><a href="#tag-what-is-rsa" class="noafter">Crypto - What is RSA?</a></li>
+    <li><a href="#tag-secret-shredder-1" class="noafter">Crypto - Secret Shredder 1</a></li>
+    <li><a href="#tag-long-words-1" class="noafter">Crypto - Long Words 1</a></li>
+</details></ul></p>
+<br><br>
+
+<ul class="section" id="tag-preface"><li>
+    前言
+</li></ul>
+<p>这篇文章是2024 SpiritCTF Warmup中一些题目（见目录）的官方题解。</p>
+<br><br>
+
+<ul class="section" id="tag-what-is-rsa"><li>
+    Crypto - What is RSA?
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/what-is-rsa.zip">what-is-rsa.zip</a></li>
+</ul>
+<br>
+
+<p>RSA是由Ron Rivest、Adi Shamir和Leonard Adleman提出的一种非对称密码系统。传输信息时，加密者使用公钥加密信息，解密者使用私钥解密信息。与对称密码不同的是，使用公钥加密后的信息必须使用私钥解密（而非公钥）。RSA的基本原理是欧拉定理（Euler's theorem）（参见<a href="https://oi-wiki.org/math/number-theory/fermat/" underlined>OI-Wiki</a>）：</p>
+
+\[
+    ed\equiv 1\pmod{\varphi(N)},\quad N=pq,\quad \varphi(N)=(p-1)(q-1)
+\]
+\[
+    c\equiv m^e\pmod{N},\quad c^d\equiv m^{ed}\equiv m^{1+k\varphi(N)}\equiv m\cdot (m^{\varphi(N)})^k\equiv m \pmod{N}
+\]
+
+<p>其中\(e\)是我们的公钥，而\(d\)是我们的私钥，\(m,c\)分别是明文和密文。本题给出了\(p,q,e\)的值，并且（一般情况下）\(e\)与\(\varphi(N)\)不互素，因此我们可以通过求解\(e\)在模\(\varphi(N)\)意义下的乘法逆元（参见<a href="https://oi-wiki.org/math/number-theory/inverse/" underlined>OI-Wiki</a>）轻易地求出\(d\)的值：</p>
+
+<pre><code class="language-python"># Python 3.x
+phi = (p-1) * (q-1)
+d = pow(e, -1, phi)</code></pre>
+<br>
+
+<p>通过私钥\(d\)与密文\(c\)即可还原出明文\(m\)的值：</p>
+<pre><code class="language-python"># pip install pycryptodome
+from Crypto.Util.number import *
+m = pow(c, d, N)
+flag = long_to_bytes(m)</code></pre>
+<br>
+
+<p>其中明文的字节经过大端序编码，比如：</p>
+<pre><code class="language-text">Char:   S   p   i   r   i   t   {   }   
+        |   |   |   |   |   |   |   |
+        v   v   v   v   v   v   v   v
+Ascii:  53  70  69  72  69  74  7B  7D</code></pre>
+<br>
+
+<p>也即</p>
+<pre><code class="language-python">bytes_to_long(b'Spirit{}') == 0x5370697269747B7D == 6012421442656041853</code></pre>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/sol_what-is-rsa.py">sol_what-is-rsa.py</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{w3lc0mE_t0_7he_W0rLd_oF_Crypt0graphy_:p}</code></pre>
+
+<br><br>
+
+<ul class="section" id="tag-secret-shredder-1"><li>
+    Crypto - Secret Shredder 1
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/secret-shredder-1.zip">secret-shredder-1.zip</a></li>
+</ul>
+<br>
+
+<p>也是一个RSA的问题，不过这次没有p和q了，得通过其他的方法把私钥d给求出来，而这通常意味着我们需要知道N的所有因子（N=pq）。题目泄露出来了一个特殊的参数dp<comment>（也即发生了“dp泄露”）</comment>：</p>
+<pre><code class="language-python">dp = d % (p-1)</code></pre>
+<br>
+
+<p>尝试将这个参数带入到公钥和私钥满足的方程中：</p>
+\[
+    \begin{aligned}
+        e\cdot\text{dp} &= e\cdot (d+k_1(p-1))\\
+        &=1+k_2(p-1)(q-1)+k_1e(p-1)\\
+        &=1+k(p-1)
+    \end{aligned}
+\]
+
+<p>现在，由于\(0 \le \text{dp} < p-1\)，我们知道：</p>
+\[
+    0\le k = \frac{e\cdot\text{dp}-1}{p-1} < e
+\]
+
+<p>本题中公钥指数\(e\)是一个不大的数字（<code>0x114514 + 1 = 1131797</code>），在0~e的范围内穷举k，对于每个k而言计算对应的p，验证p是不是N的因子即可。</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/sol_secret-shredder-1.py">sol_secret-shredder-1.py</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{dp_0r_dq_l3akAg3_1s_dAn6er0us_(s0rt_of)}</code></pre>
+
+<br><br>
+
+<ul class="section" id="tag-long-words-1"><li>
+    Crypto - Long Words 1
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/long-words-1.zip">long-words-1.zip</a></li>
+</ul>
+<br>
+
+<p>源码第三行给了一个Flag🚩长度的提示：</p>
+<pre><code class='language-python'>assert len(flag) == 54    # Oh...</code></pre>
+<br>
+
+<p>也就是说，明文m的大小大致为：</p>
+\[
+    2^{431}=2^{54\times 8-1}\le m < 2^{54\times 8}=2^{432}
+\]
+
+<p>可以求出N的大小大致为</p>
+\[
+    2^{419} \le N < 2^{420}
+\]
+
+<p>在加解密的过程中m会被模掉N，因此m在超过N的时候会发生改变，但是与改变前的m只相差N的某个整数倍：</p>
+\[
+    m\bmod{N} = m - k\cdot N,\quad 0 < k < 2^{13}
+\]
+
+<p>穷举这个k，直至解出来的字节串开头为<code>Spirit{</code>即可。</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/sol_long-words-1.py">sol_long-words-1.py</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{0verflOwing_oF_iNpu7s_1s_Ov3rf1owIn9_0f_j0y_:p}</code></pre>
+
+<br><br>
+
+</div>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#SpiritCTF</b></span></p>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-10-03 10:49</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            },
+			SVG: { linebreaks: {automatic: true } }
+        });
+        //window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+	</script>
+	<script src="/essence-of-the-elders/spirit-of-codes/prism.js"></script>
+</body>
+</html>
