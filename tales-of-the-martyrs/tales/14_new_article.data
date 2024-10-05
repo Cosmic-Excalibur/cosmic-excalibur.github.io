@@ -8,6 +8,7 @@
     <li><a href="#tag-long-words-1" class="noafter">Crypto - Long Words 1</a></li>
     <li><a href="#tag-essence-of-the-elders" class="noafter">Crypto - Essence of The Elders</a></li>
     <li><a href="#tag-secret-shredder-2" class="noafter">Crypto - Secret Shredder 2</a></li>
+    <li><a href="#tag-secret-shredder-3" class="noafter">Crypto - Secret Shredder 3</a></li>
 </details></ul></p>
 <br><br>
 
@@ -225,6 +226,8 @@ u - t = 1 = b</code></pre>
     c^{\text{dr}}\equiv m^{e\cdot \text{dr}}=m^{ed+k(r-1)}=m^{1+k'(r-1)}\equiv m\pmod{r}
 \]
 
+<br>
+
 <p>Proof of Concept：</p>
 <ul>
     <li><a underlined href="__ASSETS__/sol_secret-shredder-2.py">sol_secret-shredder-2.py</a></li>
@@ -233,6 +236,48 @@ u - t = 1 = b</code></pre>
 
 <p>Flag🚩：</p>
 <pre><code class="language-text" style="color:red">Spirit{wHy_1s_7hIs_s3ntenc3_s0_sh0rt_:P_haaahahhahahahahahaha}</code></pre>
+
+<br><br>
+
+<ul class="section" id="tag-secret-shredder-3"><li>
+    Crypto - Secret Shredder 3
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/secret-shredder-3.zip">secret-shredder-3.zip</a></li>
+</ul>
+<br>
+
+<p>我们的模数N由11个较小的因子组成，使用<a href="https://github.com/bbuhrow/yafu" underlined>yafu</a>分解出所有的素因子：</p>
+<pre><code class="language-text">p1 = 1456816928952903451288321
+p2 = 1180631507244313172259317
+p3 = 3508528846920815938385917
+p4 = 874477631144547516656417
+p5 = 18142637370007560313
+p6 = 9354603989443008841
+p7 = 616731256885779378669619
+p8 = 10675957053962043419
+p9 = 733512956178311394656173
+p10 = 1070216324958435392922817
+p11 = 659277714257194585234501</code></pre>
+
+<p>接下来还需要确定这些因子的顺序，我们不能仅仅凭借yafu来判断p1对应的是p、q、...、y还是z。p~z这十一个因子的比特位数都是确定的，因此我们可以首先按照比特位数来给p1~p11分组，对于每个组内的因子而言，穷举这个组的置换，当所有组的顺序都正确后，解出来的字节串会以<code>Spirit{</code>开头。时间复杂度为</p>
+\[
+    \mathcal{O}(k_1!\cdots k_r!)
+\]
+
+<p>其中\(k_1,\cdots,k_r\)为每个组中因子的数量。在本题中我们只需要进行\(3!\cdot 6!=4320\)次穷举即可，而每次穷举时只需要对所有的密文应用一次<a href="https://oi-wiki.org/math/number-theory/crt/" underlined>中国剩余定理</a>恢复出模N意义下的密文c，接下来只需按照常规的RSA解密步骤进行解密即可。（<code>pad</code>函数将明文填充到100个字节，这样一来m既比N（829比特位）小，又比N的任何一个因子都大）</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/sol_secret-shredder-3.py">sol_secret-shredder-3.py</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{Ch1nes3_r3mainder_7HeoRem_1s_A_p0werful_t00l_aNd_a_fUd5mentaL_pr0pertY_1n_nuMb3r_7He0ry_:D}</code></pre>
 
 <br><br>
 
