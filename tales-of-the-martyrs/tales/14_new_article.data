@@ -7,6 +7,7 @@
     <li><a href="#tag-secret-shredder-1" class="noafter">Crypto - Secret Shredder 1</a></li>
     <li><a href="#tag-long-words-1" class="noafter">Crypto - Long Words 1</a></li>
     <li><a href="#tag-essence-of-the-elders" class="noafter">Crypto - Essence of The Elders</a></li>
+    <li><a href="#tag-secret-shredder-2" class="noafter">Crypto - Secret Shredder 2</a></li>
 </details></ul></p>
 <br><br>
 
@@ -201,6 +202,37 @@ u - t = 1 = b</code></pre>
 
 <p>Flag🚩：</p>
 <pre><code class="language-text" style="color:red">Spirit{classical_ciphers_are_ancient_dull_and_weak_preceding_the_modern_cryptographic_systems}</code></pre>
+
+<br><br>
+
+<ul class="section" id="tag-secret-shredder-2"><li>
+    Crypto - Secret Shredder 2
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/secret-shredder-2.zip">secret-shredder-2.zip</a></li>
+</ul>
+<br>
+
+<p>根据<code>task.py</code>的第六行，Flag🚩的长度很短，只有62个字节，因此</p>
+\[
+    m < 2^{62\times 8} = 2^{496} < r
+\]
+
+<p><code>task.py</code>中泄露出来了dr的值，并且可以通过<code>r = n // N</code>求出r的值，此外，</p>
+\[
+    c^{\text{dr}}\equiv m^{e\cdot \text{dr}}=m^{ed+k(r-1)}=m^{1+k'(r-1)}\equiv m\pmod{r}
+\]
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/sol_secret-shredder-2.py">sol_secret-shredder-2.py</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{wHy_1s_7hIs_s3ntenc3_s0_sh0rt_:P_haaahahhahahahahahaha}</code></pre>
 
 <br><br>
 
