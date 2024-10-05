@@ -173,23 +173,36 @@ aHdkTHhBSjFtWFdtTWtXRUJNU0d3Qm5aZVdCNWZlcDV1UWliWGdnaXJiR0Y4Szh0SHRIMTRIa010elky
 nhxalwuhyasen_fxflgzf}</code></pre>
 <br>
 
-<p>分别对应四种不同的古典密码。解密后拼接在一起就是Flag🚩。可以使用<a href="https://cyberchef.org/" underlined>CyberChef</a>辅助分析</p>
+<p>分别对应四种不同的古典密码。解密后拼接在一起就是Flag🚩。可以使用<a href="https://cyberchef.org/" underlined>CyberChef</a>辅助分析。</p>
 <p>对于第一个密文而言，可以尝试Caesar密码和Vigenère密码，由于Flag🚩的开头是<code>Spirit{</code>，可以推断出加密用的密钥：</p>
-<pre><code class="language-text">
-V - S = 3 = d
+<pre><code class="language-text">V - S = 3 = d
 y - p = 9 = j
 j - i = 1 = b
 u - r = 3 = d
 r - i = 9 = j
-u - t = 1 = b
-</code></pre>
+u - t = 1 = b</code></pre>
 <br>
 
 <p>可见加密用的密钥为<code>djb</code>，解密后第一句明文即为</p>
 <pre><code class="language-text">Spirit{classical_ciphers_are_</code></pre>
 <br>
 
-<p></p>
+<p>第二句明文中含有<code>:=&lt;?</code>之类的字符（它们在ASCII码表上很接近），注意到ROT47编码后的小写字母中就含有这些字符（<code>23456789:;&lt;=>?@ABCDEFGHIJK</code>），使用ROT47将密文变换一次即可得到第二段明文：</p>
+<pre><code class="language-text">are_ancient_dull_and_weak</code></pre>
+<br>
+
+<p>第三句密文为Base系列的编码套娃，使用<a href="https://cyberchef.org/" underlined>CyberChef</a>可以很快地找到每层套娃使用了哪种Base编码——将密文丢进CyberChef中，反复点击Output一栏中的魔术棒，可以发现使用的编码方式依次为Base32、Base85、Base58以及Base64，解码后的第三句明文为</p>
+<pre><code class="language-text">_preceding_the_modern_</code></pre>
+<br>
+
+<p>第四句密文经过了某个随机的单表替换加密，这种加密的严重缺陷就在于密文足够长后，可以通过频率分析来推测出使用的替换表是什么。这里的第四句密文已经很长了，使用<a href="https://quipqiup.com/" underlined>quipqiup</a><comment>（statistics或dictionary）</comment>破解得到第四句明文：</p>
+<pre><code class="language-text">cryptographic_systems}</code></pre>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{classical_ciphers_are_ancient_dull_and_weak_preceding_the_modern_cryptographic_systems}</code></pre>
+
+<br><br>
 
 
 
