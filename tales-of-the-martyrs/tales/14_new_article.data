@@ -10,6 +10,7 @@
     <li><a href="#tag-secret-shredder-2" class="noafter">(Week 1) Crypto - Secret Shredder 2</a></li>
     <li><a href="#tag-secret-shredder-3" class="noafter">(Week 1) Crypto - Secret Shredder 3</a></li>
     <li><a href="#tag-secret-shredder-4" class="noafter">(Week 1) Crypto - Secret Shredder 4</a></li>
+    <li><a href="#tag-cirno-no-perfect-sannsuu-kyoushitsu" class="noafter">(Week 1) Crypto - ⑨チルノのパーフェクトさんすう教室</a></li>
 </details></ul></p>
 <br><br>
 
@@ -367,6 +368,49 @@ p11 = 659277714257194585234501</code></pre>
 <pre><code class="language-text" style="color:red">Spirit{eXt3nDed_Eucl1d_s_alg0ri7hm_:)}</code></pre>
 
 <br><br>
+
+<ul class="section" id="tag-cirno-no-perfect-sannsuu-kyoushitsu"><li>
+    Crypto - ⑨チルノのパーフェクトさんすう教室
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="__ASSETS__/cirno-no-perfect-sannsuu-kyoushitsu.zip">cirno-no-perfect-sannsuu-kyoushitsu.zip</a></li>
+</ul>
+<br>
+
+<p><code>baka.py</code>中将Flag🚩分成了三份并分别进行了不同的加密，解出这三个问题才能还原原来的Flag🚩。</p>
+
+<p>① 第一个问题给出了Q1_1与Q1_2的结果，它们与第一个RSA加密的因子p1、p2之间满足如下的关系式：</p>
+\[
+    \left\{
+    \begin{aligned}
+        Q_{11} &= k_1\cdot p_1^{e_1} + k_2\cdot q_1^{e_2}\bmod{N_1}\\
+        Q_{12} &= k_3\cdot p_1^{e_3} + k_4\cdot q_1^{e_4}\bmod{N_1}\\
+    \end{aligned}\right.
+    \tag{1}\label{1}
+\]
+
+<p>注意到（<a href="https://en.wikipedia.org/wiki/Freshman%27s_dream" underlined>Freshman's dream</a>）：</p>
+\[
+    (ap+bq)^k \equiv a^k p^k + b^k q^k \pmod{N},\quad N=pq
+\]
+
+<p>我们可以从\(\eqref{1}\)式中恢复出\(p_1\)与\(q_1\)：</p>
+\[
+\left\{
+    \begin{aligned}
+        q_1 &= \text{gcd}(k_3^{e_1}Q_{11}^{e_3}-k_1^{e_3}Q_{12}^{e_1}\bmod{N_1}, N_1)\\
+        p_1 &= N_1/q_1\\
+    \end{aligned}\right.
+\]
+
+<p>据此解密第一个RSA密文得到：</p>
+
+<pre><code class="language-text">Spirit{u_r_a_baka_1n_m4</code></pre>
+<br>
+
+<p></p>
 
 
 </div>
