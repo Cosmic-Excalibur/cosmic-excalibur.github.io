@@ -6,11 +6,11 @@
 	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
 	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
 	<meta charset="UTF-8"/>
-	<title>2024 SpiritCTF Warmup Write-ups by Astrageldon</title>
+	<title>2024 SpiritCTF Warmup Official Write-ups by Astrageldon</title>
 </head>
 <body>
 	<div class="center">
-		<h1>2024 SpiritCTF Warmup Write-ups by Astrageldon</h1>
+		<h1>2024 SpiritCTF Warmup Official Write-ups by Astrageldon</h1>
 		<ul class="navi">
 			<li><a href="javascript:history.back()" class="noafter back" title="Back"></a></li>
 			<li><a href="/" class="noafter home" title="Homepage"></a></li>
@@ -29,6 +29,7 @@
     <li><a href="#tag-essence-of-the-elders" class="noafter">Crypto - Essence of The Elders</a></li>
     <li><a href="#tag-secret-shredder-2" class="noafter">Crypto - Secret Shredder 2</a></li>
     <li><a href="#tag-secret-shredder-3" class="noafter">Crypto - Secret Shredder 3</a></li>
+    <li><a href="#tag-secret-shredder-4" class="noafter">Crypto - Secret Shredder 4</a></li>
 </details></ul></p>
 <br><br>
 
@@ -301,6 +302,91 @@ p11 = 659277714257194585234501</code></pre>
 
 <br><br>
 
+<ul class="section" id="tag-secret-shredder-4"><li>
+    Crypto - Secret Shredder 4
+</li></ul>
+
+<p>附件在此：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/secret-shredder-4.zip">secret-shredder-4.zip</a></li>
+</ul>
+<br>
+
+<p>同一份明文用同样的模数N和三个不同的公钥e1,e2,e3分别加密了三份，也即：</p>
+\[
+    \left\{
+    \begin{aligned}
+        c_1&\equiv m^{e_1} \pmod{N}\\
+        c_2&\equiv m^{e_2} \pmod{N}\\
+        c_3&\equiv m^{e_3} \pmod{N}\\
+    \end{aligned}\right.
+\]
+
+<p>如果我们能够找到\(s_1,s_2,s_3\)使得</p>
+\[
+    s_1e_1+s_2e_2+s_3e_3=1
+\]
+
+<p>那么我们就可以恢复出明文\(m\)：</p>
+\[
+    m=m^{s_1e_1+s_2e_2+s_3e_3}\equiv c_1^{s_1}c_2^{s_2}c_3^{s_3}\pmod{N}
+\]
+
+<p>如何求解这三个参数呢？可以先对e1与e2应用<a href="https://oi-wiki.org/math/number-theory/gcd/" underlined>扩展欧几里得算法</a>，找到k1、k2使得</p>
+\[
+    k_1e_1+k_2e_2=\text{gcd}(e_1,e_2)=e_{12}
+\]
+
+<p>再找到k3、k4使得</p>
+\[
+    k_3e_{12}+k_4e_3=\text{gcd}(e_{12},e_3)=\text{gcd}(e_1,e_2,e_3)
+\]
+
+<p>于是</p>
+\[
+    \left\{
+    \begin{aligned}
+        s_1 &= k_1k_3\\
+        s_2 &= k_2k_3\\
+        s_3 &= k_4\\
+    \end{aligned}\right.
+\]
+
+<p>不过不幸的是，本题中\(\text{gcd}(e_1,e_2,e_3)=2\ne 1\)，这也就意味着我们最多只能恢复出\(m_2=m^2\bmod{N}\)：</p>
+\[
+    m^2=m^{s_1e_1+s_2e_2+s_3e_3}\equiv c_1^{s_1}c_2^{s_2}c_3^{s_3}\pmod{N}
+\]
+\[
+    m_2 = m^2 + k\cdot N
+\]
+
+<p>我们知道Flag🚩经过填充后的长度为129字节，也即</p>
+\[
+    \begin{aligned}
+        m &< 2^{129\times 8}=2^{1032}\\
+        m^2 &< 2^{2064}\\
+        N &< 2^{2048}\\
+    \end{aligned}
+\]
+
+<p>因此</p>
+\[
+    k < 2^{16}
+\]
+
+<p>类似地，我们可以像<a href="#tag-long-words-1" underlined>Crypto - Long Words 1</a>那样穷举k来寻找真正的明文m。</p>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/sol_secret-shredder-4.py">sol_secret-shredder-4.py</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{eXt3nDed_Eucl1d_s_alg0ri7hm_:)}</code></pre>
+
+<br><br>
 
 
 </div>

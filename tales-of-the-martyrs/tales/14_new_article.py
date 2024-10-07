@@ -1,5 +1,5 @@
 INFO = {
-    'title': r'2024 SpiritCTF Warmup Write-ups by Astrageldon',
+    'title': r'2024 SpiritCTF Warmup Official Write-ups by Astrageldon',
     'tags': ['SpiritCTF'],
     'time': '2024-10-03 10:49'
 }
