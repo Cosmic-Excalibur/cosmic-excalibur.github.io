@@ -430,7 +430,53 @@ p11 = 659277714257194585234501</code></pre>
 <pre><code class="language-text">Spirit{u_r_a_baka_1n_m4</code></pre>
 <br>
 
-<p></p>
+<p>② 第二个问题需要我们求出模数N2。<code>baka.py</code>的83~97行是一个泰勒级数部分和的计算过程，如下：</p>
+\[
+    Q_2=\sum\limits_{k=1}^{18905}\frac{2}{2k-1}x^{2k-1},\quad x=\frac{N_2'-1}{N_2'+1},\quad N_2'=\frac{N_2}{10^{615}}
+    \tag{2}\label{2}
+\]
+
+<p>我们知道：</p>
+\[
+    \begin{aligned}
+        \text{ln}\ \left(\frac{1+x}{1-x}\right) &= \sum\limits_{k=1}^{\infty}\left(\frac{(-1)^{k+1}}{k}x^k+\frac{1}{k}x^k\right)\\
+        &= \sum\limits_{k=1}^{\infty} \frac{2}{2k-1}x^{2k-1},\qquad \vert x\vert < 1
+    \end{aligned}
+\]
+
+<p>也即</p>
+\[
+    \text{ln}\ x = \sum\limits_{k=1}^{\infty} \frac{2}{2k-1}\left(\frac{x-1}{x+1}\right)^{2k-1},\qquad x > 0
+\]
+
+<p>解谜的时候只需要推到这一步就够了（甚至于，随便取几个值代入\(\eqref{2}\)式中，猜出这是一个求自然对数的过程也可以）。我们也可以更进一步地分析一下误差：</p>
+\[
+    \text{ln}\ x = \left[\sum\limits_{k=1}^{n} \frac{2}{2k-1}\left(\frac{x-1}{x+1}\right)^{2k-1}\right] + \left[\sum\limits_{k=n+1}^{\infty} \frac{2}{2k-1}\left(\frac{x-1}{x+1}\right)^{2k-1}\right], \qquad x > 0
+\]
+
+<p>于是，</p>
+\[
+    \begin{aligned}
+        \text{ln}\ N_2' - Q_2 &< \sum\limits_{k=n+1}^{\infty} \frac{2}{2k-1}\beta^{2k-1}\\
+        &< \frac{2}{2n+1}\cdot\frac{\beta^{2n+1}}{1-\beta}\\
+        &< 10^{-1019},\qquad \beta=\frac{2^{2048}/10^{615}-1}{2^{2048}/10^{615}+1},\qquad n=18905
+    \end{aligned}
+\]
+
+<p>我们计算幂时的绝对误差满足</p>
+\[
+    \begin{aligned}
+        \Delta &< e^{2^{2048}/10^{615}+10^{-1019}} - e^{2^{2048}/10^{615}}\\
+        &< 10^{-1004}
+    \end{aligned}
+\]
+
+<p>这个粗糙的估计说明我们足以通过输出中的Q2来求出\(N_2'\)：</p>
+
+<ul>（两种方法）
+<li>Python：<code>N2 = round(Decimal(Q2).exp() * 10**615)</code></li>
+<li>SageMath（<a href="https://doc-10-4--sagemath.netlify.app/html/en/installation/" underlined>安装教程</a>，<a href="https://sagecell.sagemath.org/" underlined>网页端</a>）：<code>rr = RealField(10000); N2 = round(exp(rr(Q2)) * 10**615)</code></li>
+</ul>
 
 
 </div>
