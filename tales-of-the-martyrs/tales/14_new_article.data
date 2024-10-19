@@ -457,6 +457,10 @@ p11 = 659277714257194585234501</code></pre>
 <li>Python：<code>N2 = round(Decimal(Q2).exp() * 10**615)</code></li>
 <li>SageMath（<a href="https://doc-10-4--sagemath.netlify.app/html/en/installation/" underlined>安装教程</a>，<a href="https://sagecell.sagemath.org/" underlined>网页端</a>）：<code>rr = RealField(10000); N2 = round(exp(rr(Q2)) * 10**615)</code></li>
 </ul>
+<br>
+
+<p>⑨ 第三个问题是一个定积分的近似计算过程：</p>
+
 
 
 

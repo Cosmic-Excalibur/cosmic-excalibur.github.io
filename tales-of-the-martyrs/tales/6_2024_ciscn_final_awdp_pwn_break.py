@@ -1,6 +1,6 @@
 INFO = {
     'title': r'2024 CISCN Final AWDP Pwn Break',
-    'tags': ['Pwn', 'BinaryExploitation', 'CISCN'],
+    'tags': ['CTF', 'Pwn', 'BinaryExploitation', 'CISCN'],
     'time': '2024-08-02 21:42'
 }
 

@@ -1,6 +1,6 @@
 INFO = {
     'title': r'2024 CrewCTF Write-ups',
-    'tags': ['CrewCTF', 'Cryptography', 'ReverseEngineering', 'LatticeBasedCryptography', 'LinearCongruentialGenerator', 'BlockCipher', 'AES-GCM', 'HTML-TheProgrammingLanguage'],
+    'tags': ['CTF', 'CrewCTF', 'Cryptography', 'ReverseEngineering', 'LatticeBasedCryptography', 'LinearCongruentialGenerator', 'BlockCipher', 'AES-GCM', 'HTML-TheProgrammingLanguage'],
     'time': '2024-08-05 14:23'
 }
 

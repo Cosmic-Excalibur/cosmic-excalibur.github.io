@@ -1,6 +1,6 @@
 INFO = {
     'title': r'2024 SpiritCTF Warmup Official Write-ups by Astrageldon',
-    'tags': ['SpiritCTF'],
+    'tags': ['CTF', 'SpiritCTF'],
     'time': '2024-10-03 10:49'
 }
 

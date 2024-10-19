@@ -1,6 +1,6 @@
 INFO = {
     'title': r'2024 WMCTF Write-ups',
-    'tags': ['WMCTF', 'Cryptography', 'ClassicalCiphers', 'LatticeBasedCryptography', 'GraphTheory', 'LinearAlgebra'],
+    'tags': ['CTF', 'WMCTF', 'Cryptography', 'ClassicalCiphers', 'LatticeBasedCryptography', 'GraphTheory', 'LinearAlgebra'],
     'time': '2024-09-10 15:48'
 }
 

@@ -1,6 +1,6 @@
 INFO = {
     'title': r'2024 熵密杯 Write-ups',
-    'tags': ['熵密杯', 'Cryptography', 'LatticeBasedCryptography', 'LinearCongruentialGenerator'],
+    'tags': ['CTF', '熵密杯', 'Cryptography', 'LatticeBasedCryptography', 'LinearCongruentialGenerator'],
     'time': '2024-09-09 16:34'
 }
 

@@ -1,6 +1,6 @@
 INFO = {
     'title': r'2024 corCTF Crypto Write-ups',
-    'tags': ['corCTF', 'Cryptography', 'LatticeBasedCryptography', 'QuantumCircuit'],
+    'tags': ['CTF', 'corCTF', 'Cryptography', 'LatticeBasedCryptography', 'QuantumCircuit'],
     'time': '2024-08-02 22:09'
 }
 
