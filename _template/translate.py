@@ -1,4 +1,9 @@
-import os, re, pickle
+import os, re, pickle, argparse, sys
+
+parser = argparse.ArgumentParser(prog=sys.argv[0], description='Chronicle of Astrageldon webpage translator (compiler).')
+parser.add_argument('--recompile-all', '-a', help='Don\'t skip anything when compiling.', action='store_true')
+    
+global_args = parser.parse_args()
 
 workdir = ".."
 __TITLE__ = '!@#$%__TITLE__%$#@!'
@@ -52,7 +57,7 @@ def import2(path, *args, **kwargs):
 def needs_update(path):
     global mtime_dict
     if path.endswith('domains-of-the-hallow.py'): return True
-    if mtime_dict is None:
+    if mtime_dict == {}:
         if os.path.exists("mtime.pickle"):
             with open("mtime.pickle", "rb") as f:
                 mtime_dict = pickle.load(f)
@@ -68,7 +73,7 @@ def needs_update(path):
         mtime_data = info_data.st_mtime
         res = res or mtime_dict.get(path_data, 0) < mtime_data
         mtime_dict.update({path_data: mtime_data})
-    return res
+    return res or global_args.recompile_all
 
 def save_mtime():
     with open("mtime.pickle", "wb") as f:
@@ -84,7 +89,7 @@ flagfmt = lambda flag: '\x1b[33;1m%s\x1b[0m' % ''.join(chr(x) if x in range(32,1
 read = lambda path, *args, **kwargs: open(path, 'r', *args, **kwargs).read()
 write = lambda path, data, *args, **kwargs: open(path, 'w', *args, **kwargs).write(data)
 
-mtime_dict = None
+mtime_dict = {}
 
 template = read('template.html', encoding = 'utf-8')
 disallow = [

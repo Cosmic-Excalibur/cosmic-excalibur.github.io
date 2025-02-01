@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
+	<!-- <link rel="stylesheet" type="text/css" href="http://tikzjax.com/v1/fonts.css">
+	<script src="https://tikzjax.com/v1/tikzjax.js"></script> -->
+	<!-- <link rel="stylesheet" type="text/css" href="/essence-of-the-elders/aesthetics-of-mathematics/tikzjax/fonts.css"/>
+	<script src="/essence-of-the-elders/aesthetics-of-mathematics/tikzjax/tikzjax.js"></script> -->
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>ECC Megamix</title>
+</head>
+<body>
+	<div class="center">
+		<h1>ECC Megamix</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="noafter back" title="Back"></a></li>
+			<li><a href="/" class="noafter home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="noafter forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	<div class="main">
+<p>目录：<ul><details open>
+    <summary></summary>
+    <li><a href="#section-preface" class="noafter">前言</a></li>
+    <li><a href="#section-complex-multiplication" class="noafter">Complex multiplication</a></li>
+    <li><a href="#section-j-function" class="noafter">j-function</a></li>
+    <li><a href="#section-the-modular-polynomial-and-hilbert-class-polynomial" class="noafter">The modular polynomial & Hilbert class polynomial</a></li>
+    <li><a href="#appendix-a" class="noafter">Appendix A - Lattices, tori & elliptic curves</a></li>
+    <li><a href="#appendix-b" class="noafter">Appendix B - The valence formula</a></li>
+    <li><a href="#appendix-c" class="noafter">Appendix C - Classification of endomorphism algebras</a></li>
+    <li><a href="#appendix-d" class="noafter">Appendix D - About the modular polynomial</a></li>
+    <li><a href="#section-references" class="noafter">References</a></li>
+</details></ul></p>
+<br><br>
+    
+<ul class="section" id="section-preface"><li>
+    前言
+</li></ul>
+<p>本文会先做一堆铺垫，然后给出下面这个东西的解。</p>
+<br>
+
+<p>含4p-1型质因子的大整数分解问题（简称“4p-1问题”）<sup><a href="#ref-1" title="A new class of unsafe primes" class="noafter" gray>[1]</a><a href="#ref-2" title="I Want to Break Square-free: The 4p-1 Factorization Method and Its RSA Backdoor Viability" class="noafter" gray>[2]</a></sup>：已知整数\(N\)由两个<code>pbits</code>比特位的质因子\(p,q\)组成（\(N=pq\)），其中</p>
+\[
+    \require{HTML}
+    \newcommand{\rotateninety}[1]{\style{display: inline-block; transform: rotate(90deg)}{#1}}
+    \newcommand{\ZZ}{\mathbb{Z}}
+    \newcommand{\RR}{\mathbb{R}}
+    \newcommand{\CC}{\mathbb{C}}
+    \newcommand{\HH}{\mathbb{H}}
+    \newcommand{\QQ}{\mathbb{Q}}
+    \newcommand{\abs}[1]{\vert #1 \vert}
+    \newcommand{\End}{\text{End}}
+    \newcommand{\tens}[1]{\otimes_{#1}}
+    \newcommand{\SL}{\text{SL}}
+    \newcommand{\GL}{\text{GL}}
+    \newcommand{\iso}{\mathop{\longrightarrow}\limits^{\sim}}
+    \newcommand{\Tr}{\operatorname{T}}
+    \newcommand{\Nm}{\operatorname{N}}
+    \newcommand{\deg}{\operatorname{deg}}
+    \newcommand{\gcd}{\mathop{\text{gcd}}}
+    \newcommand{\lcm}{\mathop{\text{lcm}}}
+    \newcommand{\Aut}{\text{Aut}}
+    \newcommand{\diag}{\text{diag}}
+    \newcommand{\ker}{\operatorname{ker}}
+    \newcommand{\coker}{\operatorname{coker}}
+    p = \frac{t^2-v^2D}{4},\quad D,v,t\in\ZZ,\quad D < 0,\quad D\equiv 5\pmod{8}, \quad t = 1
+\]
+<p>求\(p,q\)。</p>
+<br>
+
+<p>在量子计算机发明出来之后这个问题就变得平凡了——它与一般的大整数分解问题在Shor算法下基本无异。而在此之前，如果能够相对高效地解决上述问题的话，我们的RSA就又多出了一类不安全的模数——虽然寻找某类特殊的大整数分解方法并非本文的出发点。</p>
+
+<br>
+<ul class="section" id="section-complex-multiplication"><li>
+    Complex multiplication
+</li></ul>
+
+<p>众所周知，作为一个复环面，格点\(\CC/\Lambda\)与椭圆曲线\(E/\CC\)的点群同构<sup><a href="#appendix-a" title="Lattices, tori & elliptic curves" class="noafter" gray>[Appendix A]</a></sup>，\(E/\CC\)上的自同态对应在\(\CC/\Lambda\)上是形如</p>
+\[
+    f(z+\Lambda)=\alpha z+\Lambda,\quad z\in \CC,\quad \alpha \in \HH=\{x+iy:x,y\in\RR,y>0\},\quad \alpha \Lambda\subseteq \Lambda
+\]
+<p no-indent>的全纯映射。一般来说，每个\(\alpha \in\ZZ\)都可以对应一个自同态，而如果存在满足\(\alpha \Lambda\subseteq\Lambda\)的\(\alpha \in\CC - \RR\)，那么称该\(\CC/\Lambda\)对应的\(E/\CC\)具有复数乘法（complex multiplication），这个\(\alpha\)则被称为复乘点（CM point）。</p>
+
+<p>不妨设\(\Lambda = \ZZ + \ZZ\tau\)，那么\( \alpha,\alpha^2 \in \Lambda \)，\(\alpha^2\)可以表示为\(1,\alpha\)的有理系数线性组合，即\(\alpha\)是\(\ZZ\)上的代数数。</p>
+
+<p>\(E/\CC\)的自同态代数与有理数域或者某个虚二次域\(K\)是同构的，\(E/\CC\)的自同态群与整数环或者某个虚二次域的某个阶\(\ \mathcal{O}\)是同构的。</p>
+\[
+    \QQ \tens{\ZZ} \End(E) =: \End^0 (E) \cong \QQ \text{ or } K
+\]
+\[
+    \End(E) \cong \ZZ \text{ or } \mathcal{O}
+\]
+
+<p>事实上，我们有，</p>
+<br>
+<p no-indent><span gray id="thm-1">定理1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
+<ol>
+<li>有理数域 \( \QQ \)</li>
+<li>虚二次域 \( \QQ(\alpha),\quad \alpha^2 < 0 \)</li>
+<li>四元数代数 \( \QQ(\alpha,\beta),\quad \alpha^2,\beta^2 < 0, \quad \alpha\beta=-\beta\alpha \)</li>
+</ol>
+
+<p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>，对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1" class="noafter" underlined>定理1</a>的第三种情况是不可能出现的（事实上，对于有限域上的椭圆曲线\(E\)而言，第三种情况成立当且仅当\(E\)超奇异）。</p>
+
+
+<br>
+<ul class="section" id="section-j-function"><li>
+    j-function
+</li></ul>
+
+<p>由\(\Lambda\)的Weierstrass方程</p>
+\[
+    (\wp')^2 = 4 \wp^3 - g_2 \wp - g_3, \qquad \Delta(\Lambda) = g_2^3 - 27g_3^2
+\]
+\[
+    \wp = \wp(z;\Lambda) = \frac{1}{z^2} + \sum\limits_{\omega\in\Lambda-\{0\}} \left[ \frac{1}{(z-\omega)^2} - \frac{1}{\omega^2} \right]
+\]
+
+<p no-indent>我们可以得到一个零阶齐次的函数——j不变量</p>
+\[
+    j(\Lambda) = 12^3 J(\Lambda) = \frac{1728 g_2^3}{\Delta}, \qquad j(\tau) := j(\Lambda(\omega_1,\omega_2)), \quad \omega_1/\omega_2=\tau\in\HH
+\]
+\[
+    j(\gamma\tau) = j(\tau),\qquad \forall \tau\in\HH,\ \gamma\in\Gamma:=\SL_2(\ZZ)
+\]
+
+<p>类似地，与之相关联的椭圆曲线\(E:y^2=4x^3-g_2x-g_3\)（\(x=\wp(z),\ y=\wp'(z)\)）的j不变量为</p>
+\[
+    j_E = j(E) = \frac{1728 g_2^3}{\Delta} = \frac{1728 g_2^3}{g_2^3 - 27g_3^2}
+\]
+
+<p>根据附录B<sup><a href="#appendix-b" title="The valence formula" class="noafter" gray>[Appendix B]</a></sup>，</p>
+
+<ul>
+<li>\(v_\rho(G_4)=1,\ v_i(G_4)=0\)</li>
+<li>\(v_\rho(G_6)=0,\ v_i(G_6)=1\)</li>
+<li>\(v_\infty(\Delta)=1\)</li>
+</ul>
+
+<p>\(G_4,G_6,\Delta\)在\(\HH\)中除了上述位置外的其余地方没有极点与零点。因此</p>
+\[
+    v_\rho(J) = 3,\ v_\infty(J) = -1,\ v_i(J-1) = 2
+\]
+
+<p>\(J\)在\(\HH\)的其余地方没有极点与零点。进一步地，对于\(\forall c\in\CC-\{0,1\}\)，\(J(z),J(z)-c\)有一个一阶极点，因此\(J(z)-c\)一定有一个一阶零点\(z_c\)，显然每个\(z_c\)对于每个\(c\)而言是一一对应的。我们有双射</p>
+\[
+    j: \Gamma\backslash\HH \iso \CC
+\]
+
+<p>现在，对于两条椭圆曲线\(E/\CC,\ E'/\CC\)及其对应的\(\Lambda=[\omega_1,\omega_2],\ \Lambda'=[\omega_1',\omega_2']\)而言，</p>
+\[
+    j(E) = j(E') \iff j(\Lambda) = j(\Lambda') \iff \omega_1/\omega_2=\pm \omega_1'/\omega_2' \iff \exists c\in\CC^*,\ c\Lambda = \Lambda' \iff E \cong E'
+\]
+<p>此时，\(\exists c\in \CC^*\)，</p>
+\[
+    g_2(\Lambda')=g_2(c\Lambda)=c^{-4}g_2(\Lambda),\quad g_3(\Lambda')=g_3(c\Lambda)=c^{-6}g_3(\Lambda)
+\]
+\[
+    \wp(cz;\Lambda')=c^{-2}\wp(z;\Lambda),\ \wp'(cz;\Lambda')=c^{-3}\wp'(z;\Lambda) \implies (x,y)\mapsto(c^{-2}x,c^{-3}y)
+\]
+
+
+
+
+<br>
+<ul class="section" id="section-the-modular-polynomial-and-hilbert-class-polynomial"><li>
+    The modular polynomial & Hilbert class polynomial
+</li></ul>
+
+<p>记</p>
+\[
+    \GL_n^+(R)=\{M\in\GL_n(R): \det(M)>0\},\quad \Delta_n=\{M\in\GL_2(\ZZ): \det(M)=n\},\quad \Delta_n^*=\left\{\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\Delta_n: \gcd(a,b,c,d)=1\right\}
+\]
+
+<p>设\(j\)为前文所述，则\(j\circ \gamma\alpha=j\circ\alpha,\ \forall\gamma\in\Gamma\)。取\(\Gamma\backslash\Delta_n^*\)中一组形如下式的代表元</p>
+\[
+    \begin{pmatrix}a&b\\0&d\end{pmatrix},\quad ad=n,\ 0 < a, 0\le b < d
+\]
+
+<p>令\(\psi(n)=\abs{\Gamma\backslash\Delta_n^*}\)，不难算出<sup><a href="#ref-4" title="S. Lang. Elliptic functions. Chapter 5, The Modular Equation." class="noafter" gray>[4]</a></sup></p>
+\[
+    \psi(n) = n\prod\limits_{p\mid n}\left(1+\frac{1}{p}\right)
+\]
+
+<p>我们希望找到在\(\Gamma\backslash\Delta_n^*\)的置换的意义下\(j(n\tau)\)在\(\ZZ[j(\tau)]\)中的极小多项式，故令</p>
+\[
+    \Phi_n(X)=\prod\limits_{i=1}^{\psi(n)}(X-j\circ \alpha_i), \quad \alpha_i\in \Gamma\backslash\Delta_n^*
+\]
+
+<p>它满足</p>
+<p no-indent><span gray id="thm-2">定理2：</span></p><ol>
+<li>\(\Phi_n(X)\in\ZZ[X,j]\)。</li>
+<li>\(\Phi_n(X)\)是\(\CC(j)\)上不可约的\(\psi(n)\)阶多项式。</li>
+<li>\(\Phi_n(X,j)=\Phi_n(j,X)\)。</li>
+<li>若\(n\)不为平方数，则\(\Phi_n(j,j)\)次数大于1，且首项系数为\(\pm 1\)。</li>
+</ol>
+
+<p>证明参见附录D<sup><a href="#appendix-d" title="About the modular polynomial" class="noafter" gray>[Appendix D]</a></sup>。我们称\(\Phi_n(X)\)为n阶模多项式（modular polynomial of order n）。</p>
+<br>
+
+<p>考虑如下的交换图：</p>
+\[
+\require{AMScd}
+\begin{CD}
+\CC/M @>{\pi}>> \CC/L\\
+@VV{\rotateninety{\sim}}V @VV{\rotateninety{\sim}}V \\
+B/\CC @>>{\phi}> A/\CC
+\end{CD}
+\]
+
+<p no-indent>其中\(M\subseteq L\)。设\(L=[\omega_1,\omega_2]\)，那么，</p>
+\[
+    M=[a\omega_1+b\omega_2,c\omega_1+d\omega_2],\quad \alpha=\begin{pmatrix}a&b\\c&d\end{pmatrix}\in \GL_2^+(\ZZ)
+\]
+
+<p>将\(\alpha\)写成Smith标准形，</p>
+\[
+    \diag\{\lambda_1,\lambda_2\} = \alpha' = \gamma\alpha\gamma',\quad \gamma,\gamma'\in\Gamma,\quad \lambda_1\mid\lambda_2
+\]
+\[
+    M=[\lambda_1\omega_1,\lambda_2\omega_2]
+\]
+
+<p>故\(L/M\)是循环加法群当且仅当\(\lambda_1=1\)，也即\(\gcd(a,b,c,d)=1\)。</p>
+<p>同态\(\pi:\CC/M\to\CC/L,\ z+M\mapsto z+L\)的核为\(\ker{\pi}=L/M\)。据此立即得到，从\(B/\CC\)到\(A/\CC\)的同源\(\phi\)满足\(\abs{\ker{\phi}}=n\)当且仅当\(\Phi_n(j_A,j_B)=0\)。</p>
+
+<p></p>
+
+
+
+
+
+
+
+
+
+<br><br><br>
+<ul class="section" id="appendix-a"><li>
+    Appendix A - Lattices, tori & elliptic curves
+</li></ul>
+
+
+
+
+
+<br><br><br>
+<ul class="section" id="appendix-b"><li>
+    Appendix B - The valence formula<sup><a href="#ref-3" title="S. Lang. Elliptic functions. Chapter 3, The Modular Function." class="noafter" gray>[3]</a></sup>
+</li></ul>
+
+<p>设\(f\)是\(2k\)阶模函数，\(v_p(f)\)表示使得\((z-p)^{-v_p(f)}f(z)\)在\(z=p\)附近解析无零点的唯一的整数，那么根据留数定理可以算出</p>
+\[
+    v_\infty(f) + \frac{1}{2}v_i(f) + \frac{1}{3}v_\rho(f) + \sum\limits_{p\in(\Gamma\backslash\HH)-\{i,\rho\}} v_p(f) = \frac{2k}{12}
+\]
+\[
+    i=\sqrt{-1},\ \rho = e^{2\pi i/3}
+\]
+
+
+
+<br><br><br>
+<ul class="section" id="appendix-c"><li>
+    Appendix C - Classification of endomorphism algebras
+</li></ul>
+
+<p no-indent><span gray>定理1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
+<ol>
+<li>有理数域 \( \QQ \)</li>
+<li>虚二次域 \( \QQ(\alpha),\quad \alpha^2 < 0 \)</li>
+<li>四元数代数 \( \QQ(\alpha,\beta),\quad \alpha^2,\beta^2 < 0, \quad \alpha\beta=-\beta\alpha \)</li>
+</ol>
+<p no-indent><span gray>证明：</span>\(\QQ\subseteq\End^0(E)\)恒成立。若\(\alpha \in \End^0 (E)\)的像不在\(\QQ\)中，那么</p>
+\[
+    \Tr \left(\alpha-\frac{1}{2}\Tr \alpha\right) = \Tr \alpha - \frac{1}{2} \Tr\Tr\alpha = \Tr\alpha - \frac{1}{2}\cdot 2\Tr\alpha = 0,\quad \Tr=\Tr_{\QQ(\alpha)/\QQ}
+\]
+<p>此外，</p>
+\[
+    0 \ne \alpha = r\otimes\phi, \quad \deg \phi > 0,\ r\in\QQ
+\]
+\[
+    \alpha^2 - (\Tr\alpha)\alpha + \Nm\alpha = 0 \implies \alpha^2 = -\Nm\alpha < 0
+\]
+<p>这意味着虚二次域\(\QQ\left(\alpha-\frac{1}{2}\Tr \alpha\right)\subseteq\End^0(E)\)。现在不妨设\(\QQ(\alpha)\subsetneqq\End^0(E)\)，若\(\beta \in \End^0 (E)\)的像不在\(\QQ(\alpha)\)中（\(\Tr\alpha=0\)，且不妨设\(\Tr\beta=0\)），那么</p>
+\[
+    \Tr \left(\alpha\left(\beta-\frac{\Tr(\alpha\beta)}{2\alpha^2}\alpha\right)\right) = 0,\quad \Tr\beta = \Tr\left(\beta-\frac{\Tr(\alpha\beta)}{2\alpha^2}\alpha\right)
+\]
+<p no-indent>因此不妨设\(\Tr (\alpha\beta) = 0\)，此时</p>
+\[
+    \alpha\beta = -\widehat{\alpha\beta} = -\hat{\beta}\hat{\alpha} = -\beta\alpha
+\]
+<p>此外，不难验证\(1,\alpha,\beta,\alpha\beta\)张成一个\(\QQ\)-线性空间，接下来我们需要证明其\(\QQ\)-线性无关，首先显然</p>
+\[
+    \beta\notin\QQ(\alpha)\implies\alpha\notin\QQ(\beta)
+\]
+<p>即\(1,\alpha,\beta\)线性无关。其次，设\(\alpha\beta=a+b\alpha+c\beta,\ a,b,c\in\QQ\)，那么</p>
+\[
+    \alpha\beta\notin\QQ(\alpha),\QQ(\beta) \implies a,b,c\ne 0
+\]
+\[
+    \implies -\alpha^2\beta^2=(\alpha\beta)^2=a^2+b^2\alpha^2+c^2\beta^2+2a(b\alpha+c\beta)+bc(\alpha\beta+\beta\alpha)
+\]
+\[
+    \implies b\alpha+c\beta\in\QQ
+\]
+<p no-indent>这与\(1,\alpha,\beta\)线性无关矛盾。这说明\(Q(\alpha,\beta)\)的确是一个四元数代数。进一步地，若\(\gamma \in \End^0 (E)\)的像不在\(\QQ(\alpha,\beta)\)中，不妨设\(\Tr\gamma=0,\ \Tr(\alpha\gamma)=0\)，于是</p>
+\[
+    \alpha\gamma=-\gamma\alpha,\quad \alpha\beta\gamma = -\beta\alpha\gamma = \beta\gamma\alpha
+\]
+<p>令\(\psi = \beta\gamma\)，则\(\alpha\psi = \psi\alpha\)，不妨设\(\Tr\psi=0,\ \Tr(\alpha\psi)=0\)，则\(\alpha\psi+\psi\alpha = 2\alpha\psi = 0\)。由于\(\End^0 (E)\)没有零因子，故\(\alpha=0\)或者\(\psi=0\)成立，而任何一者都是不可能的。</p>
+<p no-indent><span gray>Q.E.D.</span></p>
+
+
+<br><br><br>
+<ul class="section" id="appendix-d"><li>
+    Appendix D - About the modular polynomial
+</li></ul>
+
+<p no-indent><span gray id="lemma-1">引理1：</span>设\(f\)为模函数，即\(f\)是一个在\(\HH^*=\HH\cup\{\infty\}\)上\(\infty\)处半纯，在\(\Gamma\)下不变的函数，其在无穷远点有q-级数\(f=\sum\limits_{n=-M}^\infty c_nq^n\)，那么\(f\)可以表示为\(j\)的多项式，且系数为\(c_n\)的整系数线性组合。</p>
+<p no-indent><span gray>证明：</span>利用长除法，我们首先计算\(f_1=f-c_{-M}j^M\)，那么\(f_1\)在\(\infty\)的阶高于\(-M\)，重复此步骤算得\(f_2,f_3,\cdots\)，直到\(f_i\)在\(\infty\)的阶非负，此时\(f_i\)在\(\HH^*\)上全纯，故根据Liouville定理\(f_i\)恒为0。</p>
+<p no-indent><span gray>Q.E.D.</span></p>
+<br>
+
+<p no-indent><span gray>定理2：</span>\(\Phi_n(X)\)满足</p>
+<ol>
+    <li>\(\Phi_n(X)\in\ZZ[X,j]\)。</li>
+    <li>\(\Phi_n(X)\)是\(\CC(j)\)上不可约的\(\psi(n)\)阶多项式。</li>
+    <li>\(\Phi_n(X,j)=\Phi_n(j,X)\)。</li>
+    <li>若\(n\)不为平方数，则\(\Phi_n(j,j)\)次数大于1，且首项系数为\(\pm 1\)。</li>
+</ol>
+<p no-indent><span gray>证明：</span></p>
+<ol>
+<li><p>由于\(\Gamma\)传递置换\(j\circ\alpha_1,\cdots,j\circ\alpha_{\psi(n)}\in\Gamma\backslash\Delta_n^*\)，故\(\Gamma\)传递置换\(\Phi_n(X)\)的所有系数。又由于\(j\circ\alpha_i=\frac{1}{\zeta_{d_i}^{b_i}\cdot q^{a_i/d_i}}+\cdots\)，故\(\Phi_n(X)\)的系数在\(\HH\)上全纯，且在\(\HH^*\)上半纯。根据<a href="#lemma-1" class="noafter" underlined>引理1</a>，这意味着，</p>
+\[
+    \Phi_n(X) \in \QQ(\zeta_n)((q^{1/n}))[X] = k
+\]
+<p>显然\(k\)上的自同构</p>
+\[
+    \sigma_r: \zeta_{n} \mapsto \zeta_n^r,\quad r\in (\ZZ/n\ZZ)^*
+\]
+<p no-indent>保持\(\Phi_n(X)\)不变，于是我们可以将\(\Phi_n(X)\)的系数展开为\(\ZZ((q))\)中的q-级数，从而再次根据<a href="#lemma-1" class="noafter" underlined>引理1</a>，</p>
+\[
+    \Phi_n(X) \in \ZZ[X],\quad \text{or } \Phi_n(X,j) \in \ZZ[X,j]
+\]
+</li>
+<li><p>与上述类似，由于\(\Gamma\)传递置换\(j\circ\alpha_1,\cdots,j\circ\alpha_{\psi(n)}\in\Gamma\backslash\Delta_n^*\)，于是</p>
+\[
+    \psi(n) = \abs{\Aut(L/K)} \ge [L:K],\quad K=\CC(j),\ L=K(j\circ\alpha_1,\cdots,j\circ\alpha_{\psi(n)})
+\]
+<p>故\(L/K\)是\(\psi(n)\)次Galois扩张，即证。</p>
+</li>
+<li><p>注意到</p>
+\[
+    \Phi_n(j(\tau/n),j(\tau)) = 0 \implies \Phi_n(j(\tau),j(n\tau)) = 0
+\]
+<p>由于\(\Phi_n\)为上述\(X\)的极小多项式，故\(\Phi_n(X,j)\mid \Phi_n(j,X)\)，从而，</p>
+\[
+    \Phi_n(j,X) = g(X,j) \Phi_n(X,j),\quad g\in\ZZ[X,j] \implies \Phi_n(X,j) = g(j,X) \Phi_n(j,X)
+\]
+<p>于是，</p>
+\[
+    \Phi_n(X,j) = g(X,j) g(j,X) \Phi_n(X,j) \implies g(X,j) g(j,X) = 1 \implies g(X,j) = \pm 1
+\]
+<p></p>
+\[
+    \implies \Phi_n(X,j) = \pm\Phi_n(j,X)
+\]
+<p>若\(\Phi_n(X,j)=-\Phi_n(j,X)\)，则\(\Phi(j,j)=-\Phi(j,j)\)，与<span gray>2.</span>矛盾。</p>
+</li>
+<li><p>设</p>
+\[
+    \alpha = \begin{pmatrix}a&b\\0&d\end{pmatrix} \in \Gamma\backslash\Delta_n^*
+\]
+<p>\(ad=n\)，则\(a\ne d\)，于是</p>
+\[
+    j-j\circ \alpha = \frac{1}{q} + \cdots - \frac{1}{\zeta_d^b q^{a/d}} - \cdots
+\]
+<p>可以看出\(\Phi_n(j,j)\)的q-级数形为</p>
+\[
+    \frac{c_m}{q^m}+\cdots
+\]
+<p>即</p>
+\[
+    \Phi_n(j,j) = c_mj^m+\cdots
+\]
+<p>不难发现\(m>1\)，\(c_m\)为某个单位根，又由于\(c_m\in\ZZ\)，故必有\(c_m=\pm 1\)。</p>
+</li>
+</ol>
+<p no-indent><span gray>Q.E.D.</span></p>
+
+
+
+<br><br><br>
+<ul class="section" id="section-references"><li>
+    References
+</li></ul>
+
+<ol>
+<li id="ref-1">Cheng Q. A new class of unsafe primes[J]. Cryptology ePrint Archive, 2002. <a href="https://eprint.iacr.org/2002/109" underlined>https://eprint.iacr.org/2002/109</a></li>
+<li id="ref-2">Sedlacek V, Klinec D, Sýs M, et al. I Want to Break Square-free: The 4p-1 Factorization Method and Its RSA Backdoor Viability[C]//ICETE (2). 2019: 25-36. <a href="https://www.scitepress.org/Papers/2019/77866/77866.pdf" underlined>https://www.scitepress.org/Papers/2019/77866/77866.pdf</a></li>
+<li id="ref-3">S. Lang. Elliptic functions. Chapter 3, The Modular Function.</li>
+<li id="ref-4">S. Lang. Elliptic functions. Chapter 5, The Modular Equation.</li>
+</ol>
+
+</div>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#AlgebraicNumberTheory</b></span><span color="gray">, </span><span style="color:blue"><b>#EllipticCurveCryptography</b></span></p>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-02-01 20:50</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            },
+			SVG: { linebreaks: {automatic: true } }
+        });
+        //window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+	</script>
+	<script src="/essence-of-the-elders/spirit-of-codes/prism.js"></script>
+</body>
+</html>

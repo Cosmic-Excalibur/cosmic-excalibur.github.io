@@ -42,8 +42,8 @@ window.onkeydown = function(e)
 
 data = lambda: dict([
     (f"*_{(idx := i//interval+1)}.html", {
-        __TITLE__: r"""Articles""",
-        __HTML_TITLE__: r"""~ Articles ~""",
+        __TITLE__: r"""Contents""",
+        __HTML_TITLE__: r"""~ Contents ~""",
         __CONTENT__: "<br>\n".join(
                 r"""<hr>
                 <div style="margin-left:2em">

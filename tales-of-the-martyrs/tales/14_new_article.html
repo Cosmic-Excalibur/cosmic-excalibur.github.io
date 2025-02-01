@@ -4,6 +4,10 @@
 	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
 	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
 	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
+	<!-- <link rel="stylesheet" type="text/css" href="http://tikzjax.com/v1/fonts.css">
+	<script src="https://tikzjax.com/v1/tikzjax.js"></script> -->
+	<!-- <link rel="stylesheet" type="text/css" href="/essence-of-the-elders/aesthetics-of-mathematics/tikzjax/fonts.css"/>
+	<script src="/essence-of-the-elders/aesthetics-of-mathematics/tikzjax/tikzjax.js"></script> -->
 	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
 	<meta charset="UTF-8"/>
 	<title>2024 SpiritCTF Warmup Official Write-ups by Astrageldon</title>
@@ -479,7 +483,56 @@ p11 = 659277714257194585234501</code></pre>
 </ul>
 <br>
 
+<p>据此解密第二个RSA密文得到：</p>
+
+<pre><code class="language-text">th_:p__--Cirno____baka9b</code></pre>
+<br>
+
 <p>⑨ 第三个问题是一个定积分的近似计算过程：</p>
+\[
+    \begin{aligned}
+        Q_3 &= \frac{1}{n}\sum\limits_{k=0}^{n-1}\frac{10^{1860}}{(N_3+k/n)^3+1},\quad n=40000
+    \end{aligned}
+\]
+
+<p>它非常接近</p>
+\[
+    \begin{aligned}
+        \int_{N_3}^{N_3+1}\frac{10^{1860}}{x^3+1}\mathrm{d}x &= 10^{1860}\cdot \left.\left(\frac{1}{\sqrt{3}}\mathrm{arctan}\frac{2x-1}{\sqrt{3}}-\frac{1}{6}\mathrm{log}(x^2-x+1)+\frac{1}{3}\mathrm{log}(x+1)\right)\right\vert_{N_3}^{N_3+1}\\
+        &= F(N_3+1)-F(N_3)
+    \end{aligned}
+\]
+
+<p>也即，我们需要找到如下的方程的根：</p>
+\[
+    F(x+1)-F(x)=Q_3
+\]
+
+<p>当\(x\)比较大的时候，\(F(x+1)-F(x)\)单调递减，于是我们可以通过二分法快速地找到上述方程的根。</p>
+
+<p>此外，注意到上述中的\(x\)非常大，我们的定积分值非常接近于一个宽为1的矩形的面积，因此我们也可以直接求解方程</p>
+\[
+    \frac{10^{1860}}{x^3+1}=Q_3
+\]
+
+<p>的根来得到\(N_3\)。</p>
+
+<p>据此解密第三个RSA密文得到：</p>
+
+<pre><code class="language-text">akaaba9ababa9bkka9kaaa9}</code></pre>
+<br>
+
+<p>Proof of Concept：</p>
+<ul>
+    <li><a underlined href="/tales-of-the-martyrs/tales/oracle-of-namagiri/14/sol_cirno-no-perfect-sannsuu-kyoushitsu.sage">sol_cirno-no-perfect-sannsuu-kyoushitsu.sage</a></li>
+</ul>
+<br>
+
+<p>Flag🚩：</p>
+<pre><code class="language-text" style="color:red">Spirit{u_r_a_baka_1n_m4th_:p__--Cirno____baka9bakaaba9ababa9bkka9kaaa9}</code></pre>
+
+<br><br>
+
 
 
 
