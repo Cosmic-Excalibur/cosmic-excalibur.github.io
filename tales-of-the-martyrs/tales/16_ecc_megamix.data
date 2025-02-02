@@ -43,6 +43,7 @@
     \newcommand{\diag}{\text{diag}}
     \newcommand{\ker}{\operatorname{ker}}
     \newcommand{\coker}{\operatorname{coker}}
+    \newcommand{\PGL}{\text{PGL}}
     p = \frac{t^2-v^2D}{4},\quad D,v,t\in\ZZ,\quad D < 0,\quad D\equiv 5\pmod{8}, \quad t = 1
 \]
 <p>求\(p,q\)。</p>
@@ -72,7 +73,6 @@
 \]
 
 <p>事实上，我们有，</p>
-<br>
 <p no-indent><span gray id="thm-1">定理1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
 <ol>
 <li>有理数域 \( \QQ \)</li>
@@ -80,7 +80,7 @@
 <li>四元数代数 \( \QQ(\alpha,\beta),\quad \alpha^2,\beta^2 < 0, \quad \alpha\beta=-\beta\alpha \)</li>
 </ol>
 
-<p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>，对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1" class="noafter" underlined>定理1</a>的第三种情况是不可能出现的（事实上，对于有限域上的椭圆曲线\(E\)而言，第三种情况成立当且仅当\(E\)超奇异）。</p>
+<p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>。对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1" class="noafter" underlined>定理1</a>的第三种情况是不可能出现的（事实上，对于有限域上的椭圆曲线\(E\)而言，第三种情况成立当且仅当\(E\)超奇异）。</p>
 
 
 <br>
@@ -149,7 +149,10 @@
 
 <p>记</p>
 \[
-    \GL_n^+(R)=\{M\in\GL_n(R): \det(M)>0\},\quad \Delta_n=\{M\in\GL_2(\ZZ): \det(M)=n\},\quad \Delta_n^*=\left\{\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\Delta_n: \gcd(a,b,c,d)=1\right\}
+    \GL_n^+(R)=\{M\in\GL_n(R): \det(M)>0\},\quad \Delta_n=\{M\in\GL_2(\ZZ): \det(M)=n\}
+\]
+\[
+    \Delta_n^*=\left\{\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\Delta_n: \gcd(a,b,c,d)=1\right\}=\left\{M\in\PGL_2(\ZZ):\det(M)=n\right\}
 \]
 
 <p>设\(j\)为前文所述，则\(j\circ \gamma\alpha=j\circ\alpha,\ \forall\gamma\in\Gamma\)。取\(\Gamma\backslash\Delta_n^*\)中一组形如下式的代表元</p>

@@ -67,6 +67,7 @@
     \newcommand{\diag}{\text{diag}}
     \newcommand{\ker}{\operatorname{ker}}
     \newcommand{\coker}{\operatorname{coker}}
+    \newcommand{\PGL}{\text{PGL}}
     p = \frac{t^2-v^2D}{4},\quad D,v,t\in\ZZ,\quad D < 0,\quad D\equiv 5\pmod{8}, \quad t = 1
 \]
 <p>求\(p,q\)。</p>
@@ -173,7 +174,10 @@
 
 <p>记</p>
 \[
-    \GL_n^+(R)=\{M\in\GL_n(R): \det(M)>0\},\quad \Delta_n=\{M\in\GL_2(\ZZ): \det(M)=n\},\quad \Delta_n^*=\left\{\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\Delta_n: \gcd(a,b,c,d)=1\right\}
+    \GL_n^+(R)=\{M\in\GL_n(R): \det(M)>0\},\quad \Delta_n=\{M\in\GL_2(\ZZ): \det(M)=n\}
+\]
+\[
+    \Delta_n^*=\left\{\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\Delta_n: \gcd(a,b,c,d)=1\right\}=\left\{M\in\PGL_2(\ZZ):\det(M)=n\right\}
 \]
 
 <p>设\(j\)为前文所述，则\(j\circ \gamma\alpha=j\circ\alpha,\ \forall\gamma\in\Gamma\)。取\(\Gamma\backslash\Delta_n^*\)中一组形如下式的代表元</p>
