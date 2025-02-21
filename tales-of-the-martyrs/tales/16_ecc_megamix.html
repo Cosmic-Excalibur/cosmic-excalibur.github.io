@@ -28,7 +28,8 @@
     <li><a href="#section-preface" class="noafter">前言</a></li>
     <li><a href="#section-complex-multiplication" class="noafter">Complex multiplication</a></li>
     <li><a href="#section-j-function" class="noafter">j-function</a></li>
-    <li><a href="#section-the-modular-polynomial-and-hilbert-class-polynomial" class="noafter">The modular polynomial & Hilbert class polynomial</a></li>
+    <li><a href="#section-the-modular-polynomial" class="noafter">The modular polynomial</a></li>
+    <li><a href="#section-class-group-action" class="noafter">Class group action</a></li>
     <li><a href="#appendix-a" class="noafter">Appendix A - Lattices, tori & elliptic curves</a></li>
     <li><a href="#appendix-b" class="noafter">Appendix B - The valence formula</a></li>
     <li><a href="#appendix-c" class="noafter">Appendix C - Classification of endomorphism algebras</a></li>
@@ -68,6 +69,9 @@
     \newcommand{\ker}{\operatorname{ker}}
     \newcommand{\coker}{\operatorname{coker}}
     \newcommand{\PGL}{\text{PGL}}
+    \newcommand{\OO}{\mathcal{O}}
+    \newcommand{\cl}{\text{cl}}
+    \newcommand{\FF}{\mathbb{F}}
     p = \frac{t^2-v^2D}{4},\quad D,v,t\in\ZZ,\quad D < 0,\quad D\equiv 5\pmod{8}, \quad t = 1
 \]
 <p>求\(p,q\)。</p>
@@ -86,9 +90,9 @@
 \]
 <p no-indent>的全纯映射。一般来说，每个\(\alpha \in\ZZ\)都可以对应一个自同态，而如果存在满足\(\alpha \Lambda\subseteq\Lambda\)的\(\alpha \in\CC - \RR\)，那么称该\(\CC/\Lambda\)对应的\(E/\CC\)具有复数乘法（complex multiplication），这个\(\alpha\)则被称为复乘点（CM point）。</p>
 
-<p>不妨设\(\Lambda = \ZZ + \ZZ\tau\)，那么\( \alpha,\alpha^2 \in \Lambda \)，\(\alpha^2\)可以表示为\(1,\alpha\)的有理系数线性组合，即\(\alpha\)是\(\ZZ\)上的代数数。</p>
+<p>不妨设\(\Lambda = \ZZ + \ZZ\tau\)，那么\( \alpha,\alpha^2 \in \Lambda \)，\(\alpha^2\)可以表示为\(1,\alpha\)的有理系数线性组合，即\(\alpha\)是\(\ZZ\)上的二次代数数。</p>
 
-<p>\(E/\CC\)的自同态代数与有理数域或者某个虚二次域\(K\)是同构的，\(E/\CC\)的自同态群与整数环或者某个虚二次域的某个阶\(\ \mathcal{O}\)是同构的。</p>
+<p>\(E/\CC\)的自同态代数与有理数域或者某个虚二次域\(K\)是同构的，\(E/\CC\)的自同态环与整数环或者某个虚二次域的某个阶\(\mathcal{O}\)是同构的。</p>
 \[
     \QQ \tens{\ZZ} \End(E) =: \End^0 (E) \cong \QQ \text{ or } K
 \]
@@ -97,7 +101,6 @@
 \]
 
 <p>事实上，我们有，</p>
-<br>
 <p no-indent><span gray id="thm-1">定理1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
 <ol>
 <li>有理数域 \( \QQ \)</li>
@@ -105,7 +108,34 @@
 <li>四元数代数 \( \QQ(\alpha,\beta),\quad \alpha^2,\beta^2 < 0, \quad \alpha\beta=-\beta\alpha \)</li>
 </ol>
 
-<p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>，对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1" class="noafter" underlined>定理1</a>的第三种情况是不可能出现的（事实上，对于有限域上的椭圆曲线\(E\)而言，第三种情况成立当且仅当\(E\)超奇异）。</p>
+<p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>。对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1" class="noafter" underlined>定理1</a>的第三种情况是不可能出现的。</p>
+
+<br>
+<p>对于有限域上的椭圆曲线\(E\)而言，自同态代数在代数闭域上表现为第三种情况当且仅当\(E\)超奇异（supersingular）。有如下两个典型的例子。</p>
+<br>
+<p no-indent><span gray>例1：</span>\(p\equiv 3\pmod{4},\ p > 3\)，\(j(E/\FF_p)=1728\)，即\(E: y^2 = x^3 + x\)。那么\(\left(\frac{-1}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
+\[
+    \phi: (x, y) \mapsto (-x, iy),\quad i^2 + 1 = 0,\ i\notin\FF_p
+\]
+
+<p>其满足\(\phi^2 + 1 = 0\)，算上\(E\)的Frobenius自同态\(\pi\)，\(\End^0(E)\)必然与某个四元数代数同构，于是\(E\)超奇异，\(\pi^2 + p = 0\)。由于\(i\notin \FF_p\)，故\(\pi\)不固定\(i\)（更精确地，\(i^p = -i\)），于是\(\pi\)与\(\phi\)不交换。</p>
+\[
+    \End^0(E) \cong \QQ(\phi, \pi),\quad \phi^2 = -1,\ \pi^2 = -p,\ \phi\pi = -\pi\phi
+\]
+<br>
+<p no-indent><span gray>例2：</span>\(p\equiv 2\pmod{3},\ p > 3\)，\(j(E/\FF_p)=0\)，即\(E: y^2 = x^3 + 1\)。那么\(\left(\frac{-3}{p}\right)=(-1)^{\frac{p-1}{2}\cdot \frac{3-1}{2}}\left(\frac{3}{p}\right)=\left(\frac{p}{3}\right)=\left(\frac{2}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
+\[
+    \phi: (x, y) \mapsto (\rho x, y),\quad \rho^2 + \rho + 1 = 0,\ \rho\notin\FF_p
+\]
+
+<p>其满足\(\phi^2 + \phi + 1 = 0\)，算上\(E\)的Frobenius自同态\(\pi\)，\(\End^0(E)\)必然与某个四元数代数同构，于是\(E\)超奇异，\(\pi^2 + p = 0\)。由于\(\rho\notin \FF_p\)，故\(\pi\)不固定\(\rho\)（更精确地，\(\rho^p = -\rho - 1\)），于是\(\pi\)与\(\phi\)不交换。</p>
+\[
+    \End^0(E) \cong \QQ(\phi, \pi)
+\]
+
+
+
+
 
 
 <br>
@@ -164,12 +194,15 @@
     \wp(cz;\Lambda')=c^{-2}\wp(z;\Lambda),\ \wp'(cz;\Lambda')=c^{-3}\wp'(z;\Lambda) \implies (x,y)\mapsto(c^{-2}x,c^{-3}y)
 \]
 
+<br>
+<p>对于有限域上的椭圆曲线而言，我们可以类似地定义j不变量，并且可以用代数的方法证明，在有限域的代数闭包中每个j不变量能够在同构的意义下唯一确定一条椭圆曲线。</p>
+
 
 
 
 <br>
-<ul class="section" id="section-the-modular-polynomial-and-hilbert-class-polynomial"><li>
-    The modular polynomial & Hilbert class polynomial
+<ul class="section" id="section-the-modular-polynomial"><li>
+    The modular polynomial
 </li></ul>
 
 <p>记</p>
@@ -210,7 +243,7 @@
 \[
 \require{AMScd}
 \begin{CD}
-\CC/M @>{\pi}>> \CC/L\\
+\CC/M @>{\lambda}>> \CC/L\\
 @VV{\rotateninety{\sim}}V @VV{\rotateninety{\sim}}V \\
 B/\CC @>>{\phi}> A/\CC
 \end{CD}
@@ -230,9 +263,121 @@ B/\CC @>>{\phi}> A/\CC
 \]
 
 <p>故\(L/M\)是循环加法群当且仅当\(\lambda_1=1\)，也即\(\gcd(a,b,c,d)=1\)。</p>
-<p>同态\(\pi:\CC/M\to\CC/L,\ z+M\mapsto z+L\)的核为\(\ker{\pi}=L/M\)。据此立即得到，从\(B/\CC\)到\(A/\CC\)的同源\(\phi\)满足\(\abs{\ker{\phi}}=n\)当且仅当\(\Phi_n(j_A,j_B)=0\)。</p>
+<p>同态\(\lambda:\CC/M\to\CC/L,\ z+M\mapsto z+L\)的核为\(\ker{\lambda}=L/M\)。据此立即得到，从\(B/\CC\)到\(A/\CC\)的同源\(\phi\)满足\(\ker{\phi}\)为\(n\)阶循环群当且仅当\(\Phi_n(j_A,j_B)=0\)。</p>
 
-<p></p>
+<br>
+<p>我们尝试计算\(\Phi_2(X, j)\)的表达式，首先显式地写出</p>
+\[
+    \Phi_2(X, j(\tau)) = \left(X - j\left(2\tau\right)\right)\left(X - j\left(\frac{\tau}{2}\right)\right)\left(X - j\left(\frac{\tau+1}{2}\right)\right)
+\]
+<p>根据j函数的q-级数展开式与附录D<sup><a href="#appendix-d" title="About the modular polynomial" class="noafter" gray>[Appendix D]</a></sup>的<a href="#lemma-1" class="noafter" underlined>引理1</a>，我们计算出</p>
+\[
+    \begin{aligned}
+        &j\left(2\tau\right)j\left(\frac{\tau}{2}\right)j\left(\frac{\tau+1}{2}\right)\\
+        =\ &\left(q^{-2}+744+196884q^2+\OO(q^4)\right)\cdot\\
+        &\left(q^{-1/2}+744+196884q^{1/2}+21493760q+864299970q^{3/2}+20245856256q^2+333202640600q^{5/2}+\OO(q^3)\right)\cdot\\
+        &\left(-q^{-1/2}+744-196884q^{1/2}+21493760q-864299970q^{3/2}+20245856256q^2-333202640600q^{5/2}+\OO(q^3)\right)\\
+        =\ &\left(q^{-2}+744+196884q^2+\OO(q^4)\right)\left(-q^{-1}+159768-8509194516q+151107477178368q^2+\OO(q^{3})\right)\\
+        =\ &\left(-q^{-3}+159768q^{-2}-8509195260q^{-1}+151107596045760+\OO(q)\right)\\
+        =\ &-j^3 + 162000j^2 - 8748000000j + 157464000000000
+    \end{aligned}
+\]
+
+<p>类似地，</p>
+\[
+    \begin{aligned}
+    &j\left(2\tau\right)j\left(\frac{\tau}{2}\right) + j\left(\frac{\tau}{2}\right)j\left(\frac{\tau+1}{2}\right) + j\left(\frac{\tau+1}{2}\right)j\left(2\tau\right)\\
+    =\ &1488j^2 + 40773375j + 8748000000
+    \end{aligned}
+\]
+
+\[
+    \begin{aligned}
+    &j\left(2\tau\right) + j\left(\frac{\tau}{2}\right) + j\left(\frac{\tau+1}{2}\right)\\
+    =\ &j^2 - 1488j + 162000
+    \end{aligned}
+\]
+
+<p>结合上述结果与Vieta定理得到，</p>
+\[
+    \begin{aligned}
+    \Phi_2(X, j) = &-X^2j^2 + X^3 + 1488X^2j + 1488Xj^2 + j^3 - 162000X^2 + 40773375Xj\\
+    & - 162000j^2 + 8748000000X + 8748000000j - 157464000000000
+    \end{aligned}
+\]
+
+<br>
+
+<p>为了验证上述结果是否正确，不妨考虑\(p = 14007008404447413697\)，\(\FF_p\)上的椭圆曲线\(E:y^2 = x^3 + Ax + B,\ A = 14007008365700685685,\ B = 14004095012137039409\)，它满足\(j(E)=114514\)。取\(R=(2059498320637642707, 0)\in E[2]\)，我们利用Vélu公式<sup><a href="#ref-5" title="Analogues of Velu's Formulas for Isogenies on Alternate Models of Elliptic Curves" class="noafter" gray>[5]</a></sup>计算以\(\langle R\rangle\)为核的2-同源\(\phi\)：</p>
+\[
+    \phi:E\to E',\quad \langle R\rangle \not\ni P = (x_P, y_P) \mapsto \left(x_P + \sum\limits_{Q\in \langle R\rangle-\{\infty\}}(x_{P+Q}-x_Q), y_P + \sum\limits_{Q\in \langle R\rangle-\{\infty\}}(y_{P+Q}-y_Q)\right)
+\]
+
+<p>进一步地，由于\(\#\langle R\rangle = 2\)，</p>
+\[
+    \phi(P) = \left(\frac{x_P^2-x_Px_R+t}{x_P-x_R}, \frac{(x_P-x_R)^2-t}{(x_P-x_R)^2}y_P\right),\quad P\notin\langle R\rangle
+\]
+\[
+    t=3x_R^2+A=7341004350464452570,\ w=x_Rt=2554626905828350750
+\]
+\[
+    E':y^2=x^3+A'x+B',\quad A' = A-5t = 5316003422273250229,\ B' = B-7w = 10128715075785997856
+\]
+
+<p>于是\(j(E') = 1728\cdot \frac{4A'^3}{4A'^3+27B'^2} = 911665652129516608\)，不难验证\(\Phi_2(j(E'), j(E)) \equiv 0 \pmod{p}\)。</p>
+
+
+
+
+<br>
+<ul class="section" id="section-class-group-action"><li>
+    Class group action
+</li></ul>
+
+<p>数域\(K\)上的格\(\Lambda\)定义为\(K\)中的某个\([K:\QQ]\)维自由\(\ZZ\)-模，\(K\)上的阶\(\OO\)定义为\(\OO_K\)中的某个\(\ZZ\)-维度为\([K:\QQ]\)的子环。对于每个\(\Lambda\)而言可以分配一个阶\(\OO(\Lambda)\)，使得</p>
+\[
+    \OO(\Lambda) = \left\{\lambda \in K: \lambda \Lambda \subseteq \Lambda \right\}
+\]
+
+<p>若对于某个阶\(\OO\)而言</p>
+\[
+    \OO(\Lambda) = \OO
+\]
+<p no-indent>则称\(\Lambda\)是一个恰当的\(\OO\)-格。将\(\OO\)-理想\(\mathfrak{a}\subseteq \OO\)看作是格，若\(\OO(\mathfrak{a})=\OO\)，则称\(\mathfrak{a}\)是一个恰当的\(\OO\)-理想。</p>
+
+<p>对于复数域中具有复乘的椭圆曲线\(E/\CC\)与某个虚二次域的阶\(\OO\)而言，\(\End(E)\cong \OO\)，故\(E/\CC\)与某个格\(\mathfrak{b}\subseteq \OO\)对应。反过来，\(\mathfrak{b}\)也对应一条椭圆曲线\(E_{\mathfrak{b}}\)。</p>
+
+<p>考虑可逆理想\(\mathfrak{a}\subseteq \OO\)在\(E_{\mathfrak{b}}\)上的作用：</p>
+\[
+    \mathfrak{a}E_{\mathfrak{b}} := E_{\mathfrak{a}^{-1}\ \mathfrak{b}}
+\]
+<p>对于主理想\(\mathfrak{a}\)而言，\(E_{\mathfrak{a}\mathfrak{b}} \cong E_{\mathfrak{b}}\)，于是我们可以自然地定义理想类群的作用：</p>
+\[
+    [\mathfrak{a}]j(E_{\mathfrak{b}}) := j(E_{\mathfrak{a}^{-1}\ \mathfrak{b}}),\quad [\mathfrak{a}]\in \cl(\OO)
+\]
+
+<p>我们考虑集合</p>
+\[
+    \text{Ell}_{\OO}(\CC) := \left\{j(E): E\text{ is defined over }\CC\text{ and }\End(E)\cong \OO \right\}
+\]
+
+<p no-indent>显然\(\cl(\OO)\)以群的方式作用在\(\text{Ell}_{\OO}(\CC)\)上，\(\cl(\OO)\)与\(\text{Ell}_{\OO}(\CC)\)之间存在双射，且只有\(\cl(\OO)\)中的单位元存在固定点——这意味着\(\cl(\OO)\)的作用是传递的。</p>
+<br>
+
+<p>对于从\(E/\CC\)到\(\mathfrak{a}E\)的同源\(\phi_{\mathfrak{a}}\)而言，不难证明</p>
+
+<ol>
+    <li>\(\ker{\phi_\mathfrak{a}} = E[\mathfrak{a}]\)</li>
+    <li>\(\deg{\phi_\mathfrak{a}} = \text{N}\mathfrak{a} = (\OO:\mathfrak{a})\)</li>
+</ol>
+<p no-indent>其中</p>
+\[
+    E[\mathfrak{a}] := \left\{P\in E(\CC): \alpha P=0,\ \forall \alpha\in\mathfrak{a}\right\}
+\]
+
+
+
+
 
 
 
@@ -324,7 +469,7 @@ B/\CC @>>{\phi}> A/\CC
 </li></ul>
 
 <p no-indent><span gray id="lemma-1">引理1：</span>设\(f\)为模函数，即\(f\)是一个在\(\HH^*=\HH\cup\{\infty\}\)上\(\infty\)处半纯，在\(\Gamma\)下不变的函数，其在无穷远点有q-级数\(f=\sum\limits_{n=-M}^\infty c_nq^n\)，那么\(f\)可以表示为\(j\)的多项式，且系数为\(c_n\)的整系数线性组合。</p>
-<p no-indent><span gray>证明：</span>利用长除法，我们首先计算\(f_1=f-c_{-M}j^M\)，那么\(f_1\)在\(\infty\)的阶高于\(-M\)，重复此步骤算得\(f_2,f_3,\cdots\)，直到\(f_i\)在\(\infty\)的阶非负，此时\(f_i\)在\(\HH^*\)上全纯，故根据Liouville定理\(f_i\)恒为0。</p>
+<p no-indent><span gray>证明：</span>利用长除法，我们首先计算\(f_1=f-c_{-M}j^M\)，那么\(f_1\)在\(\infty\)的阶高于\(-M\)，重复此步骤算得\(f_2,f_3,\cdots\)，直到\(f_i\)在\(\infty\)的阶为正，此时\(f_i\)在\(\HH^*\)上全纯，故根据Liouville定理\(f_i\)恒为0。</p>
 <p no-indent><span gray>Q.E.D.</span></p>
 <br>
 
@@ -337,9 +482,9 @@ B/\CC @>>{\phi}> A/\CC
 </ol>
 <p no-indent><span gray>证明：</span></p>
 <ol>
-<li><p>由于\(\Gamma\)传递置换\(j\circ\alpha_1,\cdots,j\circ\alpha_{\psi(n)}\in\Gamma\backslash\Delta_n^*\)，故\(\Gamma\)传递置换\(\Phi_n(X)\)的所有系数。又由于\(j\circ\alpha_i=\frac{1}{\zeta_{d_i}^{b_i}\cdot q^{a_i/d_i}}+\cdots\)，故\(\Phi_n(X)\)的系数在\(\HH\)上全纯，且在\(\HH^*\)上半纯。根据<a href="#lemma-1" class="noafter" underlined>引理1</a>，这意味着，</p>
+<li><p>由于\(\Gamma\)传递置换\(j\circ\alpha_1,\cdots,j\circ\alpha_{\psi(n)}\in\Gamma\backslash\Delta_n^*\)，故\(\Gamma\)保持\(\Phi_n(X)\)的每个系数不变。又由于\(j\circ\alpha_i=\frac{1}{\zeta_{d_i}^{b_i}\cdot q^{a_i/d_i}}+\cdots\)，故\(\Phi_n(X)\)的系数在\(\HH\)上全纯，且在\(\HH^*\)上半纯。根据<a href="#lemma-1" class="noafter" underlined>引理1</a>，这意味着，</p>
 \[
-    \Phi_n(X) \in \QQ(\zeta_n)((q^{1/n}))[X] = k
+    \Phi_n(X) \in \QQ(\zeta_n)((q^{1/n}))[X] =: k[X]
 \]
 <p>显然\(k\)上的自同构</p>
 \[
@@ -407,12 +552,13 @@ B/\CC @>>{\phi}> A/\CC
 <li id="ref-2">Sedlacek V, Klinec D, Sýs M, et al. I Want to Break Square-free: The 4p-1 Factorization Method and Its RSA Backdoor Viability[C]//ICETE (2). 2019: 25-36. <a href="https://www.scitepress.org/Papers/2019/77866/77866.pdf" underlined>https://www.scitepress.org/Papers/2019/77866/77866.pdf</a></li>
 <li id="ref-3">S. Lang. Elliptic functions. Chapter 3, The Modular Function.</li>
 <li id="ref-4">S. Lang. Elliptic functions. Chapter 5, The Modular Equation.</li>
+<li id="ref-5">Moody D, Shumow D. Analogues of Vélu’s formulas for isogenies on alternate models of elliptic curves[J]. Mathematics of Computation, 2016, 85(300): 1929-1951. <a href="https://eprint.iacr.org/2011/430" underlined>https://eprint.iacr.org/2011/430</a></li>
 </ol>
 
 </div>
 <br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#AlgebraicNumberTheory</b></span><span color="gray">, </span><span style="color:blue"><b>#EllipticCurveCryptography</b></span></p>
-                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2024-02-01 20:50</b></p><br><br><br><br><br><br>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2025-02-01 20:50</b></p><br><br><br><br><br><br>
 	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
 	<script type="text/x-mathjax-config;executed=true">
         window.MathJax.Hub.Config({

@@ -1,7 +1,7 @@
 INFO = {
     'title': r'ECC Megamix',
     'tags': ['AlgebraicNumberTheory', 'EllipticCurveCryptography'],
-    'time': '2024-02-01 20:50'
+    'time': '2025-02-01 20:50'
 }
 
 def info():
