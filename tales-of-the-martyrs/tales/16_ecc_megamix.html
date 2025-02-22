@@ -25,11 +25,11 @@
 	<div class="main">
 <p>目录：<ul><details open>
     <summary></summary>
-    <li><a href="#section-preface" class="noafter">前言</a></li>
-    <li><a href="#section-complex-multiplication" class="noafter">Complex multiplication</a></li>
-    <li><a href="#section-j-function" class="noafter">j-function</a></li>
-    <li><a href="#section-the-modular-polynomial" class="noafter">The modular polynomial</a></li>
-    <li><a href="#section-class-group-action" class="noafter">Class group action</a></li>
+    <li><a href="#section-preface" class="noafter">0. 前言</a></li>
+    <li><a href="#section-complex-multiplication" class="noafter">1. Complex multiplication</a></li>
+    <li><a href="#section-j-function" class="noafter">2. j-function</a></li>
+    <li><a href="#section-the-modular-polynomial" class="noafter">3. The modular polynomial</a></li>
+    <li><a href="#section-class-group-action" class="noafter">4. Class group action</a></li>
     <li><a href="#appendix-a" class="noafter">Appendix A - Lattices, tori & elliptic curves</a></li>
     <li><a href="#appendix-b" class="noafter">Appendix B - The valence formula</a></li>
     <li><a href="#appendix-c" class="noafter">Appendix C - Classification of endomorphism algebras</a></li>
@@ -38,9 +38,12 @@
 </details></ul></p>
 <br><br>
     
-<ul class="section" id="section-preface"><li>
+<ol class="section" id="section-preface"><li value="0">
     前言
-</li></ul>
+</li></ol>
+<p>本文旨在以笔者的角度，对椭圆曲线的相关内容进行一些基本的总结。</p>
+<p>本文会省略一些内容，默认是显然的并时常以“众所周知”一笔带过以<s style="cursor:pointer" title="偷懒 :3">节省篇幅</s>。比如本文不会探讨同源映射的可分性、度与对偶，本文也不会探讨二次域理想类群与二次型的关系。</p>
+<p>本文的章节之间不一定存在严格的逻辑顺序。</p>
 <p>本文会先做一堆铺垫，然后给出下面这个东西的解。</p>
 <br>
 
@@ -53,7 +56,7 @@
     \newcommand{\CC}{\mathbb{C}}
     \newcommand{\HH}{\mathbb{H}}
     \newcommand{\QQ}{\mathbb{Q}}
-    \newcommand{\abs}[1]{\vert #1 \vert}
+    \newcommand{\abs}[1]{\left\vert #1 \right\vert}
     \newcommand{\End}{\text{End}}
     \newcommand{\tens}[1]{\otimes_{#1}}
     \newcommand{\SL}{\text{SL}}
@@ -72,6 +75,8 @@
     \newcommand{\OO}{\mathcal{O}}
     \newcommand{\cl}{\text{cl}}
     \newcommand{\FF}{\mathbb{F}}
+    \newcommand{\disc}{\operatorname{disc}}
+    \newcommand{\Gal}{\text{Gal}}
     p = \frac{t^2-v^2D}{4},\quad D,v,t\in\ZZ,\quad D < 0,\quad D\equiv 5\pmod{8}, \quad t = 1
 \]
 <p>求\(p,q\)。</p>
@@ -80,9 +85,9 @@
 <p>在量子计算机发明出来之后这个问题就变得平凡了——它与一般的大整数分解问题在Shor算法下基本无异。而在此之前，如果能够相对高效地解决上述问题的话，我们的RSA就又多出了一类不安全的模数——虽然寻找某类特殊的大整数分解方法并非本文的出发点。</p>
 
 <br>
-<ul class="section" id="section-complex-multiplication"><li>
+<ol class="section" id="section-complex-multiplication"><li value="1">
     Complex multiplication
-</li></ul>
+</li></ol>
 
 <p>众所周知，作为一个复环面，格点\(\CC/\Lambda\)与椭圆曲线\(E/\CC\)的点群同构<sup><a href="#appendix-a" title="Lattices, tori & elliptic curves" class="noafter" gray>[Appendix A]</a></sup>，\(E/\CC\)上的自同态对应在\(\CC/\Lambda\)上是形如</p>
 \[
@@ -101,19 +106,19 @@
 \]
 
 <p>事实上，我们有，</p>
-<p no-indent><span gray id="thm-1">定理1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
+<p no-indent><span gray id="thm-1-1">定理1-1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
 <ol>
 <li>有理数域 \( \QQ \)</li>
 <li>虚二次域 \( \QQ(\alpha),\quad \alpha^2 < 0 \)</li>
 <li>四元数代数 \( \QQ(\alpha,\beta),\quad \alpha^2,\beta^2 < 0, \quad \alpha\beta=-\beta\alpha \)</li>
 </ol>
 
-<p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>。对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1" class="noafter" underlined>定理1</a>的第三种情况是不可能出现的。</p>
+<p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>。对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1-1" class="noafter" underlined>定理1-1</a>的第三种情况是不可能出现的。</p>
 
 <br>
 <p>对于有限域上的椭圆曲线\(E\)而言，自同态代数在代数闭域上表现为第三种情况当且仅当\(E\)超奇异（supersingular）。有如下两个典型的例子。</p>
 <br>
-<p no-indent><span gray>例1：</span>\(p\equiv 3\pmod{4},\ p > 3\)，\(j(E/\FF_p)=1728\)，即\(E: y^2 = x^3 + x\)。那么\(\left(\frac{-1}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
+<p no-indent><span gray>例1-1：</span>\(p\equiv 3\pmod{4},\ p > 3\)，\(j(E/\FF_p)=1728\)，即\(E: y^2 = x^3 + x\)。那么\(\left(\frac{-1}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
 \[
     \phi: (x, y) \mapsto (-x, iy),\quad i^2 + 1 = 0,\ i\notin\FF_p
 \]
@@ -123,7 +128,7 @@
     \End^0(E) \cong \QQ(\phi, \pi),\quad \phi^2 = -1,\ \pi^2 = -p,\ \phi\pi = -\pi\phi
 \]
 <br>
-<p no-indent><span gray>例2：</span>\(p\equiv 2\pmod{3},\ p > 3\)，\(j(E/\FF_p)=0\)，即\(E: y^2 = x^3 + 1\)。那么\(\left(\frac{-3}{p}\right)=(-1)^{\frac{p-1}{2}\cdot \frac{3-1}{2}}\left(\frac{3}{p}\right)=\left(\frac{p}{3}\right)=\left(\frac{2}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
+<p no-indent><span gray>例1-2：</span>\(p\equiv 2\pmod{3},\ p > 3\)，\(j(E/\FF_p)=0\)，即\(E: y^2 = x^3 + 1\)。那么\(\left(\frac{-3}{p}\right)=(-1)^{\frac{p-1}{2}\cdot \frac{3-1}{2}}\left(\frac{3}{p}\right)=\left(\frac{p}{3}\right)=\left(\frac{2}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
 \[
     \phi: (x, y) \mapsto (\rho x, y),\quad \rho^2 + \rho + 1 = 0,\ \rho\notin\FF_p
 \]
@@ -139,9 +144,9 @@
 
 
 <br>
-<ul class="section" id="section-j-function"><li>
+<ol class="section" id="section-j-function"><li value="2">
     j-function
-</li></ul>
+</li></ol>
 
 <p>由\(\Lambda\)的Weierstrass方程</p>
 \[
@@ -201,9 +206,9 @@
 
 
 <br>
-<ul class="section" id="section-the-modular-polynomial"><li>
+<ol class="section" id="section-the-modular-polynomial"><li value="3">
     The modular polynomial
-</li></ul>
+</li></ol>
 
 <p>记</p>
 \[
@@ -215,7 +220,7 @@
 
 <p>设\(j\)为前文所述，则\(j\circ \gamma\alpha=j\circ\alpha,\ \forall\gamma\in\Gamma\)。取\(\Gamma\backslash\Delta_n^*\)中一组形如下式的代表元</p>
 \[
-    \begin{pmatrix}a&b\\0&d\end{pmatrix},\quad ad=n,\ 0 < a, 0\le b < d
+    \begin{pmatrix}a&b\\0&d\end{pmatrix},\quad ad=n,\ 0 < a, 0\le b < d,\quad \gcd(a,b,d) = 1
 \]
 
 <p>令\(\psi(n)=\abs{\Gamma\backslash\Delta_n^*}\)，不难算出<sup><a href="#ref-4" title="S. Lang. Elliptic functions. Chapter 5, The Modular Equation." class="noafter" gray>[4]</a></sup></p>
@@ -229,7 +234,7 @@
 \]
 
 <p>它满足</p>
-<p no-indent><span gray id="thm-2">定理2：</span></p><ol>
+<p no-indent><span gray id="thm-3-1">定理3-1：</span></p><ol>
 <li>\(\Phi_n(X)\in\ZZ[X,j]\)。</li>
 <li>\(\Phi_n(X)\)是\(\CC(j)\)上不可约的\(\psi(n)\)阶多项式。</li>
 <li>\(\Phi_n(X,j)=\Phi_n(j,X)\)。</li>
@@ -237,6 +242,36 @@
 </ol>
 
 <p>证明参见附录D<sup><a href="#appendix-d" title="About the modular polynomial" class="noafter" gray>[Appendix D]</a></sup>。我们称\(\Phi_n(X)\)为n阶模多项式（modular polynomial of order n）。</p>
+
+<br>
+
+<p>我们可以得到一个有用的推论：</p>
+<p no-indent><span gray id="cor-3-1">推论3-1：</span>若\(\tau\in\HH\)是虚二次代数数，则\(j(\tau)\)是\(\ZZ\)上的代数整数。</p>
+<p no-indent><span gray>证明：</span>令\(K=\QQ(\tau)\)，</p>
+\[
+    \lambda = \begin{cases}
+        1+i, &K = \QQ(i)\\
+        \sqrt{-m}, &K = \QQ(\sqrt{-m}),\ m>1\text{ square free}
+    \end{cases}
+\]
+<p>设\(\OO_K=[z,1]\)，则</p>
+\[
+    \lambda\begin{pmatrix}
+    z\\1
+    \end{pmatrix}
+    =
+    \underbrace{\begin{pmatrix}
+    a & b\\
+    c & d\\
+    \end{pmatrix}}_{\alpha}
+    \begin{pmatrix}
+    z\\1
+    \end{pmatrix}
+\]
+<p>且\(0 < \Nm_{K/\QQ}(\lambda) = \det{\alpha} =: n\)，\(z = \alpha z\)。根据\(\lambda\)的构造这表明\(\alpha\in\Delta_{n}^*\)，且\(n\)没有平方因子，<a href="#thm-3-1" class="noafter" underlined>定理3-1</a>的第四条告诉我们\(j(z)\)是代数整数。</p>
+<p>\(K = \QQ(\tau)=\QQ(z)\)说明\(\tau = uz + v,\ u,v\in\QQ\)，不妨设\(\tau = \beta z,\ \beta\in\Delta_{n'}^*,\ n'=\det{\beta}\)，根据<a href="#thm-3-1" class="noafter" underlined>定理3-1</a>的第一条\(j(\tau) = j(\beta z)\)是\(\ZZ[j(z)]\)上的代数整数，从而根据代数整数的特性知\(j(\tau)\)是\(\ZZ\)上的代数整数。</p>
+<p no-indent><span gray>Q.E.D.</span></p>
+
 <br>
 
 <p>考虑如下的交换图：</p>
@@ -263,14 +298,16 @@ B/\CC @>>{\phi}> A/\CC
 \]
 
 <p>故\(L/M\)是循环加法群当且仅当\(\lambda_1=1\)，也即\(\gcd(a,b,c,d)=1\)。</p>
-<p>同态\(\lambda:\CC/M\to\CC/L,\ z+M\mapsto z+L\)的核为\(\ker{\lambda}=L/M\)。据此立即得到，从\(B/\CC\)到\(A/\CC\)的同源\(\phi\)满足\(\ker{\phi}\)为\(n\)阶循环群当且仅当\(\Phi_n(j_A,j_B)=0\)。</p>
+<p>同态\(\lambda:\CC/M\to\CC/L,\ z+M\mapsto z+L\)的核为\(\ker{\lambda}=L/M\)。据此立即得到，</p>
+<p no-indent><span gray id="thm-3-2">定理3-2：</span>从\(B/\CC\)到\(A/\CC\)的同源\(\phi\)满足\(\ker{\phi}\)为\(n\)阶循环群当且仅当\(\Phi_n(j_A,j_B)=0\)。</p>
+<p>对于非代数闭域上也有类似的结论，不过陪域\(A\)有时需替换为\(A\)的某条孪生曲线。</p>
 
 <br>
 <p>我们尝试计算\(\Phi_2(X, j)\)的表达式，首先显式地写出</p>
 \[
     \Phi_2(X, j(\tau)) = \left(X - j\left(2\tau\right)\right)\left(X - j\left(\frac{\tau}{2}\right)\right)\left(X - j\left(\frac{\tau+1}{2}\right)\right)
 \]
-<p>根据j函数的q-级数展开式与附录D<sup><a href="#appendix-d" title="About the modular polynomial" class="noafter" gray>[Appendix D]</a></sup>的<a href="#lemma-1" class="noafter" underlined>引理1</a>，我们计算出</p>
+<p>根据j函数的q-级数展开式与附录D<sup><a href="#appendix-d" title="About the modular polynomial" class="noafter" gray>[Appendix D]</a></sup>的<a href="#lemma-D-1" class="noafter" underlined>引理D-1</a>，我们计算出</p>
 \[
     \begin{aligned}
         &j\left(2\tau\right)j\left(\frac{\tau}{2}\right)j\left(\frac{\tau+1}{2}\right)\\
@@ -308,7 +345,7 @@ B/\CC @>>{\phi}> A/\CC
 
 <br>
 
-<p>为了验证上述结果是否正确，不妨考虑\(p = 14007008404447413697\)，\(\FF_p\)上的椭圆曲线\(E:y^2 = x^3 + Ax + B,\ A = 14007008365700685685,\ B = 14004095012137039409\)，它满足\(j(E)=114514\)。取\(R=(2059498320637642707, 0)\in E[2]\)，我们利用Vélu公式<sup><a href="#ref-5" title="Analogues of Velu's Formulas for Isogenies on Alternate Models of Elliptic Curves" class="noafter" gray>[5]</a></sup>计算以\(\langle R\rangle\)为核的2-同源\(\phi\)：</p>
+<p>为了验证上述结果是否正确，不妨考虑\(p = 14007008404447413697\)，\(\FF_p\)上的椭圆曲线\(E:y^2 = x^3 + Ax + B,\ A = 14007008365700685685,\ B = 14004095012137039409\)，它满足\(j(E)=114514\)。取\(R=(2059498320637642707, 0)\in E[2]\)，我们利用Vélu公式<sup><a href="#ref-5" title="Analogues of Velu's Formulas for Isogenies on Alternate Models of Elliptic Curves" class="noafter" gray>[5]</a></sup>计算以\(\langle R\rangle\)为核的同源\(\phi\)：</p>
 \[
     \phi:E\to E',\quad \langle R\rangle \not\ni P = (x_P, y_P) \mapsto \left(x_P + \sum\limits_{Q\in \langle R\rangle-\{\infty\}}(x_{P+Q}-x_Q), y_P + \sum\limits_{Q\in \langle R\rangle-\{\infty\}}(y_{P+Q}-y_Q)\right)
 \]
@@ -330,9 +367,9 @@ B/\CC @>>{\phi}> A/\CC
 
 
 <br>
-<ul class="section" id="section-class-group-action"><li>
+<ol class="section" id="section-class-group-action"><li value="4">
     Class group action
-</li></ul>
+</li></ol>
 
 <p>数域\(K\)上的格\(\Lambda\)定义为\(K\)中的某个\([K:\QQ]\)维自由\(\ZZ\)-模，\(K\)上的阶\(\OO\)定义为\(\OO_K\)中的某个\(\ZZ\)-维度为\([K:\QQ]\)的子环。对于每个\(\Lambda\)而言可以分配一个阶\(\OO(\Lambda)\)，使得</p>
 \[
@@ -343,11 +380,19 @@ B/\CC @>>{\phi}> A/\CC
 \[
     \OO(\Lambda) = \OO
 \]
-<p no-indent>则称\(\Lambda\)是一个恰当的\(\OO\)-格。将\(\OO\)-理想\(\mathfrak{a}\subseteq \OO\)看作是格，若\(\OO(\mathfrak{a})=\OO\)，则称\(\mathfrak{a}\)是一个恰当的\(\OO\)-理想。</p>
+<p no-indent>则称\(\Lambda\)是一个恰当的\(\OO\)-格。将\(\OO\)-理想\(\mathfrak{a}\)看作是一个\(\OO\)-格，若\(\OO(\mathfrak{a})=\OO\)，则称\(\mathfrak{a}\)是一个恰当的\(\OO\)-理想。</p>
+
+<p>我们定义理想类群（ideal class group）\(\text{cl}(\OO)=J(\OO)/P(\OO)\)，\(J(\OO)\)是\(\OO\)在\(K\)中（\(K=\operatorname{Frac}{\OO}\)）的所有可逆分式理想，\(P(\OO)\le J(\OO)\)是其中的所有主理想。注意到\(\OO(\Lambda)\)在与\(\Lambda\)位似的意义下唯一，故理想类群的元素为恰当\(\OO\)-理想的等价类。</p>
+<p>理想类群的等价类可以与二元二次型（binary quadratic form）的等价类一一对应，Gauss证明了后者构成一个有限Abel群。\(\cl(\OO)\)有限<sup><a href="#ref-7" title="Cox, Primes of the form x² + ny²" class="noafter" gray>[7, Thm 7.7]</a></sup>，（作为特例）\(\cl(\OO_K)\)有限<sup><a href="#ref-6" title="Neukirch, Algebraic number theory" class="noafter" gray>[6, Thm 6.3]</a></sup>。记\(h(\OO):=\#\cl(\OO),\ d_K := \disc{\OO_K}\)，\(\OO = \ZZ + f\OO_K\)，我们还有<sup><a href="#ref-7" title="Cox, Primes of the form x² + ny²" class="noafter" gray>[7, Thm 7.24]</a></sup></p>
+\[
+    h(\OO) = \frac{h(\OO_K)f}{(\OO_K^*: \OO^*)} \prod\limits_{p\mid f}\left(1-\left(\frac{d_K}{p}\right)\frac{1}{p}\right)
+\]
+<p no-indent>且\(h(\OO_K)\mid h(\OO)\)。</p>
+<br>
 
 <p>对于复数域中具有复乘的椭圆曲线\(E/\CC\)与某个虚二次域的阶\(\OO\)而言，\(\End(E)\cong \OO\)，故\(E/\CC\)与某个格\(\mathfrak{b}\subseteq \OO\)对应。反过来，\(\mathfrak{b}\)也对应一条椭圆曲线\(E_{\mathfrak{b}}\)。</p>
 
-<p>考虑可逆理想\(\mathfrak{a}\subseteq \OO\)在\(E_{\mathfrak{b}}\)上的作用：</p>
+<p>考虑\(\mathfrak{a}\in J(\OO)\)在\(E_{\mathfrak{b}}\)上的作用：</p>
 \[
     \mathfrak{a}E_{\mathfrak{b}} := E_{\mathfrak{a}^{-1}\ \mathfrak{b}}
 \]
@@ -364,9 +409,9 @@ B/\CC @>>{\phi}> A/\CC
 <p no-indent>显然\(\cl(\OO)\)以群的方式作用在\(\text{Ell}_{\OO}(\CC)\)上，\(\cl(\OO)\)与\(\text{Ell}_{\OO}(\CC)\)之间存在双射，且只有\(\cl(\OO)\)中的单位元存在固定点——这意味着\(\cl(\OO)\)的作用是传递的。</p>
 <br>
 
-<p>对于从\(E/\CC\)到\(\mathfrak{a}E\)的同源\(\phi_{\mathfrak{a}}\)而言，不难证明</p>
+<p>对于从\(E/\CC\)到\(\mathfrak{a}E\)的同源\(\phi_{\mathfrak{a}}\)而言，不难证明（\(E\)具有\(\OO\)-复乘）</p>
 
-<ol>
+<p no-indent><span gray id="thm-4-1">定理4-1：</span><ol>
     <li>\(\ker{\phi_\mathfrak{a}} = E[\mathfrak{a}]\)</li>
     <li>\(\deg{\phi_\mathfrak{a}} = \text{N}\mathfrak{a} = (\OO:\mathfrak{a})\)</li>
 </ol>
@@ -377,6 +422,97 @@ B/\CC @>>{\phi}> A/\CC
 
 
 
+<br>
+<ol class="section" id="section-the-hilbert-class-polynomial"><li value="5">
+    The Hilbert class polynomial
+</li></ol>
+<p>令</p>
+\[
+    H_{D}(X) := \prod\limits_{j\in\text{Ell}_{\OO}(\CC)} (X-j)
+\]
+
+<p>称其为Hilbert类多项式（Hilbert class polynomial (of discriminant \(D\))）。</p>
+
+<p no-indent><span gray id="thm-5-1">定理5-1：</span>Hilbert类多项式的系数为整数。</p>
+<p no-indent><span gray>证明：</span>设\(\OO\)为虚二次域的某个阶，那么根据<a href="#ref-7" title="Cox, Primes of the form x² + ny²" class="noafter" gray>[7, Thm 9.12]</a>，\(\cl(\OO)\)中的每个等价类都包含无穷多个质范理想，我们取其中的某个主理想\(\mathfrak{p},\ \text{N}\mathfrak{p} = p\)，那么显然\(\mathfrak{p}E\cong E\)，于是我们可以得到一个自同态：</p>
+\[
+    \begin{CD}
+    E @>\mathfrak{p}>> \mathfrak{p}E\\ @.
+    {_{\rlap{\quad \phi_{\mathfrak{p}}}}\style{display: inline-block; transform: rotate(30deg)}{{\xrightarrow[\rule{4em}{0em}]{}}}} @VV{\rotateninety{\sim}}V\\  @. E
+    \end{CD}
+\]
+<p>根据<a href="#thm-4-1" class="noafter" underlined>定理4-1</a>，\(E\to\mathfrak{p}E\)是度为\(p\)的同源，从而\(\phi_{\mathfrak{p}}\)是度为\(p\)的同源，于是根据<a href="#thm-3-2" class="noafter" underlined>定理3-2</a>可得\(\Phi_p(j(E), j(E)) = 0\)，从而根据<a href="#thm-3-1" class="noafter" underlined>定理3-1</a>的第四条每个\(j\in \text{Ell}_{\OO}(\CC)\)都是代数整数。</p>
+<p>每个\(\sigma\in\Gal(\overline{\QQ}/\QQ)\)显然诱导一个自同态环间的同构：</p>
+\[
+    \begin{CD}
+    \End(E^{\sigma}) @<\sigma<< \End(E)\\ @.
+    {_{\rlap{\quad \style{display: inline-block; transform: rotate(25deg)}{\sim}}}\style{display: inline-block; transform: rotate(25deg)}{{\xleftarrow[\rule{3em}{0em}]{}}}} @AA{\rotateninety{\sim}}A\\  @. \OO
+    \end{CD}
+\]
+<p>也即\(j(E^{\sigma}) = j(E)^{\sigma}\in \text{Ell}_{\OO}(\CC)\)，从而\(\Gal(\overline{\QQ}/\QQ)\)置换\( \text{Ell}_{\OO}(\CC) \)且保持\(H_D(X)\)的系数不变，即\(H_D(X)\in\QQ[X]\cap\overline{\ZZ}[X]=\ZZ[X]\)。</p>
+<p no-indent><span gray>Q.E.D.</span></p>
+<p no-indent><span gray>注：</span>上述证明的开头使用的是弱化后的结论——即“存在质范主理想”——这无疑有大炮打蚊子的嫌疑。事实上，根据<a href="#cor-3-1" class="noafter" underlined>推论3-1</a>，\(j(E)\)是代数整数。</p>
+
+<br>
+<p no-indent><span gray>例5-1：</span>对于\(D=-163\)而言，\(\OO = \left[\frac{1+\sqrt{-163}}{2}, 1\right]\)，\(h(\OO) = 1\)，从而\(H_{D}(X)\)仅有的一个根为整数。具有\(\OO\)-复乘的椭圆曲线\(E\)满足\(H_D(j(E)) = 0\)，利用\(j\)函数的q-级数展开式计算</p>
+\[
+    j\left(\frac{1+\sqrt{-163}}{2}\right) = \left.j\right\vert_{q = -\text{exp}(-\pi\sqrt{163})}
+\]
+\[
+    \abs{-e^{-\pi\sqrt{163}}} < 3.81\times 10^{-18}
+\]
+<p>可以预期，</p>
+\[
+    \begin{aligned}
+        j\left(\frac{1+\sqrt{-163}}{2}\right) &\approx \frac{1}{q} + 744 + 196884q\\
+        &\approx -e^{\pi\sqrt{163}} + 744 + 7.5\times 10^{-13}
+    \end{aligned}
+\]
+<p>这也就是说\(e^{\pi\sqrt{163}}\)几乎是整数。事实上，</p>\[
+    e^{\pi\sqrt{163}} \approx 262537412640768744 - 7.5\times 10^{-13}
+\]
+
+<p>于是我们可以得到</p>
+\[
+    j\left(\frac{1+\sqrt{-163}}{2}\right) = -262537412640768000 = -640320^3
+\]
+\[
+    H_{-163}(X) = X + 262537412640768000
+\]
+
+<p no-indent><span gray>例5-2：</span>仿照上例，对于所有满足\(h(\OO) = 1\)的虚二次域判别式\(D\)而言，\(e^{\pi\sqrt{D}}\)都几乎是整数。</p>
+<p>可以预期的是，随着\(\abs{D}\)的减小，q-级数中的误差便越大，从而对整数的近似效果也越差。</p>
+\[
+    e^{\pi \sqrt{43}}\approx 884736743.999777 \approx 960^3 + 744
+\]
+\[
+    e^{\pi \sqrt{27}}\approx 12288743.983979 \approx 3\cdot 160^3 + 744
+\]
+<p no-indent><span gray>例5-3：</span>考虑\(h(\OO) = 2\)的虚二次域判别式\(D\)，我们写出所有判别式为\(D\)的约化二次型，它们形如</p>
+\[
+    x^2 + xy + \frac{1-D}{4}y^2,\quad ax^2 + bxy + \frac{b^2-D}{4a}y^2
+\]
+
+<p>对于\(D = -427,-267,-235,-147,-123,-115,-75,-51\)而言\(a=b\)成立。根据Vieta定理，</p>
+\[
+    j\left(\frac{-1 + \sqrt{D}}{2}\right) + j\left(\frac{-b + \sqrt{D}}{2a}\right)
+\]
+<p no-indent>是整数。若\(a = b\)，那么理论上</p>
+\[
+    e^{\pi \sqrt{-D}} + e^{\pi \sqrt{-D} / a}
+\]
+
+<p no-indent>也几乎是整数，而这只有在两个和数均足够大时效果才明显，以\(D=-267\)为例，此时\(a = b = 3\)，</p>
+\[
+    e^{\pi \sqrt{267}} + e^{\pi \sqrt{267} / 3} \approx 19683091854079488001487.992708 \approx 19683091854079488000000 + 744\times 2
+\]
+
+<p>由于\(e^{\pi \sqrt{267} / 3} = e^{\pi \sqrt{89/3}}\)，可以预期上式与整数的近似效果与上例中的\(e^{\pi \sqrt{27}}\)相近。</p>
+<p>值得注意的是</p>
+\[
+    e^{\pi \sqrt{267} / 3} \approx 27000041.999971
+\]
+<p no-indent>也几乎是一个整数。然而，这一点并不能用本文主要研究的j函数来解释。欲见造成这一点的原因可以参考<a href="#ref-8" title="Eta quotients of Dedekind eta functions" class="noafter" gray>[8]</a>与<a href="#ref-9" title="Ramanujan-Sato series" class="noafter" gray>[9]</a>。</p>
 
 
 
@@ -387,7 +523,7 @@ B/\CC @>>{\phi}> A/\CC
 
 
 
-<br><br><br>
+<br><br><br><br><br><br>
 <ul class="section" id="appendix-a"><li>
     Appendix A - Lattices, tori & elliptic curves
 </li></ul>
@@ -416,7 +552,7 @@ B/\CC @>>{\phi}> A/\CC
     Appendix C - Classification of endomorphism algebras
 </li></ul>
 
-<p no-indent><span gray>定理1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
+<p no-indent><span gray>定理1-1：</span>对于域\(k\)上的椭圆曲线\(E/k\)而言，\(\End^0 (E)\)与以下三者之一同构</p>
 <ol>
 <li>有理数域 \( \QQ \)</li>
 <li>虚二次域 \( \QQ(\alpha),\quad \alpha^2 < 0 \)</li>
@@ -468,12 +604,12 @@ B/\CC @>>{\phi}> A/\CC
     Appendix D - About the modular polynomial
 </li></ul>
 
-<p no-indent><span gray id="lemma-1">引理1：</span>设\(f\)为模函数，即\(f\)是一个在\(\HH^*=\HH\cup\{\infty\}\)上\(\infty\)处半纯，在\(\Gamma\)下不变的函数，其在无穷远点有q-级数\(f=\sum\limits_{n=-M}^\infty c_nq^n\)，那么\(f\)可以表示为\(j\)的多项式，且系数为\(c_n\)的整系数线性组合。</p>
+<p no-indent><span gray id="lemma-D-1">引理D-1：</span>设\(f\)为模函数，即\(f\)是一个在\(\HH^*=\HH\cup\{\infty\}\)上\(\infty\)处半纯，在\(\Gamma\)下不变的函数，其在无穷远点有q-级数\(f=\sum\limits_{n=-M}^\infty c_nq^n\)，那么\(f\)可以表示为\(j\)的多项式，且系数为\(c_n\)的整系数线性组合。</p>
 <p no-indent><span gray>证明：</span>利用长除法，我们首先计算\(f_1=f-c_{-M}j^M\)，那么\(f_1\)在\(\infty\)的阶高于\(-M\)，重复此步骤算得\(f_2,f_3,\cdots\)，直到\(f_i\)在\(\infty\)的阶为正，此时\(f_i\)在\(\HH^*\)上全纯，故根据Liouville定理\(f_i\)恒为0。</p>
 <p no-indent><span gray>Q.E.D.</span></p>
 <br>
 
-<p no-indent><span gray>定理2：</span>\(\Phi_n(X)\)满足</p>
+<p no-indent><span gray>定理3-1：</span>\(\Phi_n(X)\)满足</p>
 <ol>
     <li>\(\Phi_n(X)\in\ZZ[X,j]\)。</li>
     <li>\(\Phi_n(X)\)是\(\CC(j)\)上不可约的\(\psi(n)\)阶多项式。</li>
@@ -482,7 +618,7 @@ B/\CC @>>{\phi}> A/\CC
 </ol>
 <p no-indent><span gray>证明：</span></p>
 <ol>
-<li><p>由于\(\Gamma\)传递置换\(j\circ\alpha_1,\cdots,j\circ\alpha_{\psi(n)}\in\Gamma\backslash\Delta_n^*\)，故\(\Gamma\)保持\(\Phi_n(X)\)的每个系数不变。又由于\(j\circ\alpha_i=\frac{1}{\zeta_{d_i}^{b_i}\cdot q^{a_i/d_i}}+\cdots\)，故\(\Phi_n(X)\)的系数在\(\HH\)上全纯，且在\(\HH^*\)上半纯。根据<a href="#lemma-1" class="noafter" underlined>引理1</a>，这意味着，</p>
+<li><p>利用Smith标准形不难证明\(\Delta_n^* = \Gamma \alpha \Gamma,\ \alpha=\diag\{1, n\}\)，即\(\Gamma\)右传递置换\(j\circ\alpha_1,\cdots,j\circ\alpha_{\psi(n)}\in\Gamma\backslash\Delta_n^*\)，故\(\Gamma\)保持\(\Phi_n(X)\)的每个系数不变。又由于\(j\circ\alpha_i=\frac{1}{\zeta_{d_i}^{b_i}\cdot q^{a_i/d_i}}+\cdots\)，故\(\Phi_n(X)\)的系数在\(\HH\)上全纯，且在\(\HH^*\)上半纯。根据<a href="#lemma-D-1" class="noafter" underlined>引理D-1</a>，这意味着，</p>
 \[
     \Phi_n(X) \in \QQ(\zeta_n)((q^{1/n}))[X] =: k[X]
 \]
@@ -490,7 +626,7 @@ B/\CC @>>{\phi}> A/\CC
 \[
     \sigma_r: \zeta_{n} \mapsto \zeta_n^r,\quad r\in (\ZZ/n\ZZ)^*
 \]
-<p no-indent>保持\(\Phi_n(X)\)不变，于是我们可以将\(\Phi_n(X)\)的系数展开为\(\ZZ((q))\)中的q-级数，从而再次根据<a href="#lemma-1" class="noafter" underlined>引理1</a>，</p>
+<p no-indent>保持\(\Phi_n(X)\)不变，于是我们可以将\(\Phi_n(X)\)的系数展开为\(\ZZ((q))\)中的q-级数，从而再次根据<a href="#lemma-D-1" class="noafter" underlined>引理D-1</a>，</p>
 \[
     \Phi_n(X) \in \ZZ[X],\quad \text{or } \Phi_n(X,j) \in \ZZ[X,j]
 \]
@@ -553,6 +689,10 @@ B/\CC @>>{\phi}> A/\CC
 <li id="ref-3">S. Lang. Elliptic functions. Chapter 3, The Modular Function.</li>
 <li id="ref-4">S. Lang. Elliptic functions. Chapter 5, The Modular Equation.</li>
 <li id="ref-5">Moody D, Shumow D. Analogues of Vélu’s formulas for isogenies on alternate models of elliptic curves[J]. Mathematics of Computation, 2016, 85(300): 1929-1951. <a href="https://eprint.iacr.org/2011/430" underlined>https://eprint.iacr.org/2011/430</a></li>
+<li id="ref-6">Neukirch J. Algebraic number theory[M]. Springer Science & Business Media, 2013. <a href="https://www.math.utoronto.ca/~ila/Neukirch_Algebraic_number_theory.pdf" underlined>https://www.math.utoronto.ca/~ila/Neukirch_Algebraic_number_theory.pdf</a></li>
+<li id="ref-7">Cox D A. Primes of the Form x2+ ny2: Fermat, Class Field Theory, and Complex Multiplication. with Solutions[M]. American Mathematical Soc., 2022. <a href="https://www.math.utoronto.ca/~ila/Cox-Primes_of_the_form_x2+ny2.pdf" underlined>https://www.math.utoronto.ca/~ila/Cox-Primes_of_the_form_x2+ny2.pdf</a></li>
+<li id="ref-8">Eta quotients of Dedekind eta functions. <a href="https://en.wikipedia.org/wiki/Dedekind_eta_function#Eta_quotients" underlined>https://en.wikipedia.org/wiki/Dedekind_eta_function#Eta_quotients</a></li>
+<li id="ref-9">Ramanujan-Sato series. <a href="https://en.wikipedia.org/wiki/Ramanujan%E2%80%93Sato_series" underlined>https://en.wikipedia.org/wiki/Ramanujan%E2%80%93Sato_series</a></li>
 </ol>
 
 </div>

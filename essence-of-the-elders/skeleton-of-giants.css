@@ -135,7 +135,7 @@ ul.section {
 
 ol.section {
 	display: inline-block;
-	list-style-type: disc;
+	/* list-style-type: disc; */
 	font-size: 2em;
 }
 
