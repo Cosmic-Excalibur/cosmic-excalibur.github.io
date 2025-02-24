@@ -74,7 +74,7 @@
 
 <p>不妨设\(\Lambda = \ZZ + \ZZ\tau\)，那么\( \alpha,\alpha^2 \in \Lambda \)，\(\alpha^2\)可以表示为\(1,\alpha\)的有理系数线性组合，即\(\alpha\)是\(\ZZ\)上的二次代数数。</p>
 
-<p>\(E/\CC\)的自同态代数与有理数域或者某个虚二次域\(K\)是同构的，\(E/\CC\)的自同态环与整数环或者某个虚二次域的某个阶\(\mathcal{O}\)是同构的。</p>
+<p>\(E/\CC\)的自同态代数与有理数域或者某个虚二次域\(K\)是同构的，\(E/\CC\)的自同态环与整数环或者某个虚二次域的某个序\(\mathcal{O}\)是同构的。</p>
 \[
     \QQ \tens{\ZZ} \End(E) =: \End^0 (E) \cong \QQ \text{ or } K
 \]
@@ -348,12 +348,12 @@ B/\CC @>>{\phi}> A/\CC
     Class group action
 </li></ol>
 
-<p>数域\(K\)上的格\(\Lambda\)定义为\(K\)中的某个\([K:\QQ]\)维自由\(\ZZ\)-模，\(K\)上的阶\(\OO\)定义为\(\OO_K\)中的某个\(\ZZ\)-维度为\([K:\QQ]\)的子环。对于每个\(\Lambda\)而言可以分配一个阶\(\OO(\Lambda)\)，使得</p>
+<p>数域\(K\)上的格\(\Lambda\)定义为\(K\)中的某个\([K:\QQ]\)维自由\(\ZZ\)-模，\(K\)上的序\(\OO\)定义为\(\OO_K\)中的某个\(\ZZ\)-维度为\([K:\QQ]\)的子环。对于每个\(\Lambda\)而言可以分配一个序\(\OO(\Lambda)\)，使得</p>
 \[
     \OO(\Lambda) = \left\{\lambda \in K: \lambda \Lambda \subseteq \Lambda \right\}
 \]
 
-<p>若对于某个阶\(\OO\)而言</p>
+<p>若对于某个序\(\OO\)而言</p>
 \[
     \OO(\Lambda) = \OO
 \]
@@ -367,7 +367,7 @@ B/\CC @>>{\phi}> A/\CC
 <p no-indent>且\(h(\OO_K)\mid h(\OO)\)。</p>
 <br>
 
-<p>对于复数域中具有复乘的椭圆曲线\(E/\CC\)与某个虚二次域的阶\(\OO\)而言，\(\End(E)\cong \OO\)，故\(E/\CC\)与某个格\(\mathfrak{b}\subseteq \OO\)对应。反过来，\(\mathfrak{b}\)也对应一条椭圆曲线\(E_{\mathfrak{b}}\)。</p>
+<p>对于复数域中具有复乘的椭圆曲线\(E/\CC\)与某个虚二次域的序\(\OO\)而言，\(\End(E)\cong \OO\)，故\(E/\CC\)与某个格\(\mathfrak{b}\subseteq \OO\)对应。反过来，\(\mathfrak{b}\)也对应一条椭圆曲线\(E_{\mathfrak{b}}\)。</p>
 
 <p>考虑\(\mathfrak{a}\in J(\OO)\)在\(E_{\mathfrak{b}}\)上的作用：</p>
 \[
@@ -411,7 +411,7 @@ B/\CC @>>{\phi}> A/\CC
 <p>称其为Hilbert类多项式（Hilbert class polynomial (of discriminant \(D\))）。</p>
 
 <p no-indent><span gray id="thm-5-1">定理5-1：</span>Hilbert类多项式的系数为整数。</p>
-<p no-indent><span gray>证明：</span>设\(\OO\)为虚二次域的某个阶，那么根据<a href="#ref-7" title="Cox, Primes of the form x² + ny²" class="noafter" gray>[7, Thm 9.12]</a>，\(\cl(\OO)\)中的每个等价类都包含无穷多个质范理想，我们取其中的某个主理想\(\mathfrak{p},\ \text{N}\mathfrak{p} = p\)，那么显然\(\mathfrak{p}E\cong E\)，于是我们可以得到一个自同态：</p>
+<p no-indent><span gray>证明：</span>设\(\OO\)为虚二次域的某个序，那么根据<a href="#ref-7" title="Cox, Primes of the form x² + ny²" class="noafter" gray>[7, Thm 9.12]</a>，\(\cl(\OO)\)中的每个等价类都包含无穷多个质范理想，我们取其中的某个主理想\(\mathfrak{p},\ \text{N}\mathfrak{p} = p\)，那么显然\(\mathfrak{p}E\cong E\)，于是我们可以得到一个自同态：</p>
 \[
     \begin{CD}
     E @>\mathfrak{p}>> \mathfrak{p}E\\ @.
