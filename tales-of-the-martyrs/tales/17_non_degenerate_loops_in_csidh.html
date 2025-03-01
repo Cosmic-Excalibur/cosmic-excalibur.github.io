@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel='icon' type='image/x-icon' href="/favicon.ico"/>
+	<link rel='stylesheet' type='text/css' href="/essence-of-the-elders/skeleton-of-giants.css"/>
+	<link rel='stylesheet' href='/essence-of-the-elders/spirit-of-codes/prism.css'/>
+	<!-- <link rel="stylesheet" type="text/css" href="http://tikzjax.com/v1/fonts.css">
+	<script src="https://tikzjax.com/v1/tikzjax.js"></script> -->
+	<!-- <link rel="stylesheet" type="text/css" href="/essence-of-the-elders/aesthetics-of-mathematics/tikzjax/fonts.css"/>
+	<script src="/essence-of-the-elders/aesthetics-of-mathematics/tikzjax/tikzjax.js"></script> -->
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900"> -->
+	<meta charset="UTF-8"/>
+	<title>Non-degenerate Loops in CSIDH</title>
+</head>
+<body>
+	<div class="center">
+		<h1>Non-degenerate Loops in CSIDH</h1>
+		<ul class="navi">
+			<li><a href="javascript:history.back()" class="noafter back" title="Back"></a></li>
+			<li><a href="/" class="noafter home" title="Homepage"></a></li>
+			<li><a href="javascript:history.forward()" class="noafter forward" title="Forward"></a></li>
+		</ul>
+		<br><br>
+	</div>
+	<div class="main">
+
+<p>本文简单地讨论下CSIDH型超奇异椭圆曲线同源图中的非退化环，或者说，\(t\)个线性无关的关系\(r_1,\cdots,r_t\)，使得
+\[
+    \require{HTML}
+    \newcommand{\rotateninety}[1]{\style{display: inline-block; transform: rotate(90deg)}{#1}}
+    \newcommand{\ZZ}{\mathbb{Z}}
+    \newcommand{\RR}{\mathbb{R}}
+    \newcommand{\CC}{\mathbb{C}}
+    \newcommand{\HH}{\mathbb{H}}
+    \newcommand{\QQ}{\mathbb{Q}}
+    \newcommand{\abs}[1]{\left\vert #1 \right\vert}
+    \newcommand{\End}{\text{End}}
+    \newcommand{\tens}[1]{\otimes_{#1}}
+    \newcommand{\SL}{\text{SL}}
+    \newcommand{\GL}{\text{GL}}
+    \newcommand{\iso}{\mathop{\longrightarrow}\limits^{\sim}}
+    \newcommand{\Tr}{\operatorname{T}}
+    \newcommand{\Nm}{\operatorname{N}}
+    \newcommand{\deg}{\operatorname{deg}}
+    \newcommand{\gcd}{\mathop{\text{gcd}}}
+    \newcommand{\lcm}{\mathop{\text{lcm}}}
+    \newcommand{\Aut}{\text{Aut}}
+    \newcommand{\diag}{\text{diag}}
+    \newcommand{\ker}{\operatorname{ker}}
+    \newcommand{\coker}{\operatorname{coker}}
+    \newcommand{\PGL}{\text{PGL}}
+    \newcommand{\OO}{\mathcal{O}}
+    \newcommand{\cl}{\text{cl}}
+    \newcommand{\FF}{\mathbb{F}}
+    \newcommand{\PP}{\mathbb{P}}
+    \newcommand{\disc}{\operatorname{disc}}
+    \newcommand{\Gal}{\text{Gal}}
+    \newcommand{\Im}{\operatorname{Im}}
+    \newcommand{\Re}{\operatorname{Re}}
+    \cl(\OO) = \left\langle [\mathfrak{l}_1],\cdots, [\mathfrak{l}_t]\mid r_1, \cdots, r_t,\quad [\mathfrak{l}_i][\mathfrak{l}_j][\mathfrak{l}_i]^{-1}[\mathfrak{l}_j]^{-1},\ i\ne j\right\rangle
+\]
+
+<p no-indent>其中，</p>
+\[
+    p = 4\prod\limits_{i=1}^t l_i - 1,\quad p,l_i\in\PP,\quad l_i > 2
+\]
+\[
+    \OO = \ZZ\left[\sqrt{-p}\right],\quad \pi = \sqrt{-p}
+\]
+\[
+    \mathfrak{l}_i = (l_i, \pi - 1),\quad \bar{\mathfrak{l}}_i = (l_i, \pi + 1)
+\]
+
+<p no-indent></p>
+
+</div>
+<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><p style="color:gray">Tags: <span style="color:blue"><b>#AlgebraicNumberTheory</b></span><span color="gray">, </span><span style="color:blue"><b>#EllipticCurveCryptography</b></span><span color="gray">, </span><span style="color:blue"><b>#HomologyTheory</b></span><span color="gray">, </span><span style="color:blue"><b>#IsogenyBasedCryptography</b></span></p>
+                    <p><div class="time"></div><span style="color:gray">Time: </span><b>2025-02-28 15:34</b></p><br><br><br><br><br><br>
+	<script type="text/javascript" src="/essence-of-the-elders/spirit-of-mathematics/MathJax.js?config=TeX-AMS_HTML" async></script>
+	<script type="text/x-mathjax-config;executed=true">
+        window.MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+                inlineMath: [["$", "$"], ["\\(", "\\)"]],
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"]
+            },
+            "HTML-CSS": {
+                availableFonts: ["STIX", "TeX"],
+                showMathMenu: false
+            },
+			SVG: { linebreaks: {automatic: true } }
+        });
+        //window.MathJax.Hub.Queue(["Typeset", MathJax.Hub,document.getElementsByClassName("ck-content")]);
+	</script>
+	<script src="/essence-of-the-elders/spirit-of-codes/prism.js"></script>
+</body>
+</html>

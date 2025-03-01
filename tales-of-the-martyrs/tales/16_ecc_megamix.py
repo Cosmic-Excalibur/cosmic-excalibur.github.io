@@ -1,6 +1,6 @@
 INFO = {
     'title': r'ECC Megamix',
-    'tags': ['AlgebraicNumberTheory', 'EllipticCurveCryptography'],
+    'tags': ['AlgebraicNumberTheory', 'EllipticCurveCryptography', 'ModularFunctions', 'HomologyTheory', 'ComplexAnalysis', 'AlgebraicGeometry'],
     'time': '2025-02-01 20:50'
 }
 

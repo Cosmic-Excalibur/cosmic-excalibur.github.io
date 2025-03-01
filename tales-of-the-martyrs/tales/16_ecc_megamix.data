@@ -2,12 +2,12 @@
 <p>目录：<ul><details open>
     <summary></summary>
     <li><a href="#section-preface" class="noafter">0. 前言</a></li>
-    <li><a href="#section-complex-multiplication" class="noafter">1. Complex multiplication</a></li>
-    <li><a href="#section-j-function" class="noafter">2. j-function</a></li>
+    <li><a href="#section-complex-multiplication-for-babies" class="noafter">1. Complex multiplication for babies</a></li>
+    <li><a href="#section-j-function-and-its-q-expansion" class="noafter">2. j-function & its q-expansion</a></li>
     <li><a href="#section-the-modular-polynomial" class="noafter">3. The modular polynomial</a></li>
     <li><a href="#section-class-group-action" class="noafter">4. Class group action</a></li>
     <li><a href="#section-the-hilbert-class-polynomial" class="noafter">5. The Hilbert class polynomial</a></li>
-    <li><a href="#appendix-a" class="noafter">Appendix A - Lattices, tori & elliptic curves</a></li>
+    <li><a href="#appendix-a" class="noafter">Appendix A - Elliptic curves in a nutshell</a></li>
     <li><a href="#appendix-b" class="noafter">Appendix B - The valence formula</a></li>
     <li><a href="#appendix-c" class="noafter">Appendix C - Classification of endomorphism algebras</a></li>
     <li><a href="#appendix-d" class="noafter">Appendix D - About the modular polynomial</a></li>
@@ -54,6 +54,8 @@
     \newcommand{\FF}{\mathbb{F}}
     \newcommand{\disc}{\operatorname{disc}}
     \newcommand{\Gal}{\text{Gal}}
+    \newcommand{\Im}{\operatorname{Im}}
+    \newcommand{\Re}{\operatorname{Re}}
     p = \frac{t^2-v^2D}{4},\quad D,v,t\in\ZZ,\quad D < 0,\quad D\equiv 5\pmod{8}, \quad t = 1
 \]
 <p>求\(p,q\)。</p>
@@ -62,11 +64,11 @@
 <p>在量子计算机发明出来之后这个问题就变得平凡了——它与一般的大整数分解问题在Shor算法下基本无异。而在此之前，如果能够相对高效地解决上述问题的话，我们的RSA就又多出了一类不安全的模数——虽然寻找某类特殊的大整数分解方法并非本文的出发点。</p>
 
 <br>
-<ol class="section" id="section-complex-multiplication"><li value="1">
-    Complex multiplication
+<ol class="section" id="section-complex-multiplication-for-babies"><li value="1">
+    Complex multiplication for babies
 </li></ol>
 
-<p>众所周知，作为一个复环面，格点\(\CC/\Lambda\)与椭圆曲线\(E/\CC\)的点群同构<sup><a href="#appendix-a" title="Lattices, tori & elliptic curves" class="noafter" gray>[Appendix A]</a></sup>，\(E/\CC\)上的自同态对应在\(\CC/\Lambda\)上是形如</p>
+<p>众所周知，作为一个复环面，格点\(\CC/\Lambda\)与椭圆曲线\(E/\CC\)的点群同构<sup><a href="#appendix-a" title="Elliptic curves in a nutshell" class="noafter" gray>[Appendix A]</a></sup>，\(E/\CC\)上的自同态对应在\(\CC/\Lambda\)上是形如</p>
 \[
     f(z+\Lambda)=\alpha z+\Lambda,\quad z\in \CC,\quad \alpha \in \HH=\{x+iy:x,y\in\RR,y>0\},\quad \alpha \Lambda\subseteq \Lambda
 \]
@@ -93,9 +95,9 @@
 <p>证明见附录C<sup><a href="#appendix-c" title="Classification of endomorphism algebras" class="noafter" gray>[Appendix C]</a></sup>。对于复数域上的\(E/\CC\)，由于\(E/\CC\)上的自同态一定交换，故<a href="#thm-1-1" class="noafter" underlined>定理1-1</a>的第三种情况是不可能出现的。</p>
 
 <br>
-<p>对于有限域上的椭圆曲线\(E\)而言，自同态代数在代数闭域上表现为第三种情况当且仅当\(E\)超奇异（supersingular）。有如下两个典型的例子。</p>
+<p>对于有限域上的椭圆曲线\(E\)而言，自同态代数在代数闭域上表现为第三种情况当且仅当\(E\)超奇异（supersingular）（不证）。有如下两个典型的例子。</p>
 <br>
-<p no-indent><span gray>例1-1：</span>\(p\equiv 3\pmod{4},\ p > 3\)，\(j(E/\FF_p)=1728\)，即\(E: y^2 = x^3 + x\)。那么\(\left(\frac{-1}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
+<p no-indent><span gray>例1-1：</span>\(p\equiv 3\pmod{4},\ p > 3\)，\(j(E/\FF_p)=1728\)。取\(E: y^2 = x^3 + x\)，那么\(\left(\frac{-1}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
 \[
     \phi: (x, y) \mapsto (-x, iy),\quad i^2 + 1 = 0,\ i\notin\FF_p
 \]
@@ -105,7 +107,7 @@
     \End^0(E) \cong \QQ(\phi, \pi),\quad \phi^2 = -1,\ \pi^2 = -p,\ \phi\pi = -\pi\phi
 \]
 <br>
-<p no-indent><span gray>例1-2：</span>\(p\equiv 2\pmod{3},\ p > 3\)，\(j(E/\FF_p)=0\)，即\(E: y^2 = x^3 + 1\)。那么\(\left(\frac{-3}{p}\right)=(-1)^{\frac{p-1}{2}\cdot \frac{3-1}{2}}\left(\frac{3}{p}\right)=\left(\frac{p}{3}\right)=\left(\frac{2}{p}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
+<p no-indent><span gray>例1-2：</span>\(p\equiv 2\pmod{3},\ p > 3\)，\(j(E/\FF_p)=0\)。取\(E: y^2 = x^3 + 1\)，那么\(\left(\frac{-3}{p}\right)=(-1)^{\frac{p-1}{2}\cdot \frac{3-1}{2}}\left(\frac{3}{p}\right)=\left(\frac{p}{3}\right)=\left(\frac{2}{3}\right)=-1\)，于是下述的自同态不在\(\ZZ\)中。</p>
 \[
     \phi: (x, y) \mapsto (\rho x, y),\quad \rho^2 + \rho + 1 = 0,\ \rho\notin\FF_p
 \]
@@ -121,8 +123,8 @@
 
 
 <br>
-<ol class="section" id="section-j-function"><li value="2">
-    j-function
+<ol class="section" id="section-j-function-and-its-q-expansion"><li value="2">
+    j-function & its q-expansion
 </li></ol>
 
 <p>由\(\Lambda\)的Weierstrass方程</p>
@@ -146,7 +148,7 @@
     j_E = j(E) = \frac{1728 g_2^3}{\Delta} = \frac{1728 g_2^3}{g_2^3 - 27g_3^2}
 \]
 
-<p>根据附录B<sup><a href="#appendix-b" title="The valence formula" class="noafter" gray>[Appendix B]</a></sup>，</p>
+<p>根据<a href="#appendix-b" title="The valence formula" class="noafter" gray>[Appendix B]</a>中的价公式，</p>
 
 <ul>
 <li>\(v_\rho(G_4)=1,\ v_i(G_4)=0\)</li>
@@ -179,6 +181,124 @@
 <br>
 <p>对于有限域上的椭圆曲线而言，我们可以类似地定义j不变量，并且可以用代数的方法证明，在有限域的代数闭包中每个j不变量能够在同构的意义下唯一确定一条椭圆曲线。</p>
 
+<p no-indent><span gray>例2-1：</span>考虑域\(K\)上具有cusp型奇异点的椭圆曲线\(E: y^2 = x^3\)，此时若\(K\)为复数域，则\(\Lambda(E)=\{0\}\)。将\((0,0),\infty\ne P\in E/K\)参数化为\((t^2, t^3),\ t\in \overline{K}\)，则\(P\)的倍乘退化为</p>
+\[
+    k: (t^2, t^3) \mapsto \begin{cases}
+        \left(\left(\frac{t}{k}\right)^2, \left(\frac{t}{k}\right)^3\right), & 0 < \operatorname{char}{K} \nmid k\quad\text{or}\quad 0 = \operatorname{char}{K} \ne k\\
+        \infty, &\text{otherwise}\\
+    \end{cases}
+\]
+<p>\(\langle P\rangle \cong \FF_{\operatorname{char}{K}}\text{ or }\ZZ\)，\(\langle P\rangle\)中的离散对数问题退化为整数环或有限域上的乘除法。</p>
+
+<br>
+<p>众所周知，全纯映射</p>
+\[
+    z\mapsto e^{2\pi i z} =: q_z
+\]
+<p no-indent>将开集\(\HH_{\tau} := \{z\in\CC: \Im{z} > \tau\}\)映射到去心开圆盘\(\mathring{B}(0; e^{-2\pi \tau}) := \{z\in\CC: \abs{z} < e^{-2\pi \tau},\ z\ne 0\}\)。而\(T\backslash\HH_{\tau}\)在上述映射下刚好卷绕这个去心开圆盘一次（随着x的变化），其中\(T=\begin{pmatrix}1&1\\0&1\\\end{pmatrix}\)。这表明\(z\mapsto q_z\)诱导出\(T\backslash\HH_{\tau}\)到\(\mathring{B}(0; e^{-2\pi \tau})\)的一个解析同构。</p>
+
+<p>至此，\(\HH_{\tau}\)上周期为1的半纯函数\(f\)在\(\mathring{B}(0; e^{-2\pi \tau})\)上诱导出一个半纯函数\(f^*\)。我们始终可以在去心开圆盘的某个环带中将\(f^*\)展开为Laurent级数（根据\(f\)的半纯性）：</p>
+\[
+    f^*(q) = \sum\limits_{n = -\infty}^{\infty} c_n q^n,\quad f(z) = \sum\limits_{n = -\infty}^{\infty} c_n e^{2\pi i nz}
+\]
+
+<p>若\(f^*(q)\)在\(q=0\)处半纯，则</p>
+\[
+    f^*(q) = \sum\limits_{n = -N}^{\infty} c_n q^n,\quad f(z) = \sum\limits_{n = -N}^{\infty} c_n e^{2\pi i nz}, \quad N \in \ZZ
+\]
+
+<p no-indent>此时称\(f\)在\(\infty\)处半纯。</p>
+
+<p>接下来我们尝试求解\(j\)函数的q-级数展开。</p>
+
+<p>首先根据Weierstrass分解定理，将整函数\(\sin{\pi z}\)表示为</p>
+\[
+    \sin{\pi z} = \pi z \prod\limits_{n = 1}^{\infty} \left(1-\frac{z}{n}\right)\left(1+\frac{z}{n}\right)
+\]
+
+<p>两边取对数导数，另外根据Euler公式与幂级数展开得到，对于\(\tau\in\HH\)而言，</p>
+\[
+    \frac{1}{\tau} + \sum\limits_{n=1}^{\infty} \left(\frac{1}{\tau-n} + \frac{1}{\tau+n}\right) = \pi \frac{\cos{\pi\tau}}{\sin{\pi\tau}} = \pi i - 2\pi i\sum\limits_{\nu = 0}^{\infty} q_{\tau}^{\nu}
+\]
+
+<p>对左右两式反复求导，对比系数可得</p>
+\[
+    (-1)^{k-1} (k-1)! \sum\limits_{n = -\infty}^{\infty} \frac{1}{(\tau - n)^k} = -\sum\limits_{\nu = 1}^{\infty} (2\pi i)^k \nu^{k-1} q_{\tau}^{\nu}
+\]
+
+<p>据此变形Eisenstein级数：</p>
+\[
+    \begin{aligned}
+        G_k(\tau) &= \sum\limits_{0\ne m,n\in\ZZ}\frac{1}{(m\tau + n)^{2k}}\\
+        &= 2\zeta(2k) + 2\sum\limits_{m=1}^{\infty} \sum\limits_{n=-\infty}^{\infty}\frac{1}{(m\tau + n)^{2k}}\\
+        &= 2\zeta(2k) + 2\sum\limits_{m = 1}^{\infty}\sum\limits_{\nu = 1}^{\infty} \frac{(2\pi i)^{2k}\nu^{2k-1}}{(2k-1)!}q_{\tau}^{m\nu}\\
+        &= 2\zeta(2k) + 2\frac{(2\pi i)^{2k}}{(2k-1)!}\sum\limits_{n=1}^{\infty} \sigma_{2k-1}(n) q_{\tau}^n
+    \end{aligned}
+\]
+
+<p no-indent>其中</p>
+\[
+    \sigma_k(n) := \sum\limits_{0 < d|n} d^k
+\]
+
+<p>于是，代入<s>我们小学二年级就知道的</s>常数\(\zeta(4) = \frac{\pi^4}{90},\ \zeta(6) = \frac{2\pi ^6}{245}\)算得</p>
+\[
+    g_2 = 60G_2 = (2\pi)^4 \frac{1}{2^2 3}(1+240X)
+\]
+\[
+    g_3 = 140G_3 = (2\pi)^6 \frac{1}{2^3 3^3}(1-504Y)
+\]
+\[
+    \Delta = (2\pi)^{12}\frac{1}{2^6 3^3}[(1+240X)^3 - (1-504Y)^2]
+\]
+
+<p no-indent>其中</p>
+\[
+    X = \sum\limits_{n=1}^{\infty} \sigma_3(n) q_{\tau}^n,\quad Y = \sum\limits_{n=1}^{\infty} \sigma_5(n) q_{\tau}^n
+\]
+
+<p>注意到模4与模3的意义下\(d^3\equiv d^5,\ d\in\ZZ\)，故\(\sigma_3(n)\equiv\sigma_5(n)\)，故\((1+240X)^3 - (1-504Y)^2\equiv 2^4 3^2(5X+7Y)\equiv 0\pmod{2^6 3^3}\)，于是</p>
+\[
+    \Delta = (2\pi)^{12} \sum\limits_{n=1}^{\infty} d_n q_{\tau}^n,\quad d_n\in\ZZ,\ d_1 = \frac{1}{1728}(240\cdot 3 - (-504)\cdot 2) = 1
+\]
+
+<p>最后，设</p>
+\[
+    \begin{aligned}
+        j(\tau) &= 2^6 3^3 \frac{g_2^3}{\Delta}\\
+        &= \sum\limits_{n=-1}^{\infty} a_n q_{\tau}^{n}
+    \end{aligned}
+\]
+
+<p>则</p>
+\[
+    \begin{aligned}
+        \left(\sum\limits_{n=0}^{\infty} d_{n+1}q^n\right)\left(\sum\limits_{n=0}^{\infty} a_{n-1}q^n\right) &= \sum\limits_{n=0}^{\infty}\left(\sum\limits_{m=0}^n d_{m+1}a_{n-m-1}\right) q_{\tau}^n\\
+        &= \left(1+240\sum\limits_{n=1}^{\infty} \sigma_3(n) q_{\tau}^n\right)^3\\
+        &=: \sum\limits_{n=0}^{\infty} b_n q_{\tau}^n,\quad b_n\in\ZZ
+    \end{aligned}
+\]
+
+<p>于是</p>
+\[
+    d_{1} a_{-1} = b_0 \implies a_{-1} = 1
+\]
+\[
+    d_{1} a_{n-1} + d_{2}a_{n-2} + \cdots + d_{n+1}a_{-1} = b_n\implies a_{n-1}\in \ZZ,\quad \forall n\in\ZZ_{+}
+\]
+
+<p>显式地写出\(j\)函数的q-级数开头几项，</p>
+\[
+    \begin{aligned}
+        j^*(q) &= \frac{1}{q} + 744 + 196884q + 21493760q^2 +\\
+        &864299970q^3 + 20245856256q^4 + 333202640600q^5 +\\
+        &4252023300096q^6 + 44656994071935q^7 + 401490886656000q^8 +\\
+        &3176440229784420q^9 + 22567393309593600q^{10} + 146211911499519294q^{11} +\\
+        &874313719685775360q^{12} + 4872010111798142520q^{13} +\\
+        &25497827389410525184q^{14} + \cdots
+    \end{aligned}
+\]
+
 
 
 
@@ -197,7 +317,7 @@
 
 <p>设\(j\)为前文所述，则\(j\circ \gamma\alpha=j\circ\alpha,\ \forall\gamma\in\Gamma\)。取\(\Gamma\backslash\Delta_n^*\)中一组形如下式的代表元</p>
 \[
-    \begin{pmatrix}a&b\\0&d\end{pmatrix},\quad ad=n,\ 0 < a, 0\le b < d,\quad \gcd(a,b,d) = 1
+    \begin{pmatrix}a&b\\0&d\end{pmatrix},\quad ad=n,\quad 0 < a,\ 0\le b < d,\quad \gcd(a,b,d) = 1
 \]
 
 <p>令\(\psi(n)=\abs{\Gamma\backslash\Delta_n^*}\)，不难算出<sup><a href="#ref-4" title="S. Lang. Elliptic functions. Chapter 5, The Modular Equation." class="noafter" gray>[4]</a></sup></p>
@@ -428,7 +548,7 @@ B/\CC @>>{\phi}> A/\CC
 \]
 <p>也即\(j(E^{\sigma}) = j(E)^{\sigma}\in \text{Ell}_{\OO}(\CC)\)，从而\(\Gal(\overline{\QQ}/\QQ)\)置换\( \text{Ell}_{\OO}(\CC) \)且保持\(H_D(X)\)的系数不变，即\(H_D(X)\in\QQ[X]\cap\overline{\ZZ}[X]=\ZZ[X]\)。</p>
 <p no-indent><span gray>Q.E.D.</span></p>
-<p no-indent><span gray>注：</span>上述证明的开头使用的是弱化后的结论——即“存在质范主理想”——这无疑有大炮打蚊子的嫌疑。事实上，根据<a href="#cor-3-1" class="noafter" underlined>推论3-1</a>，\(j(E)\)是代数整数。</p>
+<p no-indent><span gray>注：</span>上述证明的开头使用的是弱化后的结论——即“存在质范主理想”——这无疑有大炮打蚊子的嫌疑。事实上，根据<a href="#cor-3-1" class="noafter" underlined>推论3-1</a>，\(j(E) = j(\tau)\)是代数整数。</p>
 
 <br>
 <p no-indent><span gray>例5-1：</span>对于\(D=-163\)而言，\(\OO = \left[\frac{1+\sqrt{-163}}{2}, 1\right]\)，\(h(\OO) = 1\)，从而\(H_{D}(X)\)仅有的一个根为整数。具有\(\OO\)-复乘的椭圆曲线\(E\)满足\(H_D(j(E)) = 0\)，利用\(j\)函数的q-级数展开式计算</p>
@@ -504,8 +624,13 @@ B/\CC @>>{\phi}> A/\CC
 
 <br><br><br><br><br><br>
 <ul class="section" id="appendix-a"><li>
-    Appendix A - Lattices, tori & elliptic curves
+    Appendix A - Elliptic curves in a nutshell
 </li></ul>
+
+<div class="center">
+    <img src="/tales-of-the-martyrs/tales/oracle-of-namagiri/15/tbc.jpg" width="400"></img>
+</div>
+
 
 
 
@@ -513,10 +638,10 @@ B/\CC @>>{\phi}> A/\CC
 
 <br><br><br>
 <ul class="section" id="appendix-b"><li>
-    Appendix B - The valence formula<sup><a href="#ref-3" title="S. Lang. Elliptic functions. Chapter 3, The Modular Function." class="noafter" gray>[3]</a></sup>
+    Appendix B - The valence formula<sup><a href="#ref-3" title="S. Lang. Elliptic functions. Chapter 3, The Modular Function." class="noafter" gray>[3]</a></sup><sup><a href="#ref-10" title="椭圆模函数（3）——模函数与模形式的基本性质" class="noafter" gray>[10]</a></sup>
 </li></ul>
 
-<p>设\(f\)是\(2k\)阶模函数，\(v_p(f)\)表示使得\((z-p)^{-v_p(f)}f(z)\)在\(z=p\)附近解析无零点的唯一的整数，那么根据留数定理可以算出</p>
+<p>设\(f\)是\(2k\)阶非零自守函数，即\(f\)不恒为零，且对于\(\alpha = \begin{pmatrix}a & b \\ c & d\end{pmatrix}\in\Gamma\)而言，\(f(\alpha(z)) = (cz+d)^{2k} f(z)\)，且\(f\)在\(\infty\)处半纯。\(v_p(f)\)表示使得\((z-p)^{-v_p(f)}f(z)\)在\(z=p\)附近解析无零点的唯一的整数，那么根据留数定理可以算出</p>
 \[
     v_\infty(f) + \frac{1}{2}v_i(f) + \frac{1}{3}v_\rho(f) + \sum\limits_{p\in(\Gamma\backslash\HH)-\{i,\rho\}} v_p(f) = \frac{2k}{12}
 \]
@@ -583,8 +708,8 @@ B/\CC @>>{\phi}> A/\CC
     Appendix D - About the modular polynomial
 </li></ul>
 
-<p no-indent><span gray id="lemma-D-1">引理D-1：</span>设\(f\)为模函数，即\(f\)是一个在\(\HH^*=\HH\cup\{\infty\}\)上\(\infty\)处半纯，在\(\Gamma\)下不变的函数，其在无穷远点有q-级数\(f=\sum\limits_{n=-M}^\infty c_nq^n\)，那么\(f\)可以表示为\(j\)的多项式，且系数为\(c_n\)的整系数线性组合。</p>
-<p no-indent><span gray>证明：</span>利用长除法，我们首先计算\(f_1=f-c_{-M}j^M\)，那么\(f_1\)在\(\infty\)的阶高于\(-M\)，重复此步骤算得\(f_2,f_3,\cdots\)，直到\(f_i\)在\(\infty\)的阶为正，此时\(f_i\)在\(\HH^*\)上全纯，故根据Liouville定理\(f_i\)恒为0。</p>
+<p no-indent><span gray id="lemma-D-1">引理D-1：</span>设\(f\)为零阶自守函数（\(\Gamma\)-模函数），即\(f\)是一个在\(\HH^*=\HH\cup\{\infty\}\)上\(\infty\)处半纯，在\(\Gamma\)下不变的函数，其在无穷远点有q-级数\(f=\sum\limits_{n=-N}^\infty c_nq^n\)，那么\(f\)可以表示为\(j\)的多项式，且系数为\(c_n\)的整系数线性组合。</p>
+<p no-indent><span gray>证明：</span>利用长除法，我们首先计算\(f_1=f-c_{M_1}j^{M_1},\ M_1 = -N\)，那么\(v_{\infty}f_1 > -N\)，重复此步骤算得\(f_2,f_3,\cdots,f_i,\cdots,\ M_i = v_{\infty}f_{i-1}\)，直到\(v_{\infty}f_k > 0\)，此时\(f_k\)在\(\HH^*\)上全纯，故根据Liouville定理与\(f_k\)的构造，\(f_k\)恒为0。</p>
 <p no-indent><span gray>Q.E.D.</span></p>
 <br>
 
@@ -672,6 +797,7 @@ B/\CC @>>{\phi}> A/\CC
 <li id="ref-7">Cox D A. Primes of the Form x2+ ny2: Fermat, Class Field Theory, and Complex Multiplication. with Solutions[M]. American Mathematical Soc., 2022. <a href="https://www.math.utoronto.ca/~ila/Cox-Primes_of_the_form_x2+ny2.pdf" underlined>https://www.math.utoronto.ca/~ila/Cox-Primes_of_the_form_x2+ny2.pdf</a></li>
 <li id="ref-8">Eta quotients of Dedekind eta functions. <a href="https://en.wikipedia.org/wiki/Dedekind_eta_function#Eta_quotients" underlined>https://en.wikipedia.org/wiki/Dedekind_eta_function#Eta_quotients</a></li>
 <li id="ref-9">Ramanujan-Sato series. <a href="https://en.wikipedia.org/wiki/Ramanujan%E2%80%93Sato_series" underlined>https://en.wikipedia.org/wiki/Ramanujan%E2%80%93Sato_series</a></li>
+<li id="ref-10">TravorLZH - 椭圆模函数（3）——模函数与模形式的基本性质 <a href="https://zhuanlan.zhihu.com/p/608669984" underlined>https://zhuanlan.zhihu.com/p/608669984</a></li>
 </ol>
 
 </div>
