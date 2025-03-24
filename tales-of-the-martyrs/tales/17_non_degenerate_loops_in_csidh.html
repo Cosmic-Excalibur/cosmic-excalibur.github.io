@@ -16,15 +16,26 @@
 	<div class="center">
 		<h1>Non-degenerate Loops in CSIDH</h1>
 		<ul class="navi">
-			<li><a href="javascript:history.back()" class="noafter back" title="Back"></a></li>
+			<li><a href="javascript:history.back()" class="noafter back" title="Back in history"></a></li>
 			<li><a href="/" class="noafter home" title="Homepage"></a></li>
-			<li><a href="javascript:history.forward()" class="noafter forward" title="Forward"></a></li>
+			<li><a href="javascript:history.forward()" class="noafter forward" title="Forward in history"></a></li>
 		</ul>
 		<br><br>
 	</div>
 	<div class="main">
 
-<p>本文简单地讨论下CSIDH型超奇异椭圆曲线同源图中的非退化环，或者说，\(t\)个线性无关的关系\(r_1,\cdots,r_t\)，使得
+<p>目录：<ul><details open>
+    <summary></summary>
+    <li><a href="#section-preface" class="noafter">0. 前言</a></li>
+    <li><a href="#section-existence" class="noafter">1. 存在性讨论（类群的有限性）</a></li>
+</details></ul></p>
+<br><br>
+
+
+<ol class="section" id="section-preface"><li value="0">
+    前言
+</li></ol>
+<p>本文简单地讨论下CSIDH型超奇异椭圆曲线同源图中的非退化回路，或者说，\(t\)个线性无关的关系\(r_1,\cdots,r_t\)，使得
 \[
     \require{HTML}
     \newcommand{\rotateninety}[1]{\style{display: inline-block; transform: rotate(90deg)}{#1}}
@@ -57,21 +68,92 @@
     \newcommand{\Gal}{\text{Gal}}
     \newcommand{\Im}{\operatorname{Im}}
     \newcommand{\Re}{\operatorname{Re}}
+    \newcommand{\vol}{\text{vol}}
+    \newcommand{\bs}{\boldsymbol}
+    \newcommand{\Hom}{\text{Hom}}
     \cl(\OO) = \left\langle [\mathfrak{l}_1],\cdots, [\mathfrak{l}_t]\mid r_1, \cdots, r_t,\quad [\mathfrak{l}_i][\mathfrak{l}_j][\mathfrak{l}_i]^{-1}[\mathfrak{l}_j]^{-1},\ i\ne j\right\rangle
 \]
 
 <p no-indent>其中，</p>
 \[
-    p = 4\prod\limits_{i=1}^t l_i - 1,\quad p,l_i\in\PP,\quad l_i > 2
+    p = 4\prod\limits_{i=1}^t \ell_i - 1,\quad p,\ell_i\in\PP,\quad \ell_i > 2
 \]
 \[
     \OO = \ZZ\left[\sqrt{-p}\right],\quad \pi = \sqrt{-p}
 \]
 \[
-    \mathfrak{l}_i = (l_i, \pi - 1),\quad \bar{\mathfrak{l}}_i = (l_i, \pi + 1)
+    \mathfrak{l}_i = (\ell_i, \pi - 1),\quad \bar{\mathfrak{l}}_i = (\ell_i, \pi + 1)
 \]
 
-<p no-indent></p>
+<p>向量组\((e_{i1},\cdots,e_{it}),\ r_i = \prod\limits_{j=1}^{t} [\mathfrak{l}_j]^{e_{ij}},\ i=1,\cdots,t\)张成的\(\ZZ\)-子模叫做\(\cl(\OO)\)的一个关系格（relation lattice）。</p>
+
+
+<br>
+<ol class="section" id="section-existence"><li value="1">
+    存在性讨论（类群的有限性）
+</li></ol>
+
+<p no-indent><span gray id="thm-1-1">定理1-1：（Minkowski）</span>设\(L\)是\(n\)维欧式空间\(V\)中的满秩格，\(X\)是\(L\)的一个凸子集，且关于原点对称。若在Lebesgue测度的意义下\(\vol(X) > 2^n \det(L)\)，那么\(X\)至少包含了\(L\)的一个非零格点。</p>
+<p no-indent><span gray>证明：</span>记\(L\)的基本域（parallelopiped）为\(\mathcal{P}\)，满秩的条件告诉我们</p>
+\[
+    V = \bigsqcup\limits_{\bs x \in L}\left(\mathcal{P} - \bs x\right)
+\]
+\[
+    \frac{1}{2}X = \bigsqcup\limits_{\bs x \in L}\left(\frac{1}{2}X \cap \left(\mathcal{P} - \bs x\right)\right)
+\]
+
+<p>设\(\bs x, \bs x'\in L,\ \bs x \ne \bs x'\)，且\(\frac{1}{2}X+\bs x\)与\(\frac{1}{2}X+\bs x'\)有公共点，那么\(\bs y-\bs x,\bs y-\bs x'\in\frac{1}{2}X\)，根据凸性得</p>
+\[
+    \frac{\bs x - \bs x'}{2} = \frac{\bs y - \bs x'}{2} - \frac{\bs y - \bs x}{2} \in \frac{1}{2}X
+\]
+
+<p no-indent>即\(X\)中包含\(\bs 0 \ne \bs x - \bs x' \in L\)。</p>
+
+<p>现在设\(\forall \bs x, \bs x'\in L,\ \bs x \ne \bs x'\)，\(\frac{1}{2}X+\bs x\)与\(\frac{1}{2}X+\bs x'\)无公共点，则根据测度的性质，</p>
+\[
+    \begin{aligned}
+        \frac{1}{2^n} \vol(X) &= \vol\left(\frac{1}{2}X\right)\\
+        &= \sum\limits_{\bs x\in L}\left(\frac{1}{2}X \cap \left(\mathcal{P} - \bs x\right)\right) \\
+        &= \sum\limits_{\bs x\in L}\left(\left(\frac{1}{2}X + \bs x\right) \cap \mathcal{P}\right) \\
+        &\le \vol(\mathcal{P})\\
+        &= \det(L)
+    \end{aligned}
+\]
+<p no-indent>与题干条件矛盾。</p>
+<p no-indent><span gray>Q.E.D.</span></p>
+<p no-indent><span gray>注：</span>若\(X\)是紧集，且\(\vol(\frac{1}{2}X) = \det(L)\)，找到序列\(A_1\subseteq A_2\subseteq \cdots\)，使得</p>
+\[
+    A_k = \left\{\bs x \in L \cap \left(1+\frac{1}{k}X\right): \bs x \ne \bs 0 \right\}
+\]
+
+<p no-indent>则根据<a href="#thm-1-1" class="noafter" underlined>定理1-1</a>知\(A_k \ne \varnothing\)，故\(\exists \bs x\ne \bs 0\)，</p>
+\[
+    \bs x \in \bigcap\limits_{k=1}^{\infty} \left(1+\frac{1}{k}\right)X = X
+\]
+
+<p no-indent>最后一个等号成立是由于\(X\)是紧集。</p>
+<br>
+
+<p>设\(K\)是代数数域，\(n = r + 2s = \# \Hom(K, \CC)\)，考虑从\(K\)到\(\CC\)的嵌入诱导的映射</p>
+\[
+    j: K\rightarrow K_{\CC} := \prod\limits_{\tau} \CC,\quad a\mapsto ja = (\tau a)
+\]
+
+<p>\(K_{\CC}\)上配有内积</p>
+\[
+    \langle x, y \rangle = \sum\limits_{\tau} x_{\tau} \bar{y}_{\tau}
+\]
+
+<br><br><br>
+<div class="center">
+    <img src="/tales-of-the-martyrs/tales/oracle-of-namagiri/17/tbc.jpg" width="400"></img>
+</div>
+
+
+
+
+
+
 
 </div>
 <br><br><br><br><br><br>

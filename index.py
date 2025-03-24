@@ -1,7 +1,7 @@
 data = lambda: {
     '*.html': {
-        __TITLE__: r"""Chronicle of Astrageldon""",
-        __HTML_TITLE__: r"""Chronicle of Astrageldon""",
+        __TITLE__: r"""Astrageldon's Blog :)""",
+        __HTML_TITLE__: r"""Astrageldon's Blog :)""",
         __CONTENT__: r"""
 	<div class="center">
 		<ul class="menu">
